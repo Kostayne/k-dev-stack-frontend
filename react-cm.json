@@ -1,0 +1,16 @@
+{
+    "templates": [
+        {
+            "name": "fn",
+            "path": "./templates/fn",
+            "outDir": "./components/"
+        },
+
+        {
+            "name": "page",
+            "path": "./templates/page",
+            "outDir": "./pages",
+            "subDir": false
+        }
+    ]
+}
