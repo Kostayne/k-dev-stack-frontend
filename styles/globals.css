@@ -1,3 +1,77 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Moderan';
+    src: url("/fonts/moderan.ttf") format("ttf");
+}
+
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url("/fonts/roboto_condensed_light.ttf");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url("/fonts/roboto_condensed_regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Roboto Condensed";
+    src: url("/fonts/roboto_condensed_medium.ttf");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("/fonts/roboto_light.ttf");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("/fonts/roboto_regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("/fonts/roboto_medium.ttf");
+    font-weight: 500;
+}
+
+body {
+    font-size: 16px;
+}
+
+h1 {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    margin-top: 0.5rem;
+}
+
+h2 {
+    font-family: Roboto;
+    font-style: normal;
+    /* font-weight: 500; */
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+}
+
+.page-content {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+
+    font-family: 'Roboto Condensed';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+
+    color: #000000;
+}

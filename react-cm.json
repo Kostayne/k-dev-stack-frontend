@@ -2,7 +2,7 @@
     "templates": [
         {
             "name": "fn",
-            "path": "./templates/fn",
+            "path": "./templates/fn.tsx",
             "outDir": "./components/"
         },
 
