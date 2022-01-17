@@ -1,0 +1,20 @@
+.banner {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 65px;
+    bottom: 100%;
+
+    transition: 250ms ease-out;
+    background: white;
+
+    z-index: 1;
+
+    overflow: hidden;
+    will-change: bottom;
+}
+
+._active {
+    bottom: 0%;
+}
