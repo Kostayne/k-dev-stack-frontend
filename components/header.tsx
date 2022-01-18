@@ -52,10 +52,15 @@ const Header = () => {
         },
     ];
 
+    const onLinkClick = () => {
+        setOpened(false);
+    };
+
     const getMobileLinksToR = () => {
         return links.map((l, i) => {
             return (
-                <Goto title={l.name} href={l.href} key={i} />
+                <Goto title={l.name} href={l.href} key={i} 
+                onLinkClick={onLinkClick} />
             );
         });
     };
@@ -63,6 +68,7 @@ const Header = () => {
     return (
         <div className='bg-[white] z-[2]'>
             <div className="sticky top-0 flex items-center px-5 py-4 border-b-[1px] border-awhite z-[2]">
+                {/* TODO Make it link to main page */}
                 <span className="font-moderan text-2xl text-contrastAlt">K_DevStack</span>
 
                 <div className={['flex items-center justify-center cursor-pointer ml-auto', 
