@@ -22,6 +22,8 @@ module.exports = {
             'contrastAlt': '#4C8CEB',
             'contrast': '#5D9BF8',
             'subtitle': '#373737',
+            'inputInactive': '#A0D2FF',
+            'inputFocused': '#45A3FB'
         }
     },
 
