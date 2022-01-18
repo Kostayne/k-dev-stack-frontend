@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './header.module.scss';
 import { createModuleStylesConverter } from 'get-module-style';
 import Goto from './goto';
+import Link from 'next/link';
 
 interface HeaderLink {
     name: string;
@@ -68,8 +69,9 @@ const Header = () => {
     return (
         <div className='bg-[white] z-[2]'>
             <div className="sticky top-0 flex items-center px-5 py-4 border-b-[1px] border-awhite z-[2]">
-                {/* TODO Make it link to main page */}
-                <span className="font-moderan text-2xl text-contrastAlt">K_DevStack</span>
+                <Link href="/" passHref>
+                    <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
+                </Link>
 
                 <div className={['flex items-center justify-center cursor-pointer ml-auto', 
                 'rounded-[50%] w-[37px] h-[37px] hover:bg-[rgba(76,140,235,0.05)]',
