@@ -76,3 +76,25 @@ h2 {
 
     color: #000000;
 }
+
+.text-btn {
+    color: #4F87DB;
+
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    display: inline-block;
+
+    transition: 250ms;
+    border-radius: 4px;
+}
+
+.text-btn:hover {
+    background: rgba(76, 140, 235, 0.05);
+}
+
+.text-btn:active {
+    background: rgba(76, 140, 235, 0.25);
+}
