@@ -8,7 +8,7 @@
 
         {
             "name": "page",
-            "path": "./templates/page",
+            "path": "./templates/page.tsx",
             "outDir": "./pages",
             "subDir": false
         }
