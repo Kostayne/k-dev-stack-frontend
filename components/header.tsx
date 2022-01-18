@@ -64,7 +64,13 @@ const Header = () => {
         <div className='bg-[white] z-[2]'>
             <div className="sticky top-0 flex items-center px-5 py-4 border-b-[1px] border-awhite z-[2]">
                 <span className="font-moderan text-2xl text-contrastAlt">K_DevStack</span>
-                <img onClick={handleToggleOpen} className="ml-auto" src="/gamburger.svg" />
+
+                <div className={['flex items-center justify-center cursor-pointer ml-auto', 
+                'rounded-[50%] w-[37px] h-[37px] hover:bg-[rgba(76,140,235,0.05)]',
+                ' transition-colors duration-150'].join(' ')}
+                onClick={handleToggleOpen}>
+                    <img className="" src="/gamburger.svg" />
+                </div>
             </div>
 
             <div className={bannerCn}>
