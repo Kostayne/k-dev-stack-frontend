@@ -32,7 +32,7 @@ const CreateComment= (props: CreateCommentProps) => {
 
                 {/* actions */}
                 {isFocused && (
-                    <div className='w-fit ml-auto mt-3'>
+                    <div className='w-fit ml-auto mt-3 flex gap-x-1 items-center'>
                         <button className='text-btn'>ОТМЕНА</button>
                         <button className='text-btn'>ОТПРАВИТЬ</button>
                     </div>
