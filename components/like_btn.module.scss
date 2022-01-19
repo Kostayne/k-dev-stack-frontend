@@ -1,0 +1,16 @@
+.btn {
+    transition: 250ms;
+
+    &:hover {
+        fill: var(--like);
+        background: rgba(235, 71, 139, 0.17);
+    }
+
+    &:active {
+        background: rgba(235, 71, 139, 0.35);
+    }
+}
+
+._liked {
+    fill: var(--like);
+}
