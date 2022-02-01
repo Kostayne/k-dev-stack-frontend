@@ -73,9 +73,7 @@ const Header = () => {
                     <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
                 </Link>
 
-                <div className={['flex items-center justify-center cursor-pointer ml-auto', 
-                'rounded-[50%] w-[37px] h-[37px] hover:bg-[rgba(76,140,235,0.05)]',
-                ' transition-colors duration-150'].join(' ')}
+                <div className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
                 onClick={handleToggleOpen}>
                     <img className="" src="/gamburger.svg" />
                 </div>

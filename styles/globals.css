@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+    .small-interactive {
+        @apply rounded-[50%] hover:bg-[rgba(76,140,235,0.05)] transition-colors duration-150 cursor-pointer
+    }
+}
+
 @font-face {
     font-family: 'Moderan';
     src: url("/fonts/moderan.ttf");

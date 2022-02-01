@@ -14,6 +14,16 @@ interface GotoProps {
 const Goto= (props: GotoProps) => {
     const headMod = props.headMod || RM.createMod();
 
+    const getLinkCn = () => {
+        if (props.goBack) {
+            return 'ml-auto';
+        }
+
+        return 'ml-[0.75rem]';
+    };
+
+    const imgCn = 'w-[20px] h-[22px]';
+
     return (
         RM.modElement((
             <div className="flex items-center">
@@ -24,16 +34,15 @@ const Goto= (props: GotoProps) => {
                 {!props.isMainHeading && (
                     <h2>{props.title}</h2>
                 )}
-                
 
                 <Link passHref href={props.href}>
-                    <a className='ml-[0.75rem]' onClick={props.onLinkClick}>
+                    <a className={getLinkCn() + " flex items-center justify-center small-interactive w-[37px] h-[37px]"} onClick={props.onLinkClick}>
                         {!props.goBack && (
-                            <img src="/goto.svg" alt="перейти" className="rotate-180" />
+                            <img src="/goto.svg" alt="перейти" className={`${imgCn} rotate-180`} />
                         )}
 
                         {props.goBack && (
-                            <img src="/goto.svg" alt="перейти назад" className="" />
+                            <img src="/goto.svg" alt="перейти назад" className={`${imgCn}`} />
                         )}
                     </a>
                 </Link>
