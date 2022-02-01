@@ -4,7 +4,7 @@
 
 @font-face {
     font-family: 'Moderan';
-    src: url("/fonts/moderan.ttf") format("ttf");
+    src: url("/fonts/moderan.ttf");
 }
 
 @font-face {
