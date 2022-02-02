@@ -1,6 +1,10 @@
 export function validateEmail(val: string) {
     const res = [];
 
+	if (!val.includes('@')) {
+		res.push('Нет символа @.');
+	}
+
     if (val.length < 5) {
 		res.push('Слишком короткая почта.');
 	}
@@ -9,9 +13,5 @@ export function validateEmail(val: string) {
 		res.push('Слишком длинная почта.');
 	}
 
-	if (!val.includes('@')) {
-		res.push('Нет символа @.');
-	}
-
-    return res.join(' ');
+    return res;
 }

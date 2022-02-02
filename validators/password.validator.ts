@@ -9,7 +9,7 @@ export function validatePassword(val: string) {
 		res.push('Слишком длинный пароль.');
 	}
 
-    return res.join(' ');
+    return res;
 }
 
 export function validatePasswordPair(val: string, val2: string) {
@@ -27,5 +27,5 @@ export function validatePasswordPair(val: string, val2: string) {
         res.push('Пароли не совпадают.');
     }
 
-    return res.join(' ');
+    return res;
 }
