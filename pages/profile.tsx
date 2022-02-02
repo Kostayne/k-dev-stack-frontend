@@ -6,6 +6,11 @@ import Image from 'next/image';
 import { useSyntheticInput } from '../hooks/input_synthetic';
 import StyledTextInput from '../components/styled-text-input';
 import React, { useRef, useState } from 'react';
+import { validateEmail } from '../validators/email.validator';
+import { validateLastName } from '../validators/lastname.validator';
+import { validateFirstName } from '../validators/firtsname.validator';
+import { validatePassword } from '../validators/password.validator';
+import ValidationErr from '../components/validation_err';
 
 const Profile: NextPage = () => {
 	const name = useSyntheticInput();
@@ -36,11 +41,18 @@ const Profile: NextPage = () => {
 		fr.readAsDataURL(file);
 	};
 
+	const validationMessages = [
+		...validateFirstName(name.binding.value),
+		...validateLastName(lastName.binding.value),
+		...validateEmail(emailInp.binding.value),
+		...validatePassword(passwordInp.binding.value)
+	];
+
 	return (
 		<div className='page-content'>
 			<Head>
-				<title>K_DevStack TODO</title>
-				<meta name="description" content="TODO" />
+				<title>Профиль</title>
+				<meta name="description" content="Смена имени, пароля, имейла и аватарки." />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
@@ -69,7 +81,16 @@ const Profile: NextPage = () => {
 					type='password' />
 				</div>
 
-				<button className='primary-btn w-[104px] mx-auto mt-[50px]'>ПРИМЕНИТЬ</button>
+				<ValidationErr messages={validationMessages} 
+				headMod={RM.createMod('mt-5')} />
+
+				{validationMessages.length == 0 && (
+					<button className={'primary-btn w-[104px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
+				)}
+
+				{validationMessages.length > 0 && (
+					<button className={'primary-btn bg-inputInactive w-[104px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
+				)}
 
 				<button className='mt-5 btn mx-auto w-fit block'>ВЫЙТИ</button>
 

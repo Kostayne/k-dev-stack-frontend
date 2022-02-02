@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { validateFirstName } from '../validators/firtsname.validator';
 import { validateLastName } from '../validators/lastname.validator';
 import ValidationErr from '../components/validation_err';
+import { validateEmail } from '../validators/email.validator';
+import { validatePassword } from '../validators/password.validator';
 
 const Register: NextPage = () => {
 	const name = useSyntheticInput();
@@ -18,6 +20,8 @@ const Register: NextPage = () => {
 	const validationMsgs = [
 		...validateFirstName(name.binding.value),
 		...validateLastName(lastName.binding.value),
+		...validateEmail(emailInp.binding.value),
+		...validatePassword(passwordInp.binding.value)
 	];
 
 	return (
