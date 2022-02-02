@@ -6,10 +6,18 @@ import StyledTextInput from '../components/styled-text-input';
 // import { useState } from 'react';
 import { useSyntheticInput } from '../hooks/input_synthetic';
 import Link from 'next/link';
+import { validateEmail } from '../validators/email.validator';
+import { validatePassword } from '../validators/password.validator';
+import { joinValidationMessages } from '../shared/joinValidationMessages';
 
 const Login: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const passwordInp = useSyntheticInput();
+
+	const validationText = joinValidationMessages([
+		validateEmail(emailInp.binding.value),
+		validatePassword(passwordInp.binding.value)
+	]);
 
 	return (
 		<div className='page-content'>
@@ -29,6 +37,10 @@ const Login: NextPage = () => {
 					<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
 					type='password' headMod={RM.createMod('mt-3')} />
 				</div>
+
+				{validationText && (
+					<span className='mt-7 block text-error text-center'>{validationText}</span>
+				)}
 
 				<button className='primary-btn mt-[38px] w-[92px] mx-auto'>войти</button>
 
