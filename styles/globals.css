@@ -20,6 +20,10 @@
     .link {
         @apply text-base text-contrast
     }
+
+    .btn {
+        @apply cursor-pointer text-contrast text-base
+    }
 }
 
 @font-face {
