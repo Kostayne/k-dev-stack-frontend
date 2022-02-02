@@ -7,6 +7,19 @@
     .small-interactive {
         @apply rounded-[50%] hover:bg-[rgba(76,140,235,0.05)] transition-colors duration-150 cursor-pointer
     }
+
+    .primary-btn {
+        @apply bg-contrast rounded flex justify-center items-center text-[white]
+        h-8
+    }
+
+    .splitter {
+        @apply h-[1px] bg-awhite
+    }
+
+    .link {
+        @apply text-base text-contrast
+    }
 }
 
 @font-face {

@@ -21,11 +21,15 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
 
     return (
-        <>
+        <div className='flex flex-col h-[100vh]'>
             <Header />
-            <Component {...pageProps} />
+            
+            <div className='grow-[1]'>
+                <Component {...pageProps} />
+            </div>
+
             <Footer />
-        </>
+        </div>
     );
 }
 

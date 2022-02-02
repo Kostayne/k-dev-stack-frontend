@@ -4,6 +4,9 @@ import * as RM from 'react-modifier';
 interface StyledTextInputProps {
     value: string;
     label?: string;
+    placeholder?: string;
+    type?: string;
+
     onChange: (val: string) => void;
     headMod?: RM.IModifier;
 
@@ -31,8 +34,8 @@ const StyledTextInput = (props: StyledTextInputProps) => {
                 <input className={['border-inputInactive border-[2px] rounded-md min-h-[25px]', 
                 'focus:border-inputFocused transition-colors duration-300 outline-none',
                 'px-1 py-[7px]'].join(' ')} 
-                value={props.value} onChange={handleChange} 
-                onBlur={props.onBlur} onFocus={props.onFocus} />
+                value={props.value} onChange={handleChange} placeholder={props.placeholder}
+                onBlur={props.onBlur} onFocus={props.onFocus} type={props.type} />
             </div>
         ), headMod)
     );
