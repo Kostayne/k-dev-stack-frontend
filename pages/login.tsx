@@ -9,15 +9,16 @@ import Link from 'next/link';
 import { validateEmail } from '../validators/email.validator';
 import { validatePassword } from '../validators/password.validator';
 import { joinValidationMessages } from '../shared/joinValidationMessages';
+import ValidationErr from '../components/validation_err';
 
 const Login: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const passwordInp = useSyntheticInput();
 
-	const validationText = joinValidationMessages([
-		validateEmail(emailInp.binding.value),
-		validatePassword(passwordInp.binding.value)
-	]);
+	const validationMessages =[
+		...validateEmail(emailInp.binding.value),
+		...validatePassword(passwordInp.binding.value)
+	];
 
 	return (
 		<div className='page-content'>
@@ -38,8 +39,9 @@ const Login: NextPage = () => {
 					type='password' headMod={RM.createMod('mt-3')} />
 				</div>
 
-				{validationText && (
-					<span className='mt-7 block text-error text-center'>{validationText}</span>
+				{validationMessages.length > 0 && (
+					<ValidationErr messages={validationMessages}
+					headMod={RM.createMod('mt-8')} />
 				)}
 
 				<button className='primary-btn mt-[38px] w-[92px] mx-auto'>войти</button>

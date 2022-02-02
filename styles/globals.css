@@ -5,12 +5,12 @@
 
 @layer components {
     .small-interactive {
-        @apply rounded-[50%] hover:bg-[rgba(76,140,235,0.05)] transition-colors duration-150 cursor-pointer
+        @apply rounded-[50%] hover:bg-[rgba(76,140,235,0.05)] shadow-none transition-colors duration-150 cursor-pointer
     }
 
     .primary-btn {
         @apply bg-contrast rounded flex justify-center items-center text-[white]
-        h-8
+        h-8 hover:shadow-[0px_1px_4px_rgba(39,100,191,0.2)]
     }
 
     .splitter {
