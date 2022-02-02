@@ -36,7 +36,7 @@ const Header = () => {
         },
 
         {
-            name: 'Библиотеки / фреймворки',
+            name: 'Библиотеки',
             href: '/libs'
         },
 
@@ -80,7 +80,7 @@ const Header = () => {
             </div>
 
             <div className={bannerCn}>
-                <div className="flex flex-col gap-5 mx-auto mt-6 w-fit">
+                <div className="flex flex-col gap-5 ml-8 mt-6 w-fit">
                     {getMobileLinksToR()}
                 </div>
             </div>
