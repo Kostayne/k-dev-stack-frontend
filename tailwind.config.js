@@ -25,7 +25,8 @@ module.exports = {
             'inputInactive': '#A0D2FF',
             'inputFocused': '#45A3FB',
             'error': '#EE5A87',
-            'status': '#195FC8'
+            'status': '#195FC8',
+            'customGray': '#BFBFBF'
         }
     },
 
