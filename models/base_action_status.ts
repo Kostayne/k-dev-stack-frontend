@@ -1,0 +1,1 @@
+export type BaseActionStatusType = 'none' | 'success' | 'error';

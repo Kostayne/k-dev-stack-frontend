@@ -8,11 +8,13 @@ import { validateEmail } from '../validators/email.validator';
 import StyledBtn from '../components/styled_btn';
 import ValidationErr from '../components/validation_err';
 import { useEffect, useState } from 'react';
+import { BaseActionStatusType } from '../models/base_action_status';
+import BaseActionStatus from '../components/base_action_status';
 
 const PassRecover: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const [timer, setTimer] = useState(5);
-	const [status, setStatus] = useState('');
+	const [status, setStatus] = useState<BaseActionStatusType>('none');
 
 	useEffect(() => {
 		const timerId = setInterval(() => {
@@ -33,7 +35,8 @@ const PassRecover: NextPage = () => {
 	const timeLeft = timer == 0? 'Прямо сейчас' : 'Осталось ' + timer.toString() + ' с';
 
 	const onSendClick = () => {
-		setStatus('Сообщение было отправлено.');
+		// setStatus('error');
+		setStatus('success');
 	}
 
 	return (
@@ -51,10 +54,8 @@ const PassRecover: NextPage = () => {
 				<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  
 				headMod={RM.createMod('mt-6 w-fit mx-auto')} />
 
-				{!status && (
-					<ValidationErr messages={validationMessages} 
-					headMod={RM.createMod('mt-8 text-left')} />
-				)}
+				<ValidationErr messages={validationMessages} 
+				headMod={RM.createMod('mt-8 text-left')} />
 
 				{/* spamm tip */}
 				<p className='mt-4'>
@@ -62,9 +63,13 @@ const PassRecover: NextPage = () => {
 					На всякий случай проверьте папку спамм.
 				</p>
 
-				{status && (
+				{/* {status != 'none' && (
 					<p className='mt-3 text-status'>{status}</p>
-				)}
+				)} */}
+
+				<BaseActionStatus status={status} succesMsg='Сообщение было отправлено.' 
+				errorMsg='Сообщение не было отправлено, попробуйте снова.' 
+				headMod={RM.createMod('mt-3')} />
 
 				{/* {!status && ( */}
 					<StyledBtn value='отправить письмо' disabled={validationMessages.length > 0}

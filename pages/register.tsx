@@ -10,6 +10,7 @@ import { validateLastName } from '../validators/lastname.validator';
 import ValidationErr from '../components/validation_err';
 import { validateEmail } from '../validators/email.validator';
 import { validatePassword } from '../validators/password.validator';
+import StyledBtn from '../components/styled_btn';
 
 const Register: NextPage = () => {
 	const name = useSyntheticInput();
@@ -17,12 +18,16 @@ const Register: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const passwordInp = useSyntheticInput();
 
-	const validationMsgs = [
+	const validationMessages = [
 		...validateFirstName(name.binding.value),
 		...validateLastName(lastName.binding.value),
 		...validateEmail(emailInp.binding.value),
 		...validatePassword(passwordInp.binding.value)
 	];
+
+	const onSendClick = () => {
+
+	};
 
 	return (
 		<div className='page-content'>
@@ -48,12 +53,15 @@ const Register: NextPage = () => {
 					type='password' />
 				</div>
 
-				<ValidationErr messages={validationMsgs} 
+				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
 
-				<button className='primary-btn mt-9 w-[148px] mx-auto'>зарегистрировать</button>
+				{/* <button className='primary-btn mt-9 w-[148px] mx-auto'>зарегистрировать</button> */}
+				<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
+				headMod={RM.createMod('mt-9 w-[150px] mx-auto')} onClick={onSendClick} />
 
 				<div className='mt-9 w-[165px] mx-auto splitter' />
+
 				<div className='mt-2 flex flex-col w-fit mx-auto'>
 					<Link href="/recover_password" passHref>
 						<a className='mt-2 link block w-fit mx-auto'>восстановить пароль</a>
