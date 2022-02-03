@@ -4,6 +4,7 @@ import { NamedLink } from './named_link';
 export interface LibModel {
     name: string;
     description: string;
+    slug: string;
     tags: string[];
     downloads: NamedLink[];
     codeExample: string;

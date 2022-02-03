@@ -122,7 +122,8 @@ export const getStaticProps: GetStaticProps<LibPageProps> = () => {
 				],
 
 				name: 'React',
-				weight: '291 kb'
+				weight: '291 kb',
+				slug: 'react'
 			}
 		}
 	}
