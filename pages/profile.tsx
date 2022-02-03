@@ -89,10 +89,10 @@ const Profile: NextPage = () => {
 				)}
 
 				{validationMessages.length > 0 && (
-					<button className={'primary-btn bg-inputInactive w-[104px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
+					<button className={'primary-btn bg-inputInactive w-[120px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
 				)}
 
-				<button className='mt-5 btn mx-auto w-fit block'>ВЫЙТИ</button>
+				<button className='mt-5 mx-auto w-fit block text-btn'>ВЫЙТИ</button>
 
 				<input className='hidden' ref={imgInpRef} accept="image/*" type="file" 
 				onChange={onImgSelected} />

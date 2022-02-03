@@ -11,29 +11,27 @@ const CreateComment= (props: CreateCommentProps) => {
     const [text, setText] = useState('');
     const [isFocused, setFocused] = useState(false);
 
-    // const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    //     if (e.relatedTarget?.tagName != 'BUTTON') {
-    //         setFocused(false);
-    //     }
-    // };
-
     const handleFocus = () => {
         setFocused(true);
     };
 
-    const className = 'w-full mt-3';
-    const inputMod = RM.createMod(className);
+    const handleCancel = () => {
+        setFocused(false);
+    };
+
+    const inputHeadMod = RM.createMod('mt-3');
+    const inputMod = RM.createMod('w-full');
 
     return (
         RM.modElement((
             <div>
                 <StyledTextInput value={text} onChange={ (v) => { setText(v); } }  
-                onFocus={handleFocus} headMod={inputMod} />
+                onFocus={handleFocus} headMod={inputHeadMod} inputMod={inputMod} />
 
                 {/* actions */}
                 {isFocused && (
                     <div className='w-fit ml-auto mt-3 flex gap-x-1 items-center'>
-                        <button className='text-btn'>ОТМЕНА</button>
+                        <button className='text-btn' onClick={handleCancel}>ОТМЕНА</button>
                         <button className='text-btn'>ОТПРАВИТЬ</button>
                     </div>
                 )}
