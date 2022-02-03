@@ -9,14 +9,16 @@ interface StyledTextInputProps {
     type?: string;
 
     onChange: (val: string) => void;
-    headMod?: RM.IModifier;
-
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
     onFocus?: () => void;
+
+    headMod?: RM.IModifier;
+    inputMod?: RM.IModifier;
 }
 
 const StyledTextInput = (props: StyledTextInputProps) => {
     const headMod = props.headMod || RM.createMod();
+    const inputMod = props.inputMod || RM.createMod();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         props.onChange(e.currentTarget.value);
@@ -25,18 +27,19 @@ const StyledTextInput = (props: StyledTextInputProps) => {
     return (
         RM.modElement((
             <div className=''>
-                {/* label */}
                 {props.label && (
                     <span className='mb-[3px] text-contrast text-sm block'>
                         {props.label}
                     </span>
                 )}
 
-                <input className={['border-inputInactive border-[2px] rounded-md min-h-[25px]', 
-                'focus:border-inputFocused transition-colors duration-300 outline-none',
-                'px-1 py-[7px]'].join(' ')} 
-                value={props.value} onChange={handleChange} placeholder={props.placeholder}
-                onBlur={props.onBlur} onFocus={props.onFocus} type={props.type} name={props.name} />
+                {RM.modElement((
+                    <input className={['border-inputInactive border-[2px] rounded-md min-h-[25px]', 
+                    'focus:border-inputFocused transition-colors duration-300 outline-none',
+                    'px-1 py-[7px]'].join(' ')} 
+                    value={props.value} onChange={handleChange} placeholder={props.placeholder}
+                    onBlur={props.onBlur} onFocus={props.onFocus} type={props.type} name={props.name} />
+                ), inputMod)}
             </div>
         ), headMod)
     );
