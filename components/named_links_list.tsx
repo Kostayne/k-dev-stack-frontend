@@ -21,7 +21,7 @@ const NamedLinksList= (props: NamedLinksListProps) => {
 
             return (
                 <Link href={l.href} passHref key={i}>
-                    <a className='text-contrast underline'>{l.name} {!last && ','}</a>
+                    <a className='text-contrast underline'>{l.name}{!last && ','}</a>
                 </Link>
             );
         });
