@@ -41,7 +41,7 @@ const Login: NextPage = () => {
 
 				{validationMessages.length > 0 && (
 					<ValidationErr messages={validationMessages}
-					headMod={RM.createMod('mt-8')} />
+					headMod={RM.createMod('mt-8 text-center')} />
 				)}
 
 				<button className='primary-btn mt-[38px] w-[92px] mx-auto'>войти</button>
