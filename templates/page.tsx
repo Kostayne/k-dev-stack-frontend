@@ -1,9 +1,13 @@
-import type { NextPage } from 'next';
+import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 
-const __cname__: NextPage = () => {
+interface __cname__PageProps {
+
+}
+
+const __cname__: NextPage<__cname__PageProps> = (props) => {
 	return (
 		<div className='page-content'>
 			<Head>
@@ -13,10 +17,33 @@ const __cname__: NextPage = () => {
 			</Head>
 
 			<main>
-				<Goto href='/todo' title='TODO' isMainHeading={true} headMod={RM.createMod('mt-5')} />
+				<Goto href='/todo' title='TODO' isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				goBack />
 			</main>
 		</div>
 	);
 };
 
 export default __cname__;
+
+// export const getStaticProps: GetStaticProps<__cname__PageProps> = () => {
+// 	return {
+// 		props: {
+
+// 		}
+// 	};
+// };
+
+// export const getStaticPaths: GetStaticPaths = () => {
+// 	return {
+// 		paths: [
+// 			{
+// 				params: {
+
+// 				}
+// 			}
+// 		],
+
+// 		fallback: 'blocking'
+// 	};
+// };

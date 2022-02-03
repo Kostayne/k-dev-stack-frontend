@@ -70,6 +70,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} />
+
+				
 			</main>
 		</div>
 	);
