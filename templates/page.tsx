@@ -17,7 +17,7 @@ const __cname__: NextPage<__cname__PageProps> = (props) => {
 			</Head>
 
 			<main>
-				<Goto href='/todo' title='TODO' isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				<Goto href='/todo' title='TODO' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 			</main>
 		</div>

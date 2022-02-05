@@ -24,7 +24,7 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 			</Head>
 
 			<main>
-				<Goto href='/' title='Библиотеки' isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				<Goto href='/' title='Библиотеки' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
 				{/* filter */}

@@ -57,7 +57,7 @@ const Profile: NextPage = () => {
 			</Head>
 
 			<main>
-				<Goto href='/' title='Профиль' isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				<Goto href='/' title='Профиль' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
 				<div className='mt-6 relative rounded-[50%] w-[77px] h-[77px] overflow-hidden 
