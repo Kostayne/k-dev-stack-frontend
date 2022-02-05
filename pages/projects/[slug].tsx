@@ -22,7 +22,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 			</Head>
 
 			<main>
-				<Goto href='/projects/' title={name} isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				<Goto href='/projects/' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
 				{/* description */}

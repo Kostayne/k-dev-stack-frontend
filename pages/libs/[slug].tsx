@@ -32,7 +32,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 			</Head>
 
 			<main>
-				<Goto href='/libs' title={name} isMainHeading={true} headMod={RM.createMod('mt-5')} 
+				<Goto href='/libs' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 				
 				<NamedLinksList links={downloads} 
