@@ -26,7 +26,8 @@ module.exports = {
             'inputFocused': '#45A3FB',
             'error': '#EE5A87',
             'status': '#195FC8',
-            'customGray': '#BFBFBF'
+            'customGray': '#BFBFBF',
+            'lowBlue': '#EAF2FF'
         }
     },
 

@@ -17,6 +17,10 @@
         @apply h-[1px] bg-awhite
     }
 
+    .blue-splitter {
+        @apply h-[1px] bg-lowBlue
+    }
+
     .link {
         @apply text-base text-contrast
     }
