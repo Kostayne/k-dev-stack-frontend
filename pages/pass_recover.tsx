@@ -52,7 +52,7 @@ const PassRecover: NextPage = () => {
 				goBack />
 
 				<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  
-				headMod={RM.createMod('mt-6 w-fit mx-auto')} />
+				headMod={RM.createMod('mt-6 w-fit mx-auto sm:mx-0')} />
 
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-8 text-left')} />
