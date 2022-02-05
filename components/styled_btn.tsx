@@ -15,7 +15,7 @@ const StyledBtn= (props: StyledBtnProps) => {
     const activeCName = `hover:shadow-[0px_1px_4px_rgba(39,100,191,0.2) 
         bg-contrast cursor-pointer`;
 
-    const inactiveCName = `bg-inputInactive`;
+    const inactiveCName = `primary-btn_disabled`;
 
     const curCName = props.disabled ? inactiveCName : activeCName;
 

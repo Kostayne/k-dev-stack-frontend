@@ -9,8 +9,9 @@ import React, { useRef, useState } from 'react';
 import { validateEmail } from '../validators/email.validator';
 import { validateLastName } from '../validators/lastname.validator';
 import { validateFirstName } from '../validators/firtsname.validator';
-import { validatePassword } from '../validators/password.validator';
+import { validatePasswordPair } from '../validators/password.validator';
 import ValidationErr from '../components/validation_err';
+import StyledBtn from '../components/styled_btn';
 
 const Profile: NextPage = () => {
 	const name = useSyntheticInput();
@@ -41,11 +42,17 @@ const Profile: NextPage = () => {
 		fr.readAsDataURL(file);
 	};
 
+	const passwordInputsAreFilled = passwordInp.binding.value.length > 0 || newPasswordInp.binding.value.length > 0;
+	const passwordMsgs = passwordInputsAreFilled?
+		[
+			...validatePasswordPair(passwordInp.binding.value, newPasswordInp.binding.value)
+		] : [];
+
 	const validationMessages = [
 		...validateFirstName(name.binding.value),
 		...validateLastName(lastName.binding.value),
 		...validateEmail(emailInp.binding.value),
-		...validatePassword(passwordInp.binding.value)
+		...passwordMsgs
 	];
 
 	return (
@@ -85,11 +92,13 @@ const Profile: NextPage = () => {
 				headMod={RM.createMod('mt-5')} />
 
 				{validationMessages.length == 0 && (
-					<button className={'primary-btn w-[104px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
+					<StyledBtn value='ПРИМЕНИТЬ'
+					headMod={RM.createMod(['w-[120px] mx-auto mt-[50px]'].join(' '))} />
 				)}
 
 				{validationMessages.length > 0 && (
-					<button className={'primary-btn bg-inputInactive w-[120px] mx-auto mt-[50px] '}>ПРИМЕНИТЬ</button>
+					<StyledBtn value='ПРИМЕНИТЬ' disabled
+					headMod={RM.createMod(['w-[120px] mx-auto mt-[50px]'].join(' '))} />
 				)}
 
 				<button className='mt-5 mx-auto w-fit block text-btn'>ВЫЙТИ</button>

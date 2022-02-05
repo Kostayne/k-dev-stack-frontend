@@ -12,18 +12,16 @@ export function validatePassword(val: string) {
     return res;
 }
 
-export function validatePasswordPair(val: string, val2: string) {
+export function validatePasswordPair(oldVal: string, confirmVal: string) {
     const res = [];
 
-    if (val.length < 5) {
-		res.push('Слишком короткий пароль.');
+    const oldValMsgs = validatePassword(oldVal);
+	
+	if (oldValMsgs.length > 0) {
+		return oldValMsgs;
 	}
 
-	if (val.length > 16) {
-		res.push('Слишком длинный пароль.');
-	}
-
-    if (val != val2) {
+    if (oldVal != confirmVal) {
         res.push('Пароли не совпадают.');
     }
 
