@@ -3,6 +3,7 @@ import styles from './header.module.scss';
 import { createModuleStylesConverter } from 'get-module-style';
 import Goto from './goto';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface HeaderLink {
     name: string;
@@ -80,7 +81,8 @@ const Header = () => {
 
                     <button className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
                     onClick={handleToggleOpen}>
-                        <img className="" alt="menu" src="/gamburger.svg" />
+                        <Image className="" alt="menu" src="/gamburger.svg" 
+                        width={20} height={14} />
                     </button>
                 </div>
             </div>
