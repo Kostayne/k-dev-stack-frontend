@@ -67,20 +67,26 @@ const Header = () => {
     };
 
     return (
+        // whole header
         <div className='bg-[white] z-[2]'>
-            <div className="sticky top-0 flex items-center px-5 py-4 border-b-[1px] border-awhite z-[2]">
-                <Link href="/" passHref>
-                    <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
-                </Link>
 
-                <div className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
-                onClick={handleToggleOpen}>
-                    <img className="" src="/gamburger.svg" />
+            {/* top line */}
+            <div className="sticky top-0 px-5 py-4 border-b-[1px] border-awhite z-[2]">
+                {/* width limiter */}
+                <div className='flex items-center max-w-[1200px] mx-auto'>
+                    <Link href="/" passHref>
+                        <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
+                    </Link>
+
+                    <div className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
+                    onClick={handleToggleOpen}>
+                        <img className="" alt="menu" src="/gamburger.svg" />
+                    </div>
                 </div>
             </div>
 
             <div className={bannerCn}>
-                <div className="flex flex-col gap-5 ml-8 mt-6 w-fit">
+                <div className="flex flex-col gap-5 ml-8 mt-6 max-w-[1200px] md:mx-auto">
                     {getMobileLinksToR()}
                 </div>
             </div>

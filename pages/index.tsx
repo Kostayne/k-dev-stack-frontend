@@ -24,9 +24,13 @@ const Home: NextPage = () => {
 				</p>
 
 				{/* Libs section */}
-				<Goto href='/todo' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
+				<Goto href='/libs' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
 
-				<div className="grid columns-1 gap-5 mt-5">
+				<div className="mt-5 previews-list">
+					<TaggedItemPreview name="K React CM" 
+					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
+					tags={['утилита', 'react']} />
+
 					<TaggedItemPreview name="K React CM" 
 					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
 					tags={['утилита', 'react']} />
@@ -39,7 +43,11 @@ const Home: NextPage = () => {
 				{/* Projects section */}
 				<Goto href='/todo' title='Проекты' headMod={RM.createMod('mt-7')} />
 
-				<div className="grid columns-1 gap-5 mt-5">
+				<div className="previews-list mt-5">
+					<TaggedItemPreview name="K React CM" 
+					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
+					tags={['утилита', 'react']} />
+
 					<TaggedItemPreview name="K React CM" 
 					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
 					tags={['утилита', 'react']} />
