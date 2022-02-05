@@ -61,7 +61,7 @@ const Header = () => {
         return links.map((l, i) => {
             return (
                 <Goto title={l.name} href={l.href} key={i} 
-                onLinkClick={onLinkClick} />
+                onLinkClick={onLinkClick} disableTab={!isOpened} />
             );
         });
     };
@@ -78,10 +78,10 @@ const Header = () => {
                         <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
                     </Link>
 
-                    <div className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
+                    <button className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
                     onClick={handleToggleOpen}>
                         <img className="" alt="menu" src="/gamburger.svg" />
-                    </div>
+                    </button>
                 </div>
             </div>
 

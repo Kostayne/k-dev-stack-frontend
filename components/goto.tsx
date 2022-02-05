@@ -5,10 +5,12 @@ import Link from 'next/link';
 interface GotoProps {
     headMod?: RM.IModifier;
     isMainHeading?: boolean;
-    onLinkClick?: () => void;
     title: string;
     goBack?: boolean;
     href: string;
+    disableTab?: boolean;
+
+    onLinkClick?: () => void;
 }
 
 const Goto= (props: GotoProps) => {
@@ -36,7 +38,8 @@ const Goto= (props: GotoProps) => {
                 )}
 
                 <Link passHref href={props.href}>
-                    <a className={getLinkCn() + " flex items-center justify-center small-interactive w-[37px] h-[37px]"} onClick={props.onLinkClick}>
+                    <a className={getLinkCn() + " flex items-center justify-center small-interactive w-[37px] h-[37px]"} 
+                    onClick={props.onLinkClick} tabIndex={props.disableTab? -1 : 0}>
                         {!props.goBack && (
                             <img src="/goto.svg" alt="перейти" className={`${imgCn} rotate-180`} />
                         )}
