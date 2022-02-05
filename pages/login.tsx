@@ -10,6 +10,7 @@ import { validateEmail } from '../validators/email.validator';
 import { validatePassword } from '../validators/password.validator';
 import { joinValidationMessages } from '../shared/joinValidationMessages';
 import ValidationErr from '../components/validation_err';
+import StyledBtn from '../components/styled_btn';
 
 const Login: NextPage = () => {
 	const emailInp = useSyntheticInput();
@@ -44,7 +45,10 @@ const Login: NextPage = () => {
 					headMod={RM.createMod('mt-8 text-center')} />
 				)}
 
-				<button className='primary-btn mt-[38px] w-[92px] mx-auto'>войти</button>
+				<StyledBtn value='войти' disabled={validationMessages.length > 0}
+				headMod={RM.createMod([
+					'mt-[38px] w-[92px] mx-auto'
+				].join(' '))} />
 
 				{/* other links */}
 				<div className='mt-9 w-fit mx-auto'>
