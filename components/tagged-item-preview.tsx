@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 import * as RM from 'react-modifier';
 
@@ -6,6 +7,7 @@ interface TaggedItemPreviewProps {
     name: string;
     description: string;
     tags: string[];
+    href: string;
 }
 
 const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
@@ -22,7 +24,11 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
     return (
         RM.modElement((
             <div className="shadow-preview rounded-[4px] p-4">
-                <span className="text-roboto text-subtitle font-medium">{props.name}</span>
+                <Link href={props.href} passHref>
+                    <a className="text-roboto font-medium text-contrastAlt">
+                        {props.name}
+                    </a>
+                </Link>
 
                 <p className="mt-[11px] text-robotoCond">{props.description}</p>
 
