@@ -10,7 +10,12 @@
 
     .primary-btn {
         @apply bg-contrast rounded flex justify-center items-center text-[white]
-        h-8 hover:shadow-[0px_1px_4px_rgba(39,100,191,0.2)]
+        h-8 hover:shadow-[0px_1px_4px_rgba(39,100,191,0.2)] hover:bg-[#418DFF]
+        active:bg-[#0B62E3] transition-[250ms]
+    }
+
+    .primary-btn_disabled {
+
     }
 
     .splitter {

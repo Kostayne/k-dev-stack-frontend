@@ -6,6 +6,7 @@ import { useSyntheticInput } from '../../hooks/input_synthetic';
 import StyledTextInput from '../../components/styled-text-input';
 import RemovableInput from '../../components/removable_input';
 import TaggedItemPreview from '../../components/tagged-item-preview';
+import StyledBtn from '../../components/styled_btn';
 
 interface LibsPageProps {
 
@@ -44,8 +45,11 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 							placeholder='tag1, tag2' />
 						</div>
 
-						<button className={['primary-btn w-[110px] mx-auto',
-						'md:mb-[2px]'].join(' ')}>применить</button>
+						<StyledBtn value='применить' 
+						headMod={RM.createMod([
+							'primary-btn w-[110px] mx-auto',
+							'md:mb-[2px]'
+						].join(' '))} />
 					</div>
 
 					<div className='blue-splitter mt-5' />

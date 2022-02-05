@@ -29,8 +29,7 @@ const StyledBtn= (props: StyledBtnProps) => {
 
     return (
         RM.modElement((
-            <button className={`rounded flex justify-center items-center text-[white]
-            h-8 ${curCName}`} onClick={onClick}>
+            <button className={`primary-btn ${curCName}`} onClick={onClick}>
                 {props.value}
             </button>
         ), headMod)
