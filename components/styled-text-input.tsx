@@ -14,6 +14,8 @@ interface StyledTextInputProps {
 
     headMod?: RM.IModifier;
     inputMod?: RM.IModifier;
+
+    style?: React.CSSProperties;
 }
 
 const StyledTextInput = (props: StyledTextInputProps) => {
@@ -26,7 +28,7 @@ const StyledTextInput = (props: StyledTextInputProps) => {
 
     return (
         RM.modElement((
-            <div className=''>
+            <div className='' style={props.style}>
                 {props.label && (
                     <span className='mb-[3px] text-contrast text-sm block'>
                         {props.label}
