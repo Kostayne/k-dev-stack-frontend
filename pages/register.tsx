@@ -56,7 +56,6 @@ const Register: NextPage = () => {
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
 
-				{/* <button className='primary-btn mt-9 w-[148px] mx-auto'>зарегистрировать</button> */}
 				<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
 				headMod={RM.createMod('mt-9 w-[150px] mx-auto')} onClick={onSendClick} />
 
