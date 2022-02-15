@@ -4,7 +4,7 @@ export interface UserModel {
     lastName: string;
     avatarName: string;
     email: string;
-    accessLevel: number;
+    isAdmin: boolean;
 };
 
 export interface UserCommentRefModel {
@@ -13,3 +13,15 @@ export interface UserCommentRefModel {
     lastName: string;
     avatarName: string;
 };
+
+export interface UserLoginModel {
+    email: string;
+    password: string;
+}
+
+export interface UserRegisterModel {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+}
