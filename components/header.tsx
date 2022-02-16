@@ -79,6 +79,8 @@ const Header = () => {
                         <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
                     </Link>
 
+                    {/* TODO add dekstop links */}
+
                     <button className={'flex items-center justify-center ml-auto w-[37px] h-[37px] small-interactive'}
                     onClick={handleToggleOpen}>
                         <Image className="" alt="menu" src="/gamburger.svg" 
@@ -88,7 +90,7 @@ const Header = () => {
             </div>
 
             <div className={bannerCn}>
-                <div className="flex flex-col gap-5 ml-8 mt-6 max-w-[1200px] md:mx-auto">
+                <div className="flex flex-col gap-0 ml-8 mt-6 max-w-[1200px] md:mx-auto">
                     {getMobileLinksToR()}
                 </div>
             </div>
