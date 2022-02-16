@@ -25,7 +25,7 @@ const ValidationErr= (props: ValidationErrProps) => {
 
     return (
         RM.modElement((
-            <div className='flex flex-col gap-y-1'>
+            <div className='flex flex-col gap-y-1 text-center'>
                 {getMessagesToR()}
             </div>
         ), headMod)
