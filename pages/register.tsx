@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
-import { useSyntheticInput } from '../hooks/input_synthetic';
+import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import StyledTextInput from '../components/styled-text-input';
 import Link from 'next/link';
 import { validateFirstName } from '../validators/firtsname.validator';
@@ -38,8 +38,7 @@ const Register: NextPage = () => {
 			</Head>
 
 			<main>
-				<Goto href='/' title='Регистрация' isMainHeading={true} headMod={RM.createMod('mt-5')} 
-				goBack />
+				<Goto href='/' title='Регистрация' isMainHeading={true} goBack />
 
 				{/* inputs */}
 				<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>

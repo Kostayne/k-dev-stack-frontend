@@ -3,7 +3,7 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 import StyledTextInput from '../components/styled-text-input';
-import { useSyntheticInput } from '../hooks/input_synthetic';
+import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import { validateEmail } from '../validators/email.validator';
 import StyledBtn from '../components/styled_btn';
 import ValidationErr from '../components/validation_err';

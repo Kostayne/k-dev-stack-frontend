@@ -3,7 +3,7 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 import Image from 'next/image';
-import { useSyntheticInput } from '../hooks/input_synthetic';
+import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import StyledTextInput from '../components/styled-text-input';
 import React, { useRef, useState } from 'react';
 import { validateEmail } from '../validators/email.validator';
@@ -74,6 +74,7 @@ const Profile: NextPage = () => {
 				</div>
 
 				{/* inputs */}
+				{/* TODO add horizontal v for desktop */}
 				<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
 					<StyledTextInput {...name.binding} label='Имя' placeholder='ваше имя'  />
 
@@ -91,15 +92,8 @@ const Profile: NextPage = () => {
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-5')} />
 
-				{validationMessages.length == 0 && (
-					<StyledBtn value='ПРИМЕНИТЬ'
-					headMod={RM.createMod(['w-[120px] mx-auto mt-[50px]'].join(' '))} />
-				)}
-
-				{validationMessages.length > 0 && (
-					<StyledBtn value='ПРИМЕНИТЬ' disabled
-					headMod={RM.createMod(['w-[120px] mx-auto mt-[50px]'].join(' '))} />
-				)}
+				<StyledBtn value='ПРИМЕНИТЬ' disabled={validationMessages.length > 0}
+				headMod={RM.createMod(['w-[150px] mx-auto mt-[50px]'].join(' '))} />
 
 				<button className='mt-5 mx-auto w-fit block text-btn'>ВЫЙТИ</button>
 

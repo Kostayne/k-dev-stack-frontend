@@ -27,7 +27,8 @@ module.exports = {
             'error': '#EE5A87',
             'status': '#195FC8',
             'customGray': '#BFBFBF',
-            'lowBlue': '#EAF2FF'
+            'lowBlue': '#EAF2FF',
+            'errorSubdued': 'rgba(238, 90, 135, 0.42)'
         }
     },
 

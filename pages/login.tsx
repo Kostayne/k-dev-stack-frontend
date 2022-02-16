@@ -4,15 +4,17 @@ import Head from 'next/head';
 import Goto from '../components/goto';
 import StyledTextInput from '../components/styled-text-input';
 // import { useState } from 'react';
-import { useSyntheticInput } from '../hooks/input_synthetic';
+import { SyntheticInputData, useSyntheticInput } from '../hooks/input_synthetic.hook';
 import Link from 'next/link';
 import { validateEmail } from '../validators/email.validator';
 import { validatePassword } from '../validators/password.validator';
-import { joinValidationMessages } from '../shared/joinValidationMessages';
-import ValidationErr from '../components/validation_err';
 import StyledBtn from '../components/styled_btn';
+import { observer } from 'mobx-react-lite';
+import { useLoginPageLogic } from '../hooks/login_page_logic.hook';
+import ValidationErrInline from '../components/validation_err_inline';
+import ValidationErrBlock from '../components/validation_err_block';
 
-const Login: NextPage = () => {
+const InnerLogin: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const passwordInp = useSyntheticInput();
 
@@ -20,6 +22,8 @@ const Login: NextPage = () => {
 		...validateEmail(emailInp.binding.value),
 		...validatePassword(passwordInp.binding.value)
 	];
+
+	const logic = useLoginPageLogic();
 
 	return (
 		<div className='page-content'>
@@ -30,9 +34,9 @@ const Login: NextPage = () => {
 			</Head>
 
 			<main>
-				<Goto href='/' title='Войти' isMainHeading={true} headMod={RM.createMod('mt-5')} 
-				goBack />
+				<Goto href='/' title='Войти' isMainHeading={true} goBack />
 
+				{/* inputs */}
 				<div className='mt-[25px] mx-auto w-fit'>
 					<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  />
 
@@ -40,17 +44,34 @@ const Login: NextPage = () => {
 					type='password' headMod={RM.createMod('mt-3')} />
 				</div>
 
+				{/* status */}
+				{logic.status && (
+					<p className={['text-error text-center mt-4 max-w-[250px]',
+					'block w-fit mx-auto'].join(' ')}>
+						{logic.status}
+					</p>
+				)}
+
 				{validationMessages.length > 0 && (
-					<ValidationErr messages={validationMessages}
-					headMod={RM.createMod('mt-8 text-center')} />
+					<>
+						{/* <ValidationErr messages={validationMessages}
+						headMod={RM.createMod('mt-4 text-center')} /> */}
+
+						{/* <ValidationErrInline messages={validationMessages}
+						headMod={RM.createMod('mt-4 mx-auto')} /> */}
+
+						<ValidationErrBlock messages={validationMessages} 
+						headMod={RM.createMod('mt-4 mx-auto')} />
+					</>
 				)}
 
 				<StyledBtn value='войти' disabled={validationMessages.length > 0}
 				headMod={RM.createMod([
 					'mt-[38px] w-[92px] mx-auto'
-				].join(' '))} />
+				].join(' '))} 
+				onClick={() => logic.handleLogin(emailInp, passwordInp)} />
 
-				{/* other links */}
+				{/* links */}
 				<div className='mt-9 w-fit mx-auto'>
 					<div className='splitter w-[165px]' />
 
@@ -67,4 +88,5 @@ const Login: NextPage = () => {
 	);
 };
 
-export default Login;
+const LoginPage = observer(InnerLogin);
+export default LoginPage;

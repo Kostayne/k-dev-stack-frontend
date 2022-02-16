@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledTextInput from '../../components/styled-text-input';
-import { useSyntheticInput } from '../../hooks/input_synthetic';
+import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 
 interface ProjectsPageProps {
 

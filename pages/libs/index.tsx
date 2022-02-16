@@ -2,7 +2,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import { useSyntheticInput } from '../../hooks/input_synthetic';
+import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 import StyledTextInput from '../../components/styled-text-input';
 import RemovableInput from '../../components/removable_input';
 import TaggedItemPreview from '../../components/tagged-item-preview';
