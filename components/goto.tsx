@@ -8,7 +8,7 @@ interface GotoProps {
     title: string;
     goBack?: boolean;
     href: string;
-    disableTab?: boolean;
+    disableTabNavigation?: boolean;
 
     onLinkClick?: () => void;
 }
@@ -39,7 +39,7 @@ const Goto= (props: GotoProps) => {
 
                 <Link passHref href={props.href}>
                     <a className={getLinkCn() + " flex items-center justify-center small-interactive w-[37px] h-[37px]"} 
-                    onClick={props.onLinkClick} tabIndex={props.disableTab? -1 : 0}>
+                    onClick={props.onLinkClick} tabIndex={props.disableTabNavigation? -1 : 0}>
                         {!props.goBack && (
                             // eslint-disable-next-line @next/next/no-img-element
                             <img src="/goto.svg" alt="перейти" className={`${imgCn} ml-[1px] rotate-180`} />
