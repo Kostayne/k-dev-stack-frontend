@@ -1,35 +1,34 @@
-import { projectCfg } from "../cfg";
+import { apiUrl } from "../cfg";
 import { UserLoginModel, UserModel, UserRegisterModel } from "../models/user.model";
-import { getJwtHeader } from "../utils/get_jwt_header";
+import { HeaderBuilder } from "../utils/header_builder";
 
 export class UserReq {
-    protected api = projectCfg.getApiUrl();
-
     register(data: UserRegisterModel) {
-        return fetch(`${this.api}/user/auth`, {
+        return fetch(`${apiUrl}/user/auth`, {
             method: 'POST',
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            headers: new HeaderBuilder().json().headers
         });
     }
 
     login(data: UserLoginModel) {
-        return fetch(`${this.api}/user/auth`, {
+        return fetch(`${apiUrl}/user/auth`, {
             method: 'POST',
-            headers: getJwtHeader(),
+            headers: new HeaderBuilder().json().headers,
             body: JSON.stringify(data)
         });
     }
 
     me = () => {
-        return fetch(`${this.api}/user/me`, {
+        return fetch(`${apiUrl}/user/me`, {
             
         });
     }
 
     edit(data: UserModel) {
-        return fetch(`${this.api}/user/auth`, {
+        return fetch(`${apiUrl}/user/auth`, {
             method: 'POST',
-            headers: getJwtHeader(),
+            headers: new HeaderBuilder().json().jwt().headers,
             body: JSON.stringify(data)
         });
     }
