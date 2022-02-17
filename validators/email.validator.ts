@@ -9,7 +9,7 @@ export function validateEmail(val: string) {
 		res.push('Слишком короткая почта.');
 	}
 
-	if (val.length > 16) {
+	if (val.length > 25) {
 		res.push('Слишком длинная почта.');
 	}
 
