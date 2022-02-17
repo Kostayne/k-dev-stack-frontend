@@ -41,11 +41,13 @@ const Goto= (props: GotoProps) => {
                     <a className={getLinkCn() + " flex items-center justify-center small-interactive w-[37px] h-[37px]"} 
                     onClick={props.onLinkClick} tabIndex={props.disableTab? -1 : 0}>
                         {!props.goBack && (
-                            <img src="/goto.svg" alt="перейти" className={`${imgCn} rotate-180`} />
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src="/goto.svg" alt="перейти" className={`${imgCn} ml-[1px] rotate-180`} />
                         )}
 
                         {props.goBack && (
-                            <img src="/goto.svg" alt="перейти назад" className={`${imgCn}`} />
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src="/goto.svg" alt="перейти назад" className={`${imgCn}` } />
                         )}
                     </a>
                 </Link>
