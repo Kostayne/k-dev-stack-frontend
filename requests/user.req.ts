@@ -21,7 +21,7 @@ export class UserReq {
 
     me = () => {
         return fetch(`${apiUrl}/user/me`, {
-            
+            headers: new HeaderBuilder().jwt().headers
         });
     }
 
