@@ -10,7 +10,7 @@ interface ValidationErrBlockProps {
 
 const ValidationErrBlock= (props: ValidationErrBlockProps) => {
     return (
-        <TextMsgBlock title='валидация' headMod={props.headMod} error>
+        <TextMsgBlock title='валидация' headMod={props.headMod} color='error'>
             <ValidationErr messages={props.messages} />
         </TextMsgBlock>
     );

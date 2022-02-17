@@ -22,10 +22,11 @@ export class ProjectCfg {
 }
 
 const devCfg: ProjectCfgData = {
-    protocol: 'http:',
-    hostname: '127.0.0.1:3005',
+    protocol: 'http',
+    hostname: '127.0.0.1:3030',
     api: 'api/v1'
 };
 
 const curCfg = devCfg;
+export const apiUrl = `${curCfg.protocol}://${curCfg.hostname}/${curCfg.api}`;
 export const projectCfg = new ProjectCfg(curCfg);

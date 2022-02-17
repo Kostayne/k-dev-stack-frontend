@@ -1,22 +1,35 @@
 import React from 'react';
 import * as RM from 'react-modifier';
 
+export type TextMsgColor = 'error' | 'status' | 'neutral';
+
 interface TextMsgProps {
     headMod?: RM.IModifier;
-    error?: boolean;
+    color?: TextMsgColor;
     title: string;
     children: React.ReactElement | React.ReactElement[];
 }
 
 const TextMsgBlock= (props: TextMsgProps) => {
     const headMod = props.headMod || RM.createMod();
-    const splitterColor = props.error? 'bg-errorSubdued' : 'bg-splitter';
-    const titleColor = props.error? 'text-error' : 'text-status';
+
+    let splitterColor = 'bg-splitter';
+    let textColor = 'text-[black]';
+
+    if (props.color == 'error') {
+        splitterColor = 'bg-errorSubdued';
+        textColor = 'text-error';
+    }
+
+    if (props.color == 'status') {
+        splitterColor = 'bg-lowBlue';
+        textColor = 'text-status';
+    }
 
     return (
         RM.modElement((
-            <div className='flex flex-col items-center w-fit'>
-                <span className={`${titleColor} text-center font-light`}>{props.title}</span>
+            <div className={`flex flex-col items-center w-fit ${textColor}`}>
+                <span className={`${textColor} text-center font-light`}>{props.title}</span>
 
                 <div className={`splitter w-[195px] ${splitterColor} mb-3 mt-2`} />
                     {props.children}

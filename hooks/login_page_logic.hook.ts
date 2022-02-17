@@ -1,11 +1,20 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { TextMsgColor } from "../components/text_msg_block";
 import { userStore } from "../stores/user.store";
 import { SyntheticInputData } from "./input_synthetic.hook";
 
+interface LoginStatus {
+    color: TextMsgColor;
+    text: string;
+}
+
 export function useLoginPageLogic() {
     const router = useRouter();
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState<LoginStatus>({
+        color: 'status',
+        text: ''
+    });
 
     const handleLogin = async(email: SyntheticInputData, password: SyntheticInputData) => {
         const respCode = await userStore.login(
@@ -15,16 +24,28 @@ export function useLoginPageLogic() {
 
         if (respCode == 200) {
             router.push('/');
-            setStatus('Вы успешно вошли!');
+
+            // setStatus({
+            //     text: 'Вы успешно вошли!',
+            //     color: 'status',
+            // });
+
             return;
         }
 
         if (respCode == 401) {
-            setStatus('Неправильные данные для аутентификации!');
+            setStatus({
+                text: 'Неправильные данные для аутентификации!',
+                color: 'error',
+            });
+
             return;
         }
 
-        setStatus('Произошла ошибка, пожалуйста повторите попытку.');
+        setStatus({
+            text: 'Произошла ошибка, пожалуйста повторите попытку.',
+            color: 'error',
+        });
     }
 
     return {

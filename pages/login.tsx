@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 import { useLoginPageLogic } from '../hooks/login_page_logic.hook';
 import ValidationErrInline from '../components/validation_err_inline';
 import ValidationErrBlock from '../components/validation_err_block';
+import TextMsgBlock from '../components/text_msg_block';
 
 const InnerLogin: NextPage = () => {
 	const emailInp = useSyntheticInput();
@@ -45,21 +46,15 @@ const InnerLogin: NextPage = () => {
 				</div>
 
 				{/* status */}
-				{logic.status && (
-					<p className={['text-error text-center mt-4 max-w-[250px]',
-					'block w-fit mx-auto'].join(' ')}>
-						{logic.status}
-					</p>
+				{logic.status.text && (
+					<TextMsgBlock color={logic.status.color} title='статус'
+					headMod={RM.createMod('mx-auto mt-4')}>
+						<p>{logic.status.text}</p>
+					</TextMsgBlock>
 				)}
 
 				{validationMessages.length > 0 && (
 					<>
-						{/* <ValidationErr messages={validationMessages}
-						headMod={RM.createMod('mt-4 text-center')} /> */}
-
-						{/* <ValidationErrInline messages={validationMessages}
-						headMod={RM.createMod('mt-4 mx-auto')} /> */}
-
 						<ValidationErrBlock messages={validationMessages} 
 						headMod={RM.createMod('mt-4 mx-auto')} />
 					</>
