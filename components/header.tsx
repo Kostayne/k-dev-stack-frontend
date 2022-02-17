@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './header.module.scss';
 import { createModuleStylesConverter } from 'get-module-style';
 import Goto from './goto';
 import Link from 'next/link';
 import Image from 'next/image';
+import { userStore } from '../stores/user.store';
+import { observer } from 'mobx-react-lite';
 
 interface HeaderLink {
     name: string;
     href: string;
 };
 
-const Header = () => {
+const HeaderComment = () => {
     const [isOpened, setOpened] = useState(false);
     const gs = createModuleStylesConverter(styles);
     let prevBodyOverflowVal = 'unset';
+
+    useEffect(() => {
+        userStore.loadUserFromServer();
+    }, []);
 
     const handleToggleOpen = () => {
         const newOpenedVal = !isOpened;
@@ -53,6 +59,15 @@ const Header = () => {
             href: '/profile'
         },
     ];
+
+    if (!userStore.userData) {
+        links.pop();
+
+        links.push({
+            name: 'Войти',
+            href: '/login'
+        });
+    }
 
     const onLinkClick = () => {
         setOpened(false);
@@ -98,4 +113,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default observer(HeaderComment);
