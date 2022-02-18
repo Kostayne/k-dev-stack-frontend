@@ -1,10 +1,12 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { HeaderLink } from "../components/header";
 import { userStore } from "../stores/user.store";
 
 export function useHeaderLogic() {
-    const [isOpened, setOpened] = useState(false);
     let prevBodyOverflowVal = 'unset';
+    const [isOpened, setOpened] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
         userStore.loadUserFromServer();
@@ -49,6 +51,26 @@ export function useHeaderLogic() {
         },
     ];
 
+    const desktopLinks: HeaderLink[] = [
+        {
+            name: 'Библиотеки',
+            href: '/libs'
+        },
+
+        {
+            name: 'Проекты',
+            href: '/projects'
+        }
+    ];
+
+    const curDesktopLink = desktopLinks.find((l) => {
+        return l.href == router.pathname;
+    });
+
+    if (curDesktopLink) {
+        curDesktopLink.active = true;
+    }
+
     if (!userStore.userData) {
         mobileLinks.pop();
 
@@ -61,6 +83,7 @@ export function useHeaderLogic() {
     return {
         mobileLinks,
         isOpened,
+        desktopLinks,
         onLinkClick,
         handleToggleOpen
     };

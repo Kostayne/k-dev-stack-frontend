@@ -6,17 +6,26 @@ import Image from 'next/image';
 import { observer } from 'mobx-react-lite';
 import { useHeaderLogic } from '../hooks/header_logic.hook';
 import HeaderMobileLinksList from './header_mobile_links_list';
+import HeaderDesktopLinksList from './header_desktop_links_list';
 import * as RM from 'react-modifier';
 
 export interface HeaderLink {
     name: string;
     href: string;
+    active?: boolean;
 };
 
 const HeaderComment = () => {
     const gs = createModuleStylesConverter(styles);
 
-    const { mobileLinks, onLinkClick, isOpened, handleToggleOpen } = useHeaderLogic();
+    const { 
+        mobileLinks, 
+        isOpened, 
+        onLinkClick, 
+        handleToggleOpen,
+        desktopLinks
+    } = useHeaderLogic();
+    
     const bannerCn = isOpened? gs('banner _active') : gs('banner');
 
     return (
@@ -24,16 +33,20 @@ const HeaderComment = () => {
         <div className='bg-[white] z-[2]'>
 
             {/* top line */}
-            <div className="sticky top-0 px-5 py-4 border-b-[1px] border-awhite z-[2]">
+            <div className={['sticky top-0 px-5 py-4 border-b-[1px] border-awhite z-[2]',
+            'md:flex md:h-[71px] md:py-0'].join(' ')}>
                 {/* width limiter */}
-                <div className='flex items-center max-w-[1200px] mx-auto'>
+                <div className='flex items-center max-w-[1200px] w-full mx-auto'>
                     <Link href="/" passHref>
                         <a className="font-moderan text-2xl text-contrastAlt">K_DevStack</a>
                     </Link>
 
                     {/* dekstop links */}
-                    <div className={['hidden md:flex '].join(' ')}>
-
+                    <div className={['hidden md:flex self-stretch'].join(' ')}>
+                        <HeaderDesktopLinksList links={desktopLinks}
+                        headMod={RM.createMod([
+                            'ml-6 self-stretch'
+                        ].join(' '))} />
                     </div>
 
                     <button className={['flex items-center justify-center ml-auto', 
