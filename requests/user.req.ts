@@ -4,7 +4,7 @@ import { HeaderBuilder } from "../utils/header_builder";
 
 export class UserReq {
     register(data: UserRegisterModel) {
-        return fetch(`${apiUrl}/user/auth`, {
+        return fetch(`${apiUrl}/user/`, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: new HeaderBuilder().json().headers

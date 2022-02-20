@@ -2,32 +2,23 @@ import type { NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
-import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import StyledTextInput from '../components/styled-text-input';
 import Link from 'next/link';
-import { validateFirstName } from '../validators/firtsname.validator';
-import { validateLastName } from '../validators/lastname.validator';
-import ValidationErr from '../components/validation_err';
-import { validateEmail } from '../validators/email.validator';
-import { validatePassword } from '../validators/password.validator';
 import StyledBtn from '../components/styled_btn';
+import { useRegisterPageLogic } from '../hooks/register_page_logic.hook';
+import ValidationErrBlock from '../components/validation_err_block';
+import TextMsgBlock from '../components/text_msg_block';
 
 const Register: NextPage = () => {
-	const name = useSyntheticInput();
-	const lastName = useSyntheticInput();
-	const emailInp = useSyntheticInput();
-	const passwordInp = useSyntheticInput();
-
-	const validationMessages = [
-		...validateFirstName(name.binding.value),
-		...validateLastName(lastName.binding.value),
-		...validateEmail(emailInp.binding.value),
-		...validatePassword(passwordInp.binding.value)
-	];
-
-	const onSendClick = () => {
-
-	};
+	const {
+		emailInp,
+		lastNameInp,
+		nameInp,
+		passwordInp,
+		validationMessages,
+		errorStatus,
+		onSendClick
+	} = useRegisterPageLogic();
 
 	return (
 		<div className='page-content'>
@@ -42,18 +33,24 @@ const Register: NextPage = () => {
 
 				{/* inputs */}
 				<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
-					<StyledTextInput {...name.binding} label='Имя' placeholder='ваше имя'  />
-
-					<StyledTextInput {...lastName.binding} label='Фамилия' placeholder='ваша фамилия'  />
-
+					<StyledTextInput {...nameInp.binding} label='Имя' placeholder='ваше имя'  />
+					<StyledTextInput {...lastNameInp.binding} label='Фамилия' placeholder='ваша фамилия'  />
 					<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  />
-
 					<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
 					type='password' />
 				</div>
 
-				<ValidationErr messages={validationMessages} 
-				headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
+				{errorStatus && (
+					<TextMsgBlock color={'error'} title='статус'
+					headMod={RM.createMod('mx-auto mt-4')}>
+						<p>{errorStatus}</p>
+					</TextMsgBlock>
+				)}
+
+				{validationMessages.length > 0 && (
+					<ValidationErrBlock messages={validationMessages} 
+					headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
+				)}
 
 				<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
 				headMod={RM.createMod('mt-9 w-[150px] mx-auto')} onClick={onSendClick} />

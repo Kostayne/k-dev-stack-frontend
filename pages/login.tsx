@@ -3,15 +3,14 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 import StyledTextInput from '../components/styled-text-input';
-// import { useState } from 'react';
-import { SyntheticInputData, useSyntheticInput } from '../hooks/input_synthetic.hook';
+import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import Link from 'next/link';
 import { validateEmail } from '../validators/email.validator';
 import { validatePassword } from '../validators/password.validator';
 import StyledBtn from '../components/styled_btn';
 import { observer } from 'mobx-react-lite';
 import { useLoginPageLogic } from '../hooks/login_page_logic.hook';
-import ValidationErrInline from '../components/validation_err_inline';
+// import ValidationErrInline from '../components/validation_err_inline';
 import ValidationErrBlock from '../components/validation_err_block';
 import TextMsgBlock from '../components/text_msg_block';
 
