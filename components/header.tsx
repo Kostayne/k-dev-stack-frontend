@@ -8,6 +8,8 @@ import { useHeaderLogic } from '../hooks/header_logic.hook';
 import HeaderMobileLinksList from './header_mobile_links_list';
 import HeaderDesktopLinksList from './header_desktop_links_list';
 import * as RM from 'react-modifier';
+import HeaderUser from './header_user';
+import HeaderDesktopActions from './header_desktop_actions';
 
 export interface HeaderLink {
     name: string;
@@ -49,6 +51,7 @@ const HeaderComment = () => {
                         ].join(' '))} />
                     </div>
 
+                    {/* mobile gamburger */}
                     <button className={['flex items-center justify-center ml-auto', 
                     'w-[37px] h-[37px] small-interactive',
                     'md:hidden'].join(' ')}
@@ -56,6 +59,9 @@ const HeaderComment = () => {
                         <Image className="" alt="menu" src="/gamburger.svg" 
                         width={20} height={14} />
                     </button>
+
+                    <HeaderDesktopActions 
+                    headMod={RM.createMod('ml-auto hidden md:flex')} />
                 </div>
             </div>
 
