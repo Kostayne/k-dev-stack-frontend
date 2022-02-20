@@ -2,7 +2,11 @@ export function validateEmail(val: string) {
     const res = [];
 
 	if (!val.includes('@')) {
-		res.push('Нет символа @.');
+		res.push('В почте нет символа @.');
+	}
+
+	if (!val.includes('.')) {
+		res.push('Почта без точки.');
 	}
 
     if (val.length < 5) {
