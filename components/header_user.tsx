@@ -2,8 +2,6 @@ import React from 'react';
 import * as RM from 'react-modifier';
 import Link from 'next/link';
 import { useHeaderUserLogic } from '../hooks/header_user_logic.hook';
-import Image from 'next/image';
-import { apiUrl } from '../cfg';
 
 interface HeaderUserProps {
     headMod?: RM.IModifier;
