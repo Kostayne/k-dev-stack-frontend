@@ -19,15 +19,15 @@ const HeaderUser= (props: HeaderUserProps) => {
     return (
         RM.modElement((
             <div className='flex items-center'>
-                {/* left */}
                 <div>
+                    {/* left */}
                     <Link href={'/profile'} passHref>
                         <a className='link'>{firstName}</a>
                     </Link>
 
                     <button className={[
                         'text-btn mt-auto w-[70px] text-base',
-                        'ml-auto'
+                        'ml-auto py-[1px] mt-auto'
                     ].join(' ')}
                     onClick={onLogoutClick}>выйти</button>
                 </div>

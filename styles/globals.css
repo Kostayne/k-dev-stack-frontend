@@ -43,6 +43,29 @@
     .previews-list {
         @apply grid gap-5 sm:grid-cols-2 lg:grid-cols-3
     }
+
+    /* text btn */
+    .text-btn {
+        color: #4F87DB;
+    
+        padding-left: 7px;
+        padding-right: 7px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    
+        display: block;
+    
+        transition: 250ms;
+        border-radius: 4px;
+    }
+    
+    .text-btn:hover {
+        background: rgba(76, 140, 235, 0.05);
+    }
+    
+    .text-btn:active {
+        background: rgba(76, 140, 235, 0.25);
+    }
 }
 
 @font-face {
@@ -124,26 +147,4 @@ h2 {
     line-height: 19px;
 
     color: #000000;
-}
-
-.text-btn {
-    color: #4F87DB;
-
-    padding-left: 7px;
-    padding-right: 7px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-
-    display: block;
-
-    transition: 250ms;
-    border-radius: 4px;
-}
-
-.text-btn:hover {
-    background: rgba(76, 140, 235, 0.05);
-}
-
-.text-btn:active {
-    background: rgba(76, 140, 235, 0.25);
 }
