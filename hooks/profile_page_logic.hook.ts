@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { staticUrl } from "../cfg";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
@@ -6,6 +6,10 @@ import { validateLastName } from "../validators/lastname.validator";
 import { validatePasswordPair } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
+
+const prevUserData = {
+	loaded: false
+};
 
 export function useProfilePageLogic() {
     const nameInp = useSyntheticInput();
@@ -15,6 +19,20 @@ export function useProfilePageLogic() {
 	const newPasswordInp = useSyntheticInput();
 	const imgInpRef = useRef<HTMLInputElement>(null);
 	const [selectedFile, setSelectedFile] = useState('');
+	const user = userStore.userData;
+
+	useEffect(() => {
+		// setting up user values
+		if (!prevUserData.loaded && user) {
+			nameInp.setValue(user.firstName);
+			lastNameInp.setValue(user.lastName);
+			emailInp.setValue(user.email);
+		}
+
+		if (user) {
+			prevUserData.loaded = true;
+		}
+	}, [user]);
 
 	const onImgClick = () => {
 		imgInpRef.current?.click();
@@ -54,10 +72,11 @@ export function useProfilePageLogic() {
 		...passwordMsgs
 	];
 
-	const userAvatarUrl = userStore.userData? 
-		`${staticUrl}/avatars/${userStore.userData?.id}.jpg`
+	const userAvatarUrl = user? 
+		`${staticUrl}/avatars/${user?.id}.jpg`
 		: `/default_ava.jpeg`;
 
+	
     return {
         nameInp,
         lastNameInp,
