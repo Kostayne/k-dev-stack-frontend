@@ -166,7 +166,7 @@ export function useProfilePageLogic() {
 		newPass,
 		firstName,
 		lastName
-	].every((v) => v == '');
+	].every((v) => v == '') && !selectedFile;
 
 	// default values
 	let allInputsAreDefault = false;
@@ -174,6 +174,10 @@ export function useProfilePageLogic() {
 	if (user) {
 		if (user.email == email && user.firstName == firstName && user.lastName == lastName) {
 			allInputsAreDefault = true;
+		}
+
+		if (selectedFile) {
+			allInputsAreDefault = false;
 		}
 	}
 
