@@ -25,3 +25,13 @@ export interface UserRegisterModel {
     firstName: string;
     lastName: string;
 }
+
+export interface UserEditNameModel {
+    firstName?: string;
+    lastName?: string;
+}
+
+export interface UserEditPassModel {
+    curPass: string;
+    newPass: string;
+}

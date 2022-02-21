@@ -6,6 +6,8 @@ import { validateLastName } from "../validators/lastname.validator";
 import { validatePasswordPair } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
+import { userFetch } from "../requests/user.req";
+import { useRouter } from "next/router";
 
 const prevUserData = {
 	loaded: false
@@ -19,6 +21,8 @@ export function useProfilePageLogic() {
 	const newPasswordInp = useSyntheticInput();
 	const imgInpRef = useRef<HTMLInputElement>(null);
 	const [selectedFile, setSelectedFile] = useState('');
+	const [errorStatus, setErrorStatus] = useState('');
+	const router = useRouter();
 	const user = userStore.userData;
 
 	useEffect(() => {
@@ -32,6 +36,7 @@ export function useProfilePageLogic() {
 		if (user) {
 			prevUserData.loaded = true;
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [user]);
 
 	const onImgClick = () => {
@@ -58,6 +63,71 @@ export function useProfilePageLogic() {
 
 		fr.readAsDataURL(file);
 	};
+
+	const onSend = async () => {
+		if (validationMessages.length > 0) {
+			return;
+		}
+
+		let passRes: Response | null = null;
+		let nameRes: Response | null = null;
+		const curPass = passwordInp.binding.value;
+		const newPass = newPasswordInp.binding.value;
+		const firstName = nameInp.binding.value;
+		const lastName = lastNameInp.binding.value;
+		let errorText = '';
+
+		try {
+			if (curPass) {
+				passRes = await userFetch.editPassword({
+					curPass,
+					newPass
+				});
+			}
+
+			if (firstName || lastName) {
+				const nameData = {
+					firstName: firstName || undefined,
+					lastName: lastName || undefined
+				};
+
+				if (!firstName) {
+					delete nameData.firstName;
+				}
+
+				if (!lastName) {
+					delete nameData.lastName;
+				}
+
+				nameRes = await userFetch.editName(nameData);
+			}
+
+			if (nameRes && !nameRes.ok) {
+				errorText = 'При измении имени / фамилии произошла ошибка.';
+			}
+
+			if (passRes && !passRes.ok) {
+				if (passRes.status == 401) {
+					errorText += ' Неправильный текущий пароль';
+				} else {
+					errorText += ' При измении пароля произошла ошибка.';
+				}
+			}
+
+			if (!errorText) {
+				router.push('/');
+				return;
+			}
+
+			setErrorStatus(errorText);
+		}
+
+		catch(e) {
+			console.log('Error in edit user res');
+			console.error(e);
+			setErrorStatus('Произошла ошибка при отправке, попробуйте снова!');
+		}
+	}
 
 	const passwordInputsAreFilled = passwordInp.binding.value.length > 0 || newPasswordInp.binding.value.length > 0;
 	const passwordMsgs = passwordInputsAreFilled?
@@ -87,8 +157,10 @@ export function useProfilePageLogic() {
         selectedFile,
         imgInpRef,
 		userAvatarUrl,
+		errorStatus,
         onImgClick,
         onImgSelected,
-		onImgError
+		onImgError,
+		onSend,
     };
 }

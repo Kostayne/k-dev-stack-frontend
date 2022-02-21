@@ -8,6 +8,7 @@ import ValidationErr from '../components/validation_err';
 import StyledBtn from '../components/styled_btn';
 import { useProfilePageLogic } from '../hooks/profile_page_logic.hook';
 import { observer } from 'mobx-react-lite';
+import TextMsgBlock from '../components/text_msg_block';
 
 const Profile: NextPage = () => {
 	const {
@@ -20,9 +21,11 @@ const Profile: NextPage = () => {
 		validationMessages,
 		imgInpRef,
 		userAvatarUrl,
+		errorStatus,
 		onImgClick,
 		onImgSelected,
 		onImgError,
+		onSend
 	} = useProfilePageLogic();
 
 	return (
@@ -63,9 +66,17 @@ const Profile: NextPage = () => {
 
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-5')} />
+				
+				{errorStatus.length > 0 && (
+					<TextMsgBlock color='error' title='статус'
+					headMod={RM.createMod('mt-4 mx-auto text-center')}>
+						<p>{errorStatus}</p>
+					</TextMsgBlock>
+				)}
 
 				<StyledBtn value='ПРИМЕНИТЬ' disabled={validationMessages.length > 0}
-				headMod={RM.createMod(['w-[150px] mx-auto mt-[50px]'].join(' '))} />
+				headMod={RM.createMod(['w-[150px] mx-auto mt-[50px]'].join(' '))}
+				onClick={onSend} />
 
 				<button className='mt-5 mx-auto w-fit block text-btn'>ВЫЙТИ</button>
 

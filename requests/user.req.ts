@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { UserLoginModel, UserModel, UserRegisterModel } from "../models/user.model";
+import { UserEditNameModel, UserEditPassModel, UserLoginModel, UserModel, UserRegisterModel } from "../models/user.model";
 import { HeaderBuilder } from "../utils/header_builder";
 
 export class UserReq {
@@ -25,9 +25,17 @@ export class UserReq {
         });
     }
 
-    edit(data: UserModel) {
-        return fetch(`${apiUrl}/user/auth`, {
-            method: 'POST',
+    editName(data: UserEditNameModel) {
+        return fetch(`${apiUrl}/user/name`, {
+            method: 'PUT',
+            headers: new HeaderBuilder().json().jwt().headers,
+            body: JSON.stringify(data)
+        });
+    }
+
+    editPassword(data: UserEditPassModel) {
+        return fetch(`${apiUrl}/user/pass`, {
+            method: 'PUT',
             headers: new HeaderBuilder().json().jwt().headers,
             body: JSON.stringify(data)
         });
