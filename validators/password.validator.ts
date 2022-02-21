@@ -12,7 +12,7 @@ export function validatePassword(val: string) {
     return res;
 }
 
-export function validatePasswordPair(oldVal: string, confirmVal: string) {
+export function validateConfirmPassword(oldVal: string, confirmVal: string) {
     const res = [];
 
     const oldValMsgs = validatePassword(oldVal);
@@ -23,6 +23,28 @@ export function validatePasswordPair(oldVal: string, confirmVal: string) {
 
     if (oldVal != confirmVal) {
         res.push('Пароли не совпадают.');
+    }
+
+    return res;
+}
+
+export function validateEditPassword(curVal: string, newVal: string) {
+    const res = [];
+    const curPassMsgs = validatePassword(curVal);
+    const newPassMsgs = validatePassword(newVal);
+
+    if (curVal == newVal) {
+        res.push('Новый пароль равен текущему.');
+    }
+
+    if (curPassMsgs.length > 0) {
+        res.push('Для текущего пароля');
+        res.push(...curPassMsgs);
+    }
+
+    if (newPassMsgs.length > 0) {
+        res.push('Для нового пароля');
+        res.push(...newPassMsgs);
     }
 
     return res;

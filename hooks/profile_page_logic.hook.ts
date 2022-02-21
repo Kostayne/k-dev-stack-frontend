@@ -3,11 +3,12 @@ import { staticUrl } from "../cfg";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
 import { validateLastName } from "../validators/lastname.validator";
-import { validatePasswordPair } from "../validators/password.validator";
+import { validateEditPassword } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
 import { userFetch } from "../requests/user.req";
 import { useRouter } from "next/router";
+import { ActionStatusInfo } from "../models/base_action_status";
 
 const prevUserData = {
 	loaded: false
@@ -21,9 +22,15 @@ export function useProfilePageLogic() {
 	const newPasswordInp = useSyntheticInput();
 	const imgInpRef = useRef<HTMLInputElement>(null);
 	const [selectedFile, setSelectedFile] = useState('');
-	const [errorStatus, setErrorStatus] = useState('');
+	const [status, setStatus] = useState<ActionStatusInfo>({ type: 'none', text: '' });
 	const router = useRouter();
 	const user = userStore.userData;
+
+	const curPass = passwordInp.binding.value;
+	const newPass = newPasswordInp.binding.value;
+	const firstName = nameInp.binding.value;
+	const lastName = lastNameInp.binding.value;
+	const email = emailInp.binding.value;
 
 	useEffect(() => {
 		// setting up user values
@@ -71,11 +78,7 @@ export function useProfilePageLogic() {
 
 		let passRes: Response | null = null;
 		let nameRes: Response | null = null;
-		const curPass = passwordInp.binding.value;
-		const newPass = newPasswordInp.binding.value;
-		const firstName = nameInp.binding.value;
-		const lastName = lastNameInp.binding.value;
-		let errorText = '';
+		const errorMessages = [];
 
 		try {
 			if (curPass) {
@@ -103,50 +106,93 @@ export function useProfilePageLogic() {
 			}
 
 			if (nameRes && !nameRes.ok) {
-				errorText = 'При измении имени / фамилии произошла ошибка.';
+				errorMessages.push('При измении имени / фамилии произошла ошибка.');
 			}
 
 			if (passRes && !passRes.ok) {
 				if (passRes.status == 401) {
-					errorText += ' Неправильный текущий пароль';
+					errorMessages.push('Неправильный текущий пароль');
 				} else {
-					errorText += ' При измении пароля произошла ошибка.';
+					errorMessages.push('При измении пароля произошла ошибка.');
 				}
 			}
 
-			if (!errorText) {
-				router.push('/');
+			if (!errorMessages) {
+				setStatus({
+					type: 'success',
+					text: 'Успешно!'
+				});
+
+				// router.push('/');
 				return;
 			}
 
-			setErrorStatus(errorText);
+			setStatus({
+				type: 'error',
+				text: errorMessages.join(' ')
+			});
 		}
 
 		catch(e) {
 			console.log('Error in edit user res');
 			console.error(e);
-			setErrorStatus('Произошла ошибка при отправке, попробуйте снова!');
+			setStatus({
+				type: 'error',
+				text: 'Произошла ошибка при отправке, попробуйте снова!'
+			});
 		}
 	}
 
-	const passwordInputsAreFilled = passwordInp.binding.value.length > 0 || newPasswordInp.binding.value.length > 0;
-	const passwordMsgs = passwordInputsAreFilled?
-		[
-			...validatePasswordPair(passwordInp.binding.value, newPasswordInp.binding.value)
-		] : [];
+	const passwordInputsAreFilled = curPass.length > 0 || newPass.length > 0;
+	const passwordValidationMsgs = passwordInputsAreFilled? validateEditPassword(curPass, newPass) : [];
+	const emailValidationMsgs = email.length > 0? validateEmail(email) : [];
+	const firstNameValidationMsgs = firstName.length > 0? validateFirstName(firstName) : [];
+	const lastNameValidationMsgs = lastName.length > 0? validateLastName(lastName) : [];
 
 	const validationMessages = [
-		...validateFirstName(nameInp.binding.value),
-		...validateLastName(lastNameInp.binding.value),
-		...validateEmail(emailInp.binding.value),
-		...passwordMsgs
+		...firstNameValidationMsgs,
+		...lastNameValidationMsgs,
+		...emailValidationMsgs,
+		...passwordValidationMsgs
 	];
 
 	const userAvatarUrl = user? 
 		`${staticUrl}/avatars/${user?.id}.jpg`
 		: `/default_ava.jpeg`;
 
-	
+	const allInputsAreEmpty = [
+		email,
+		curPass,
+		newPass,
+		firstName,
+		lastName
+	].every((v) => v == '');
+
+	// default values
+	let allInputsAreDefault = false;
+
+	if (user) {
+		if (user.email == email && user.firstName == firstName && user.lastName == lastName) {
+			allInputsAreDefault = true;
+		}
+	}
+
+	let disableSendBtn = false;
+
+	if (validationMessages.length > 0) {
+		disableSendBtn = true;
+	}
+
+	if (allInputsAreDefault) {
+		if (!curPass) {
+			disableSendBtn = true;
+		}
+	}
+
+	if (allInputsAreEmpty) {
+		disableSendBtn = true;
+	}
+
     return {
         nameInp,
         lastNameInp,
@@ -157,7 +203,8 @@ export function useProfilePageLogic() {
         selectedFile,
         imgInpRef,
 		userAvatarUrl,
-		errorStatus,
+		disableSendBtn,
+		status,
         onImgClick,
         onImgSelected,
 		onImgError,

@@ -21,7 +21,8 @@ const Profile: NextPage = () => {
 		validationMessages,
 		imgInpRef,
 		userAvatarUrl,
-		errorStatus,
+		disableSendBtn,
+		status,
 		onImgClick,
 		onImgSelected,
 		onImgError,
@@ -67,14 +68,14 @@ const Profile: NextPage = () => {
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-5')} />
 				
-				{errorStatus.length > 0 && (
-					<TextMsgBlock color='error' title='статус'
-					headMod={RM.createMod('mt-4 mx-auto text-center')}>
-						<p>{errorStatus}</p>
+				{status.type != 'none' && (
+					<TextMsgBlock color={status.type=='error'? 'error' : 'status'} 
+					title='статус' headMod={RM.createMod('mt-4 mx-auto text-center')}>
+						<p>{status.text}</p>
 					</TextMsgBlock>
 				)}
 
-				<StyledBtn value='ПРИМЕНИТЬ' disabled={validationMessages.length > 0}
+				<StyledBtn value='ПРИМЕНИТЬ' disabled={disableSendBtn}
 				headMod={RM.createMod(['w-[150px] mx-auto mt-[50px]'].join(' '))}
 				onClick={onSend} />
 
