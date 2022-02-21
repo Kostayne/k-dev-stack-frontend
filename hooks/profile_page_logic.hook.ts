@@ -1,9 +1,11 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import { staticUrl } from "../cfg";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
 import { validateLastName } from "../validators/lastname.validator";
 import { validatePasswordPair } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
+import { userStore } from "../stores/user.store";
 
 export function useProfilePageLogic() {
     const nameInp = useSyntheticInput();
@@ -16,6 +18,11 @@ export function useProfilePageLogic() {
 
 	const onImgClick = () => {
 		imgInpRef.current?.click();
+	};
+
+	const onImgError = (e: React.BaseSyntheticEvent) => {
+		const tg = e.currentTarget as HTMLImageElement;
+		tg.src = `${staticUrl}/avatars/ava.jpg`;
 	};
 
 	const onImgSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +54,10 @@ export function useProfilePageLogic() {
 		...passwordMsgs
 	];
 
+	const userAvatarUrl = userStore.userData? 
+		`${staticUrl}/avatars/${userStore.userData?.id}.jpg`
+		: `/default_ava.jpeg`;
+
     return {
         nameInp,
         lastNameInp,
@@ -56,7 +67,9 @@ export function useProfilePageLogic() {
         validationMessages,
         selectedFile,
         imgInpRef,
+		userAvatarUrl,
         onImgClick,
         onImgSelected,
+		onImgError
     };
 }

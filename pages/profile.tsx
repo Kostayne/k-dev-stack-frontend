@@ -2,12 +2,12 @@ import type { NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
-import Image from 'next/image';
 import StyledTextInput from '../components/styled-text-input';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import ValidationErr from '../components/validation_err';
 import StyledBtn from '../components/styled_btn';
 import { useProfilePageLogic } from '../hooks/profile_page_logic.hook';
+import { observer } from 'mobx-react-lite';
 
 const Profile: NextPage = () => {
 	const {
@@ -19,8 +19,10 @@ const Profile: NextPage = () => {
 		selectedFile,
 		validationMessages,
 		imgInpRef,
+		userAvatarUrl,
 		onImgClick,
 		onImgSelected,
+		onImgError,
 	} = useProfilePageLogic();
 
 	return (
@@ -35,11 +37,13 @@ const Profile: NextPage = () => {
 				<Goto href='/' title='Профиль' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
-				<div className='mt-6 relative rounded-[50%] w-[77px] h-[77px] overflow-hidden 
-				mx-auto cursor-pointer' onClick={onImgClick}>
-					<Image src={selectedFile || "/default_ava.jpeg"} alt='аватарка' layout='fill' 
-					objectFit='cover' />
-				</div>
+				{/* avatar */}
+				{/* eslint-disable-next-line @next/next/no-img-element */}
+				<img src={selectedFile || userAvatarUrl} alt='аватарка' 
+				onError={onImgError} className={[
+					'mt-6 relative rounded-[50%] w-[77px] h-[77px]',
+					'mx-auto cursor-pointer'
+				].join(' ')} onClick={onImgClick} />
 
 				{/* inputs */}
 				{/* TODO add horizontal v for desktop */}
@@ -72,4 +76,4 @@ const Profile: NextPage = () => {
 	);
 };
 
-export default Profile;
+export default observer(Profile);
