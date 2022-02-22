@@ -11,7 +11,7 @@ interface HeaderUserProps {
 
 const HeaderUser= (props: HeaderUserProps) => {
     const headMod = props.headMod || RM.createMod();
-    const { onLogoutClick  } = useHeaderUserLogic();
+    const { onLogoutClick, onImgError } = useHeaderUserLogic();
     const { imgSrc, firstName } = props;
 
     return (
@@ -33,8 +33,9 @@ const HeaderUser= (props: HeaderUserProps) => {
                 {/* img (right) */}
                 <Link href={'/profile'} passHref>
                     { /* eslint-disable-next-line @next/next/no-img-element */ }
-                    <img alt="Аватарка" src={imgSrc} className={['w-[40px] h-[40px]',
-                    'rounded-[50%] cursor-pointer ml-2'].join(' ')} />
+                    <img alt="Аватарка" src={imgSrc} className={['min-w-[40px] w-[40px] h-[40px]',
+                    'rounded-[50%] cursor-pointer ml-2 object-cover'].join(' ')} 
+                    onError={onImgError} />
                 </Link>
             </div>
         ), headMod)

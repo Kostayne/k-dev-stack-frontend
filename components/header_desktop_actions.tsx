@@ -27,7 +27,7 @@ const HeaderDesktopActions = (props: HeaderDekstopActionsProps) => {
 
     return (
         <HeaderUser firstName={user.firstName}
-        imgSrc={`${staticUrl}/avatars/ava.jpg`} 
+        imgSrc={`${staticUrl}/avatars/${user.id}.jpg`} 
         headMod={props.headMod} />
     );
 };

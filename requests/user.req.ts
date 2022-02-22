@@ -40,6 +40,17 @@ export class UserReq {
             body: JSON.stringify(data)
         });
     }
+
+    editAvatar(file: File) {
+        const fd = new FormData();
+        fd.append('img', file);
+
+        return fetch(`${apiUrl}/user/avatar`, {
+            method: 'PUT',
+            headers: new HeaderBuilder().jwt().headers,
+            body: fd
+        });
+    }
 };
 
 export const userFetch = new UserReq();

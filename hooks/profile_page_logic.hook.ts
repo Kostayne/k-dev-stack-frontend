@@ -9,6 +9,7 @@ import { userStore } from "../stores/user.store";
 import { userFetch } from "../requests/user.req";
 import { useRouter } from "next/router";
 import { ActionStatusInfo } from "../models/base_action_status";
+import { UserModel } from "../models/user.model";
 
 const prevUserData = {
 	loaded: false
@@ -23,7 +24,7 @@ export function useProfilePageLogic() {
 	const imgInpRef = useRef<HTMLInputElement>(null);
 	const [selectedFile, setSelectedFile] = useState('');
 	const [status, setStatus] = useState<ActionStatusInfo>({ type: 'none', text: '' });
-	const router = useRouter();
+	// const router = useRouter();
 	const user = userStore.userData;
 
 	const curPass = passwordInp.binding.value;
@@ -52,7 +53,7 @@ export function useProfilePageLogic() {
 
 	const onImgError = (e: React.BaseSyntheticEvent) => {
 		const tg = e.currentTarget as HTMLImageElement;
-		tg.src = `${staticUrl}/avatars/ava.jpg`;
+		tg.src = `/default_ava.jpeg`;
 	};
 
 	const onImgSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,12 +73,18 @@ export function useProfilePageLogic() {
 	};
 
 	const onSend = async () => {
+		if (!user) {
+			console.error('User required');
+			return;
+		}
+
 		if (validationMessages.length > 0) {
 			return;
 		}
 
 		let passRes: Response | null = null;
 		let nameRes: Response | null = null;
+		let avatarRes: Response | null = null;
 		const errorMessages = [];
 
 		try {
@@ -86,6 +93,11 @@ export function useProfilePageLogic() {
 					curPass,
 					newPass
 				});
+			}
+
+			if (selectedFile) {
+				const img = selectedFile as unknown as File;
+				avatarRes = await userFetch.editAvatar(img);
 			}
 
 			if (firstName || lastName) {
@@ -103,6 +115,12 @@ export function useProfilePageLogic() {
 				}
 
 				nameRes = await userFetch.editName(nameData);
+
+				if (nameRes.ok) {
+					const resJson = await nameRes.json() as UserModel;
+					user.firstName = resJson.firstName;
+					user.lastName = resJson.lastName;
+				}
 			}
 
 			if (nameRes && !nameRes.ok) {
@@ -115,6 +133,10 @@ export function useProfilePageLogic() {
 				} else {
 					errorMessages.push('При измении пароля произошла ошибка.');
 				}
+			}
+
+			if (avatarRes && !avatarRes.ok) {
+				errorMessages.push('Ошибка при загрузке изображения.');
 			}
 
 			if (!errorMessages) {

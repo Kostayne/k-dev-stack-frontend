@@ -60,8 +60,7 @@ const HeaderComment = () => {
                         width={20} height={14} />
                     </button>
 
-                    <HeaderDesktopActions 
-                    headMod={RM.createMod('ml-auto hidden md:flex')} />
+                    <HeaderDesktopActions headMod={RM.createMod('ml-auto hidden md:flex')} />
                 </div>
             </div>
 

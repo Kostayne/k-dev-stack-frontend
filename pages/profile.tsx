@@ -29,6 +29,16 @@ const Profile: NextPage = () => {
 		onSend
 	} = useProfilePageLogic();
 
+	let statusColor = 'success';
+
+	if (status.type == 'error') {
+		statusColor = 'error';
+	}
+
+	if (status.type == 'success') {
+		statusColor = 'status';
+	}
+
 	return (
 		<div className='page-content'>
 			<Head>
@@ -68,7 +78,7 @@ const Profile: NextPage = () => {
 				<ValidationErr messages={validationMessages} 
 				headMod={RM.createMod('mt-5')} />
 				
-				{status.type != 'none' && (
+				{status.text && (
 					<TextMsgBlock color={status.type=='error'? 'error' : 'status'} 
 					title='статус' headMod={RM.createMod('mt-4 mx-auto text-center')}>
 						<p>{status.text}</p>
