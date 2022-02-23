@@ -1,11 +1,17 @@
-import type { NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 import TaggedItemPreview from '../components/tagged-item-preview';
+import { LibModel } from '../models/lib.model';
+import { libReq } from '../requests/lib.req';
+import LibsList from '../components/libs_list';
 
+interface HomePageProps {
+	libsList: LibModel[];
+}
 
-const Home: NextPage = () => {
+const Home: NextPage<HomePageProps> = (props) => {
 	return (
 		<div className='page-content'>
 			<Head>
@@ -26,19 +32,8 @@ const Home: NextPage = () => {
 				{/* Libs section */}
 				<Goto href='/libs' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
 
-				<div className="mt-5 previews-list">
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/libs/react" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/libs/react" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/libs/react" />
-				</div>
+				<LibsList libs={props.libsList}
+				headMod={RM.createMod('mt-5')} />
 
 				{/* Projects section */}
 				<Goto href='/projects' title='Проекты' headMod={RM.createMod('mt-7')} />
@@ -59,6 +54,31 @@ const Home: NextPage = () => {
 			</main>
 		</div>
 	);
+};
+
+export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
+	let libsRes: Response | null = null;
+	let libsList: LibModel[] = [];
+
+	try {
+		libsRes = await libReq.getMany({
+			count: 15,
+			desc: true,
+			offset: 0
+		});
+	} catch(e) {
+		console.error(e);
+	}
+
+	if (libsRes?.ok) {
+		libsList = await libsRes.json() as LibModel[];
+	}
+
+	return {
+		props: {
+			libsList
+		}
+	};
 };
 
 export default Home;

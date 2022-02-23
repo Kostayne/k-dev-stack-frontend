@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import React from 'react';
 import * as RM from 'react-modifier';
-import { NamedLink } from '../models/named_link';
+import { NamedLinkModel } from '../models/named_link';
 
 interface NamedLinksListProps {
     headMod?: RM.IModifier;
-    links: NamedLink[];
+    links: NamedLinkModel[];
 }
 
 const NamedLinksList= (props: NamedLinksListProps) => {
@@ -15,12 +15,12 @@ const NamedLinksList= (props: NamedLinksListProps) => {
         return null;
     }
 
-    const getItemsToR = () => {
+    const getLinksToR = () => {
         return props.links.map((l, i) => {
             const last = props.links.length == i + 1;
 
             return (
-                <Link href={l.href} passHref key={i}>
+                <Link href={l.href} key={i}>
                     <a className='text-contrast underline'>{l.name}{!last && ','}</a>
                 </Link>
             );
@@ -30,7 +30,7 @@ const NamedLinksList= (props: NamedLinksListProps) => {
     return (
         RM.modElement((
             <div className='flex items-center gap-2'>
-                {getItemsToR()}
+                {getLinksToR()}
             </div>
         ), headMod)
     );

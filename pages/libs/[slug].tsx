@@ -6,6 +6,8 @@ import { LibModel } from '../../models/lib.model';
 import NamedLinksList from '../../components/named_links_list';
 import TagsList from '../../components/tags_list';
 import CreateComment from '../../components/create_comment';
+import { libReq } from '../../requests/lib.req';
+import { transformBackendLib } from '../../transform/lib_full.transform';
 
 interface LibPageProps {
 	lib: LibModel;
@@ -19,9 +21,10 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		downloads, 
 		tags, 
 		description, 
-		comments, 
+		comments,
 		codeExample, 
-		alternatives } = props.lib;
+		alternativeFor: alternatives 
+	} = props.lib;
 
 	return (
 		<div className='page-content'>
@@ -34,7 +37,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 			<main>
 				<Goto href='/libs' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
-				
+
 				<NamedLinksList links={downloads} 
 				headMod={RM.createMod('mt-1')} />
 
@@ -59,9 +62,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* code example */}
 				<h2 className='mt-4'>Пример кода</h2>
 
-				<div className='mt-3 h-[250px] w-[100%] bg-[gray]'>
-
-				</div>
+				<div className='mt-3 h-[250px] w-[100%] bg-[gray]'></div>
 
 				{/* tags */}
 				<TagsList tags={tags}
@@ -70,8 +71,6 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} />
-
-				
 			</main>
 		</div>
 	);
@@ -79,67 +78,46 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 export default Lib;
 
-export const getStaticProps: GetStaticProps<LibPageProps> = () => {
+export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
+	const slug = ctx.params?.slug as string;
+	const resp = await libReq.getFull(slug);
+	const lib = await resp.json();
+
 	return {
 		props: {
-			lib: {
-				alternatives: [
-					{
-						name: 'vue',
-						href: 'https://vuejs.com',
-					},
-
-					{
-						name: 'angular',
-						href: 'https://angular.org'
-					}
-				],
-				codeExample: '',
-				comments: [],
-				description: 'Популярная библиотека с богатой экосистемой для декларативной отрисовки интерфейса, основанной на компонентах.',
-				projects: [
-					{
-						name: 'Test',
-						href: '/projects/test'
-					},
-
-					{
-						name: 'Test 2',
-						href: '/projects/test2'
-					}
-				],
-				tags: ['react', 'web', 'reactive', 'fuckthat'],
-				downloads: [
-					{
-						name: 'npm',
-						href: 'https://npmjs.com',
-					},
-
-					{
-						name: 'reactjs.org',
-						href: 'https://reactjs.org'
-					}
-				],
-
-				name: 'React',
-				weight: '291 kb',
-				slug: 'react'
-			}
+			lib: transformBackendLib(lib)
 		}
 	}
 };
 
-export const getStaticPaths: GetStaticPaths = () => {
+export const getStaticPaths: GetStaticPaths = async () => {
+	let libs: LibModel[] = [];
+
+	try {
+		const resp = await libReq.getMany({
+			count: 5000,
+			desc: true,
+			offset: 0
+		});
+	
+		libs = await resp.json() as LibModel[];
+	}
+
+	catch(e) {
+		console.log('Error in loading lib paths');
+		console.error(e);
+	}
+
 	return (
 		{
 			fallback: 'blocking',
-			paths: [
-				{
+			paths: libs.map(l => {
+				return {
 					params: {
-						slug: 'react'
+						slug: l.slug
 					}
-				}
-			]
+				};
+			})
 		}
 	);
 };

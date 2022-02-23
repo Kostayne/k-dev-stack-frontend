@@ -4,12 +4,15 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 import StyledTextInput from '../../components/styled-text-input';
-import RemovableInput from '../../components/removable_input';
+// import RemovableInput from '../../components/removable_input';
 import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledBtn from '../../components/styled_btn';
+import { libReq } from '../../requests/lib.req';
+import { LibModel } from '../../models/lib.model';
+import LibsList from '../../components/libs_list';
 
 interface LibsPageProps {
-
+	libsList: LibModel[];
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
@@ -55,31 +58,8 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 					<div className='blue-splitter mt-5' />
 				</div>
 
-				<div className='mt-8 previews-list'>
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-				</div>
+				<LibsList libs={props.libsList} 
+				headMod={RM.createMod('mt-8')} />
 			</main>
 		</div>
 	);
@@ -87,13 +67,30 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 
 export default Libs;
 
-// export const getStaticProps: GetStaticProps<LibsPageProps> = () => {
-// 	return {
-// 		props: {
+export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
+	let libsRes: Response | null = null;
+	let libsList: LibModel[] = [];
 
-// 		}
-// 	};
-// };
+	try {
+		libsRes = await libReq.getMany({
+			count: 15,
+			desc: true,
+			offset: 0
+		});
+	} catch(e) {
+		console.error(e);
+	}
+
+	if (libsRes?.ok) {
+		libsList = await libsRes.json() as LibModel[];
+	}
+
+	return {
+		props: {
+			libsList
+		}
+	};
+};
 
 // export const getStaticPaths: GetStaticPaths = () => {
 // 	return {

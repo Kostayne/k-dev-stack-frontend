@@ -23,8 +23,8 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
 
     return (
         RM.modElement((
-            <div className="shadow-preview rounded-[4px] p-4">
-                <Link href={props.href} passHref>
+            <div className="shadow-preview rounded-[4px] p-4 min-h-[180px]">
+                <Link href={props.href}>
                     <a className="text-roboto font-medium text-contrastAlt">
                         {props.name}
                     </a>

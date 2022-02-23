@@ -19,8 +19,8 @@ class LibReq {
         });
     }
 
-    getFull(id: number) {
-        return fetch(`${apiUrl}/lib/full?id=${id}`, {
+    getFull(slug: string) {
+        return fetch(`${apiUrl}/lib/full?slug=${slug}`, {
             method: 'GET'
         });
     }

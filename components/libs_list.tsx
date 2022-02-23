@@ -14,7 +14,7 @@ const LibsList= (props: LibsListProps) => {
     const getLibsToR = () => {
         return props.libs.map((l) => {
             return (
-                <TaggedItemPreview {...l} href={l.slug} key={l.id} />
+                <TaggedItemPreview {...l} href={'/libs/' + l.slug} key={l.id} />
             );
         });
     };

@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "clone": "^2.1.2",
     "get-module-style": "^1.0.4",
     "mobx": "^6.3.13",
     "mobx-react-lite": "^3.2.3",
@@ -21,6 +22,7 @@
     "sass": "^1.48.0"
   },
   "devDependencies": {
+    "@types/clone": "^2.1.1",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "autoprefixer": "^10.4.2",

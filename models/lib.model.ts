@@ -1,5 +1,5 @@
 import { CommentModel } from './comment.model';
-import { NamedLink } from './named_link';
+import { NamedLinkModel } from './named_link';
 
 export interface LibModel {
     id: number;
@@ -7,11 +7,11 @@ export interface LibModel {
     description: string;
     slug: string;
     tags: string[];
-    downloads: NamedLink[];
+    downloads: NamedLinkModel[];
     codeExample: string;
     weight: string;
-    projects: NamedLink[];
-    alternatives: NamedLink[];
+    projects: NamedLinkModel[];
+    alternativeFor: NamedLinkModel[];
     comments: CommentModel[];
 }
 
