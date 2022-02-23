@@ -14,3 +14,8 @@ export interface LibModel {
     alternatives: NamedLink[];
     comments: CommentModel[];
 }
+
+export interface LibNamedLinkModel {
+    libId: number;
+    namedLinkId: number;
+}
