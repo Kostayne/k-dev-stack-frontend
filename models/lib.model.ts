@@ -2,6 +2,7 @@ import { CommentModel } from './comment.model';
 import { NamedLink } from './named_link';
 
 export interface LibModel {
+    id: number;
     name: string;
     description: string;
     slug: string;
