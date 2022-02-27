@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import * as RM from 'react-modifier';
 
-interface TaggedItemPreviewProps {
+export interface TaggedItemPreviewProps {
     headMod?: RM.IModifier;
     name: string;
     description: string;

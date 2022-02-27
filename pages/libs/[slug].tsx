@@ -8,12 +8,27 @@ import TagsList from '../../components/tags_list';
 import CreateComment from '../../components/create_comment';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendLib } from '../../transform/lib_full.transform';
+import { TaggedItemPreviewProps } from '../../components/tagged-item-preview';
+import Carousel from '../../components/carousel';
+import { useMediaQuery } from 'react-responsive';
 
 interface LibPageProps {
 	lib: LibModel;
 }
 
 const Lib: NextPage<LibPageProps> = (props) => {
+	const isMobile = useMediaQuery({
+		minWidth: 0
+	});
+
+	const isTablet = useMediaQuery({
+		minWidth: 768
+	});
+
+	const isDesktop = useMediaQuery({
+		minWidth: 1024
+	});
+
 	const { 
 		weight, 
 		name, 
@@ -25,6 +40,32 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		codeExample, 
 		alternativeFor: alternatives 
 	} = props.lib;
+
+	const crItemCname = 'min-w-[calc(50%-5px)]';
+	const alternativesProps: TaggedItemPreviewProps[] = [];
+
+	for (let i = 0; i < 8; i++) {
+		alternativesProps.push({
+			description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum ullam tempora cumque praesentium debitis aliquam veniam, modi voluptatem blanditiis aliquid quaerat error repellendus odit rem corporis vero fugit ex incidunt!',
+			name: i.toString(),
+			href: 'test',
+			tags: []
+		});
+	}
+
+	let carouselShowCount = 3;
+
+	if (isMobile) {
+		carouselShowCount = 1;
+	}
+
+	if (isTablet) {
+		carouselShowCount = 2;
+	}
+
+	if (isDesktop) {
+		carouselShowCount = 3;
+	}
 
 	return (
 		<div className='page-content'>
@@ -49,6 +90,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{/* alternatives */}
 				<h2 className='mt-4'>Альтернативы</h2>
+
+				<Carousel previews={alternativesProps} 
+				showCount={carouselShowCount} />
 
 				<NamedLinksList links={alternatives} 
 				headMod={RM.createMod('mt-1')} />
