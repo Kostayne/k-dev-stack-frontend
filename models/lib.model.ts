@@ -11,7 +11,7 @@ export interface LibModel {
     codeExample: string;
     weight: string;
     projects: NamedLinkModel[];
-    alternativeFor: NamedLinkModel[];
+    alternativeFor: LibModel[];
     comments: CommentModel[];
 }
 

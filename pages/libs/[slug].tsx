@@ -41,17 +41,17 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		alternativeFor: alternatives 
 	} = props.lib;
 
-	const crItemCname = 'min-w-[calc(50%-5px)]';
-	const alternativesProps: TaggedItemPreviewProps[] = [];
+	// const crItemCname = 'min-w-[calc(50%-5px)]';
+	const alternativesSwiperProps: TaggedItemPreviewProps[] = [];
 
-	for (let i = 0; i < 8; i++) {
-		alternativesProps.push({
-			description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum ullam tempora cumque praesentium debitis aliquam veniam, modi voluptatem blanditiis aliquid quaerat error repellendus odit rem corporis vero fugit ex incidunt!',
-			name: i.toString(),
-			href: 'test',
-			tags: []
+	alternatives.forEach((a, i) => {
+		alternativesSwiperProps.push({
+			name: a.name,
+			description: a.description,
+			href: '/libs/'+a.slug,
+			tags: a.tags
 		});
-	}
+	});
 
 	let carouselShowCount = 3;
 
@@ -91,11 +91,11 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* alternatives */}
 				<h2 className='mt-4'>Альтернативы</h2>
 
-				<Carousel previews={alternativesProps} 
+				<Carousel previews={alternativesSwiperProps} 
 				showCount={carouselShowCount} />
 
-				<NamedLinksList links={alternatives} 
-				headMod={RM.createMod('mt-1')} />
+				{/* <NamedLinksList links={alternatives} 
+				headMod={RM.createMod('mt-1')} /> */}
 
 				{/* projects */}
 				<h2 className='mt-4'>Проекты</h2>
@@ -124,12 +124,13 @@ export default Lib;
 
 export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	const slug = ctx.params?.slug as string;
-	const resp = await libReq.getFull(slug);
-	const lib = await resp.json();
+	const resp = await libReq.getFullBySlug(slug);
+	const libJson = await resp.json();
+	const libTransformed = transformBackendLib(libJson);
 
 	return {
 		props: {
-			lib: transformBackendLib(lib)
+			lib: libTransformed
 		}
 	}
 };

@@ -9,10 +9,6 @@ export function transformBackendLib(data: LibModel) {
         return transformBackendNamedLink(d);
     });
 
-    lib.alternativeFor = lib.alternativeFor.map(a => {
-        return transformBackendNamedLink(a);
-    });
-
     lib.projects = lib.projects.map(p => {
         return transformBackendNamedLink(p);
     });
