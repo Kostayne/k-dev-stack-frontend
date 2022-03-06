@@ -29,6 +29,7 @@ module.exports = {
             'customGray': '#BFBFBF',
             'lowBlue': '#EAF2FF',
             'errorSubdued': 'rgba(238, 90, 135, 0.42)',
+            'contrastDark': '#397EE4'
         }
     },
 

@@ -11,6 +11,7 @@ import { transformBackendLib } from '../../transform/lib_full.transform';
 import Carousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
+import TagRoundedList from '../../components/tag_rounded_list';
 
 export interface LibPageProps {
 	lib: LibModel;
@@ -46,6 +47,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 			<main>
 				<Goto href='/libs' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
+
+				<TagRoundedList tags={tags}
+				headMod={RM.createMod('mt-2')} />
 
 				<NamedLinksList links={downloads} 
 				headMod={RM.createMod('mt-1')} />
@@ -88,10 +92,6 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<h2 className='mt-4'>Пример кода</h2>
 
 				<div className='mt-3 h-[250px] w-[100%] bg-[gray]'></div>
-
-				{/* tags */}
-				<TagsList tags={tags}
-				headMod={RM.createMod('mt-4')} />
 
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>

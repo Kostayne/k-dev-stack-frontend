@@ -5,13 +5,14 @@ import Goto from '../../components/goto';
 import { ProjectModel } from '../../models/project.model';
 import NamedLinksList from '../../components/named_links_list';
 import CreateComment from '../../components/create_comment';
+import TagRoundedList from '../../components/tag_rounded_list';
 
 interface ProjectPageProps {
 	project: ProjectModel;
 }
 
 const Project: NextPage<ProjectPageProps> = (props) => {
-	const { comments, description, name, sources, libs } = props.project;
+	const { comments, description, name, sources, libs, tags } = props.project;
 
 	return (
 		<div className='page-content'>
@@ -24,6 +25,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 			<main>
 				<Goto href='/projects/' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
+
+				<TagRoundedList tags={tags}
+				headMod={RM.createMod('mt-2')} />
 
 				{/* description */}
 				<p className='mt-3'>{description}</p>
@@ -77,6 +81,8 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = () => {
 						href: 'https://github.com',
 					}
 				],
+
+				tags: ['react']
 			}
 		}
 	};
