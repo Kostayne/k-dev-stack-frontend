@@ -1,8 +1,6 @@
 import { useMediaQuery } from "react-responsive";
-import { TaggedItemPreviewProps } from "../components/tagged-item-preview";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
-import * as RM from 'react-modifier';
 
 const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {
     let carouselShowCount = 3;
