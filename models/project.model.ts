@@ -8,4 +8,5 @@ export interface ProjectModel {
     sources: NamedLinkModel[];
     comments: CommentModel[];
     slug: string;
+    tags: string[];
 };

@@ -9,6 +9,7 @@ interface CarouselProps {
     headMod?: RM.IModifier;
     previews: TaggedItemPreviewProps[];
     showCount: number;
+    innerMod?: string;
 }
 
 const Carousel= (props: CarouselProps) => {
@@ -72,26 +73,28 @@ const Carousel= (props: CarouselProps) => {
             {
                 RM.modElement((
                     <div>
-                        <Slider className='max-h-[200px] min-h-[200px]'>
+                        <Slider className={'max-h-[200px] min-h-[200px] ' + props.innerMod || ''}>
                             {getSlidesToR()}
                         </Slider>
 
-                        {/* bottom line */}
-                        <div className='flex items-center mt-2'>
-                            <ButtonBack>
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img width={19} height={19} alt="back" src='/goto.svg' />
-                            </ButtonBack>
+                        {props.previews.length > showCount && (
+                            // bottom line (nav)
+                            <div className='flex items-center mt-2'>
+                                <ButtonBack>
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img width={19} height={19} alt="back" src='/goto.svg' />
+                                </ButtonBack>
 
-                            <DotGroup className='ml-auto flex gap-1'
-                            renderDots={getDotsToR}  />
+                                <DotGroup className='ml-auto flex gap-1'
+                                renderDots={getDotsToR}  />
 
-                            <ButtonNext className='ml-auto' >
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img width={19} height={19} alt="back" src='/goto.svg' 
-                                className='rotate-180' />
-                            </ButtonNext>
-                        </div>
+                                <ButtonNext className='ml-auto' >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img width={19} height={19} alt="back" src='/goto.svg' 
+                                    className='rotate-180' />
+                                </ButtonNext>
+                            </div>
+                        )}
                     </div>
                 ), headMod)
             }

@@ -8,26 +8,18 @@ import TagsList from '../../components/tags_list';
 import CreateComment from '../../components/create_comment';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendLib } from '../../transform/lib_full.transform';
-import { TaggedItemPreviewProps } from '../../components/tagged-item-preview';
 import Carousel from '../../components/carousel';
-import { useMediaQuery } from 'react-responsive';
+import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 
-interface LibPageProps {
+export interface LibPageProps {
 	lib: LibModel;
 }
 
 const Lib: NextPage<LibPageProps> = (props) => {
-	const isMobile = useMediaQuery({
-		minWidth: 0
-	});
-
-	const isTablet = useMediaQuery({
-		minWidth: 768
-	});
-
-	const isDesktop = useMediaQuery({
-		minWidth: 1024
-	});
+	const { 
+		carouselShowCount, alternativePreviews,
+		projectPreviews, swiperMod
+	} = useConcreteLibPageLogic(props);
 
 	const { 
 		weight, 
@@ -38,34 +30,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		description, 
 		comments,
 		codeExample, 
-		alternativeFor: alternatives 
+		alternativeFor
 	} = props.lib;
-
-	// const crItemCname = 'min-w-[calc(50%-5px)]';
-	const alternativesSwiperProps: TaggedItemPreviewProps[] = [];
-
-	alternatives.forEach((a, i) => {
-		alternativesSwiperProps.push({
-			name: a.name,
-			description: a.description,
-			href: '/libs/'+a.slug,
-			tags: a.tags
-		});
-	});
-
-	let carouselShowCount = 3;
-
-	if (isMobile) {
-		carouselShowCount = 1;
-	}
-
-	if (isTablet) {
-		carouselShowCount = 2;
-	}
-
-	if (isDesktop) {
-		carouselShowCount = 3;
-	}
 
 	return (
 		<div className='page-content'>
@@ -91,17 +57,14 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* alternatives */}
 				<h2 className='mt-4'>Альтернативы</h2>
 
-				<Carousel previews={alternativesSwiperProps} 
-				showCount={carouselShowCount} />
-
-				{/* <NamedLinksList links={alternatives} 
-				headMod={RM.createMod('mt-1')} /> */}
+				<Carousel previews={alternativePreviews} 
+				showCount={carouselShowCount} innerMod={swiperMod} />
 
 				{/* projects */}
 				<h2 className='mt-4'>Проекты</h2>
 
-				<NamedLinksList links={projects} 
-				headMod={RM.createMod('mt-1')} />
+				<Carousel previews={projectPreviews} 
+				showCount={carouselShowCount} innerMod={swiperMod} />
 
 				{/* code example */}
 				<h2 className='mt-4'>Пример кода</h2>
