@@ -16,14 +16,14 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
     const getTagsToR = () => {
         return props.tags.map((t, i) => {
             return (
-                <span key={i} className="text-robotoCond"># {t}</span>
+                <span key={i} className="text-robotoCond text-contrast"># {t}</span>
             );
         });
     };
 
     return (
         RM.modElement((
-            <div className="shadow-preview rounded-[4px] p-4 min-h-[180px]">
+            <div className="flex flex-col shadow-preview rounded-[4px] p-4 min-h-[180px]">
                 <Link href={props.href}>
                     <a className="text-roboto font-medium text-contrastAlt">
                         {props.name}
@@ -32,7 +32,7 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
 
                 <p className="mt-[11px] text-robotoCond">{props.description}</p>
 
-                <div className="flex flex-wrap gap-2 mt-[10px]">
+                <div className="flex flex-wrap gap-2 mt-[auto] pt-[10px]">
                     {getTagsToR()}
                 </div>
             </div>
