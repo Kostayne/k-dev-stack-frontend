@@ -10,6 +10,7 @@ import { libReq } from '../../requests/lib.req';
 import { transformBackendLib } from '../../transform/lib_full.transform';
 import Carousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
+import Link from 'next/link';
 
 export interface LibPageProps {
 	lib: LibModel;
@@ -30,7 +31,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		description, 
 		comments,
 		codeExample, 
-		alternativeFor
+		alternativeFor,
+		id
 	} = props.lib;
 
 	return (
@@ -57,14 +59,30 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* alternatives */}
 				<h2 className='mt-4'>Альтернативы</h2>
 
-				<Carousel previews={alternativePreviews} 
-				showCount={carouselShowCount} innerMod={swiperMod} />
+				{alternativePreviews.length > 0 && (
+					<Carousel previews={alternativePreviews} 
+					showCount={carouselShowCount} innerMod={swiperMod} />
+				)}
+
+				{alternativePreviews.length == 0 && (
+					<span className='mt-2 block'>
+						У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
+					</span>
+				)}
 
 				{/* projects */}
 				<h2 className='mt-4'>Проекты</h2>
 
-				<Carousel previews={projectPreviews} 
-				showCount={carouselShowCount} innerMod={swiperMod} />
+				{projectPreviews.length > 0 && (
+					<Carousel previews={projectPreviews} 
+					showCount={carouselShowCount} innerMod={swiperMod} />	
+				)}
+
+				{projectPreviews.length == 0 && (
+					<span className='mt-2 block'>
+						Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
+					</span>
+				)}
 
 				{/* code example */}
 				<h2 className='mt-4'>Пример кода</h2>
