@@ -5,14 +5,27 @@ import Goto from '../../components/goto';
 import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledTextInput from '../../components/styled-text-input';
 import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
+import { projReq } from '../../requests/project.req';
+import { ProjectModel } from '../../models/project.model';
+import { transformProjectToTaggedItemPreview } from '../../transform/tagged_item_preview.transform';
 
 interface ProjectsPageProps {
-
+	projects: ProjectModel[];
 }
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
 	const nameInp = useSyntheticInput();
 	const libsInp = useSyntheticInput();
+
+	const getProjectPreviewsToR = () => {
+		return props.projects.map((p, i) => {
+			const previewProps = transformProjectToTaggedItemPreview(p);
+
+			return (
+				<TaggedItemPreview {...previewProps} key={i} />
+			);
+		});
+	};
 
 	return (
 		<div className='page-content'>
@@ -51,29 +64,7 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 				</div>
 
 				<div className='mt-8 previews-list'>
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
+					{getProjectPreviewsToR()}
 				</div>
 			</main>
 		</div>
@@ -82,24 +73,28 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 
 export default Projects;
 
-// export const getStaticProps: GetStaticProps<ProjectsPageProps> = () => {
-// 	return {
-// 		props: {
+export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
+	try {
+		const projResp = await projReq.getMany({
+			count: 25,
+			desc: true,
+			offset: 0
+		});
 
-// 		}
-// 	};
-// };
+		const projects = await projResp.json() as ProjectModel[];
 
-// export const getStaticPaths: GetStaticPaths = () => {
-// 	return {
-// 		paths: [
-// 			{
-// 				params: {
+		return {
+			props: {
+				projects
+			}
+		};
+	} catch(e) {
 
-// 				}
-// 			}
-// 		],
+	}
 
-// 		fallback: 'blocking'
-// 	};
-// };
+	return {
+		props: {
+			projects: []
+		}
+	};
+};

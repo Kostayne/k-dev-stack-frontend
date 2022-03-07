@@ -6,6 +6,8 @@ import { ProjectModel } from '../../models/project.model';
 import NamedLinksList from '../../components/named_links_list';
 import CreateComment from '../../components/create_comment';
 import TagRoundedList from '../../components/tag_rounded_list';
+import { projReq } from '../../requests/project.req';
+import { transformBackendProject } from '../../transform/project.transform';
 
 interface ProjectPageProps {
 	project: ProjectModel;
@@ -54,49 +56,71 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 
 export default Project;
 
-export const getStaticProps: GetStaticProps<ProjectPageProps> = () => {
-	return {
-		props: {
-			project: {
-				name: 'Open delivery service',
-				description: 'Популярная библиотека с богатой экосистемой для декларативной отрисовки интерфейса, основанной на компонентах.',
-				comments: [],
-				slug: 'test',
+export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
+	const slug = ctx.params?.slug as string;
 
-				libs: [
-					{
-						name: 'react',
-						href: '/libs/react',
-					},
+	try {
+		const resp = await projReq.getFullBySlug(slug);
 
-					{
-						name: 'react query',
-						href: '/libs/react_query',
-					}
-				],
-
-				sources: [
-					{
-						name: 'github',
-						href: 'https://github.com',
-					}
-				],
-
-				tags: ['react']
-			}
+		if (resp.status == 404) {
+			return {
+				notFound: true
+			};
 		}
-	};
-};
 
-export const getStaticPaths: GetStaticPaths = () => {
-	return {
-		paths: [
-			{
-				params: {
-					slug: 'test'
+		const projectRaw = await resp.json() as ProjectModel;
+		const transformedProject = transformBackendProject(projectRaw);
+		
+
+		return {
+			props: {
+				project: transformedProject
+			}
+		};
+	} catch(e) {
+		console.error('Error when requesting project full data');
+		console.error(e);
+
+		return {
+			props: {
+				project: {
+					libs: [],
+					comments: [],
+					name: 'Ошибка',
+					description: 'Ошибка',
+					sources: [],
+					tags: [],
+					slug
 				}
 			}
-		],
+		};
+	}
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	let projects: ProjectModel[] = [];
+
+	try {
+		const resp = await projReq.getMany({
+			count: 9999,
+			desc: true,
+			offset: 0
+		});
+
+		projects = await resp.json() as ProjectModel[];
+	} catch(e) {
+		console.log('Error in loading project paths');
+		console.error(e);
+	}
+
+	return {
+		paths: projects.map(p => {
+			return {
+				params: {
+					slug: p.slug
+				}
+			}
+		}),
 
 		fallback: 'blocking'
 	};
