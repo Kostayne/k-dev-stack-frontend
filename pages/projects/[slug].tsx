@@ -8,6 +8,7 @@ import CreateComment from '../../components/create_comment';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
 import { transformBackendProject } from '../../transform/project.transform';
+import { transformBackendFullProject } from '../../transform/project_full.transform';
 
 interface ProjectPageProps {
 	project: ProjectModel;
@@ -37,8 +38,10 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* stack (libs) */}
 				<h2 className='mt-4'>Стек</h2>
 
-				<NamedLinksList links={libs} 
-				headMod={RM.createMod('mt-1')} />
+				
+
+				{/* <NamedLinksList links={libs} 
+				headMod={RM.createMod('mt-1')} /> */}
 
 				{/* sources */}
 				<h2 className='mt-4'>Исходники</h2>
@@ -69,8 +72,7 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 		}
 
 		const projectRaw = await resp.json() as ProjectModel;
-		const transformedProject = transformBackendProject(projectRaw);
-		
+		const transformedProject = transformBackendFullProject(projectRaw);
 
 		return {
 			props: {

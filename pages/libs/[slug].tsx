@@ -6,7 +6,7 @@ import { LibModel } from '../../models/lib.model';
 import NamedLinksList from '../../components/named_links_list';
 import CreateComment from '../../components/create_comment';
 import { libReq } from '../../requests/lib.req';
-import { transformBackendLib } from '../../transform/lib_full.transform';
+import { transformBackendFullLib } from '../../transform/lib_full.transform';
 import Carousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
@@ -69,7 +69,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{alternativePreviews.length == 0 && (
 					<span className='mt-2 block'>
-						У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
+						У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`/suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
 					</span>
 				)}
 
@@ -83,7 +83,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{projectPreviews.length == 0 && (
 					<span className='mt-2 block'>
-						Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
+						Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`/suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
 					</span>
 				)}
 
@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	try {
 		const resp = await libReq.getFullBySlug(slug);
 		const libJson = await resp.json();
-		const libTransformed = transformBackendLib(libJson);
+		const libTransformed = transformBackendFullLib(libJson);
 
 		return {
 			props: {
@@ -116,6 +116,8 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 			}
 		}
 	} catch(e) {
+		console.error(e);
+
 		return {
 			props: {
 				lib: {
@@ -131,8 +133,7 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 					weight: '0b',
 					slug
 				}
-			},
-			redirect: '/'
+			}
 		};
 	}
 };

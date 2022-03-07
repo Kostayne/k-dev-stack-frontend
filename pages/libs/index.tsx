@@ -4,8 +4,6 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 import StyledTextInput from '../../components/styled-text-input';
-// import RemovableInput from '../../components/removable_input';
-import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledBtn from '../../components/styled_btn';
 import { libReq } from '../../requests/lib.req';
 import { LibModel } from '../../models/lib.model';
