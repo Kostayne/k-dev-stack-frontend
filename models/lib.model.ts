@@ -10,6 +10,7 @@ export interface LibModel {
     tags: string[];
     downloads: NamedLinkModel[];
     codeExample: string;
+    codeLang: string;
     weight: string;
     projects: ProjectModel[];
     alternativeFor: LibModel[];

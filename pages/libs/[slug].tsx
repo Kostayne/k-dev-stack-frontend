@@ -11,6 +11,7 @@ import Carousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
+import CodeViewer from '../../components/code_viewer';
 
 export interface LibPageProps {
 	lib: LibModel;
@@ -31,6 +32,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		description, 
 		comments,
 		codeExample, 
+		codeLang,
 		alternativeFor,
 		id
 	} = props.lib;
@@ -89,8 +91,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{/* code example */}
 				<h2 className='mt-4'>Пример кода</h2>
+				<CodeViewer code={codeExample} codeLang={codeLang} />
 
-				<div className='mt-3 h-[250px] w-[100%] bg-[gray]'></div>
+				{/* <div className='mt-3 h-[250px] w-[100%] bg-[gray]'></div> */}
 
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
@@ -131,7 +134,8 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 					projects: [],
 					tags: [],
 					weight: '0b',
-					slug
+					slug,
+					codeLang: 'text'
 				}
 			}
 		};
