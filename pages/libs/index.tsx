@@ -12,12 +12,12 @@ import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 
 export interface LibsPageProps {
 	libsList: LibModel[];
+	errorOccured?: boolean;
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
 	const nameInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
-
 	const { libPreviews } = useLibsPageLogic(props);
 
 	return (
@@ -60,8 +60,14 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				</div>
 
 				{/* Lib previews */}
-				<TaggedItemsList items={libPreviews} 
-				headMod={RM.createMod('mt-8')} />
+				{!props.errorOccured && (
+					<TaggedItemsList items={libPreviews} 
+					headMod={RM.createMod('mt-8')} />
+				)}
+
+				{props.errorOccured && (
+					<p className='mt-5'>Не удалось загрузить список библиотек.</p>
+				)}
 			</main>
 		</div>
 	);
@@ -72,6 +78,7 @@ export default Libs;
 export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
 	let libsRes: Response | null = null;
 	let libsList: LibModel[] = [];
+	let errorOccured = false;
 
 	try {
 		libsRes = await libReq.getMany({
@@ -81,15 +88,19 @@ export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
 		});
 	} catch(e) {
 		console.error(e);
+		errorOccured = true;
 	}
 
 	if (libsRes?.ok) {
 		libsList = await libsRes.json() as LibModel[];
+	} else {
+		errorOccured = true;
 	}
 
 	return {
 		props: {
-			libsList
+			libsList,
+			errorOccured
 		}
 	};
 };
