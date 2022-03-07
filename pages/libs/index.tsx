@@ -66,7 +66,7 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				)}
 
 				{props.errorOccured && (
-					<p className='mt-5'>Не удалось загрузить список библиотек.</p>
+					<p className='mt-4'>Не удалось загрузить список библиотек.</p>
 				)}
 			</main>
 		</div>
