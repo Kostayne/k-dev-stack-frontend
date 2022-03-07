@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import { LibModel } from '../../models/lib.model';
 import NamedLinksList from '../../components/named_links_list';
-import TagsList from '../../components/tags_list';
 import CreateComment from '../../components/create_comment';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendLib } from '../../transform/lib_full.transform';
@@ -105,14 +104,36 @@ export default Lib;
 
 export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	const slug = ctx.params?.slug as string;
-	const resp = await libReq.getFullBySlug(slug);
-	const libJson = await resp.json();
-	const libTransformed = transformBackendLib(libJson);
 
-	return {
-		props: {
-			lib: libTransformed
+	try {
+		const resp = await libReq.getFullBySlug(slug);
+		const libJson = await resp.json();
+		const libTransformed = transformBackendLib(libJson);
+
+		return {
+			props: {
+				lib: libTransformed
+			}
 		}
+	} catch(e) {
+		return {
+			props: {
+				lib: {
+					id: 0,
+					alternativeFor: [],
+					codeExample: '',
+					comments: [],
+					description: 'Ошибка',
+					downloads: [],
+					name: 'Ошибка',
+					projects: [],
+					tags: [],
+					weight: '0b',
+					slug
+				}
+			},
+			redirect: '/'
+		};
 	}
 };
 

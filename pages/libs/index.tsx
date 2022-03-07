@@ -9,15 +9,18 @@ import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledBtn from '../../components/styled_btn';
 import { libReq } from '../../requests/lib.req';
 import { LibModel } from '../../models/lib.model';
-import LibsList from '../../components/libs_list';
+import TaggedItemsList from '../../components/tagged_items_list';
+import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 
-interface LibsPageProps {
+export interface LibsPageProps {
 	libsList: LibModel[];
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
 	const nameInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
+
+	const { libPreviews } = useLibsPageLogic(props);
 
 	return (
 		<div className='page-content'>
@@ -58,7 +61,8 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 					<div className='blue-splitter mt-5' />
 				</div>
 
-				<LibsList libs={props.libsList} 
+				{/* Lib previews */}
+				<TaggedItemsList items={libPreviews} 
 				headMod={RM.createMod('mt-8')} />
 			</main>
 		</div>
