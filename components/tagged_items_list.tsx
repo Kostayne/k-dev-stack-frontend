@@ -1,20 +1,20 @@
 import React from 'react';
 import * as RM from 'react-modifier';
 import { LibModel } from '../models/lib.model';
-import TaggedItemPreview from './tagged-item-preview';
+import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
 
-interface LibsListProps {
+interface TaggedItemsListProps {
     headMod?: RM.IModifier;
-    libs: LibModel[];
+    items: TaggedItemPreviewProps[];
 }
 
-const LibsList= (props: LibsListProps) => {
+const TaggedItemsList= (props: TaggedItemsListProps) => {
     const headMod = props.headMod || RM.createMod();
     
     const getLibsToR = () => {
-        return props.libs.map((l) => {
+        return props.items.map((item, index) => {
             return (
-                <TaggedItemPreview {...l} href={'/libs/' + l.slug} key={l.id} />
+                <TaggedItemPreview {...item} key={index} />
             );
         });
     };
@@ -28,4 +28,4 @@ const LibsList= (props: LibsListProps) => {
     );
 };
 
-export default LibsList;
+export default TaggedItemsList;
