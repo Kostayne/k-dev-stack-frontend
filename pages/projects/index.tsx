@@ -17,6 +17,7 @@ interface ProjectsPageProps {
 const Projects: NextPage<ProjectsPageProps> = (props) => {
 	const nameInp = useSyntheticInput();
 	const libsInp = useSyntheticInput();
+	const tagsInp = useSyntheticInput();
 
 	const getProjectPreviewsToR = () => {
 		return props.projects.map((p, i) => {
@@ -51,9 +52,12 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 						<div className={['flex flex-col gap-2',
 						'md:flex-row md:gap-3'].join(' ')}>
 							<StyledTextInput {...nameInp.binding} label='Имя' 
-							placeholder='react' />
+							placeholder='linux' />
 
 							<StyledTextInput {...libsInp.binding} label='Библиотеки' 
+							placeholder='react, angular' />
+
+							<StyledTextInput {...tagsInp.binding} label='Теги' 
 							placeholder='tag1, tag2' />
 						</div>
 
