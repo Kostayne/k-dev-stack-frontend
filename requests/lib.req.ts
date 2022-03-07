@@ -9,7 +9,7 @@ class LibReq {
         return fetch(`${apiUrl}/lib/`, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: new HeaderBuilder().json().headers
+            headers: new HeaderBuilder().json().jwt().headers
         });
     }
 
@@ -41,7 +41,7 @@ class LibReq {
     }
 
     delete(id: number) {
-        return fetch(`${apiUrl}/lib/link?id=${id}`, {
+        return fetch(`${apiUrl}/lib/?id=${id}`, {
             method: 'DELETE',
             headers: new HeaderBuilder().json().jwt().headers,
         });
