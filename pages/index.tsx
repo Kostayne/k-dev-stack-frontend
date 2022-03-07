@@ -12,6 +12,7 @@ import { useHomePageLogic } from '../hooks/home_page_logic.hook';
 export interface HomePageProps {
 	libsList: LibModel[];
 	projectsList: ProjectModel[];
+	errorOccured?: boolean;
 }
 
 const Home: NextPage<HomePageProps> = (props) => {
@@ -37,14 +38,26 @@ const Home: NextPage<HomePageProps> = (props) => {
 				{/* Libs section */}
 				<Goto href='/libs' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
 
-				<TaggedItemsList items={libPreviews}
-				headMod={RM.createMod('mt-5')} />
+				{!props.errorOccured && (
+					<TaggedItemsList items={libPreviews}
+					headMod={RM.createMod('mt-5')} />
+				)}
+				
+				{props.errorOccured && (
+					<p className='mt-1'>Не удалось загрузить список библиотек.</p>
+				)}
 
 				{/* Projects section */}
 				<Goto href='/projects' title='Проекты' headMod={RM.createMod('mt-7')} />
 
-				<TaggedItemsList items={projectPreviews}
-				headMod={RM.createMod('mt-5')} />
+				{!props.errorOccured && (
+					<TaggedItemsList items={projectPreviews}
+					headMod={RM.createMod('mt-5')} />
+				)}
+
+				{props.errorOccured && (
+					<p className='mt-1'>Не удалось загрузить список проектов.</p>
+				)}
 			</main>
 		</div>
 	);
@@ -57,6 +70,8 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 	let projectsResp: Response | null = null;
 	let projectsList: ProjectModel[] = [];
 
+	let errorOccured = false;
+
 	try {
 		libsRes = await libReq.getMany({
 			count: 6,
@@ -68,10 +83,12 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 			count: 6,
 			desc: true,
 			offset: 0
-		})
+		});
 	} catch(e) {
 		console.error('Error while loading projects and libs in main page!');
 		console.error(e);
+
+		errorOccured = false;
 	}
 
 	if (libsRes?.ok) {
@@ -82,10 +99,15 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 		projectsList = await projectsResp.json() as ProjectModel[];
 	}
 
+	if (!libsRes?.ok || !projectsResp?.ok) {
+		errorOccured = true;
+	}
+
 	return {
 		props: {
 			libsList,
-			projectsList
+			projectsList,
+			errorOccured
 		}
 	};
 };
