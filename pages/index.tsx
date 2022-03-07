@@ -2,16 +2,21 @@ import type { GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
-import TaggedItemPreview from '../components/tagged-item-preview';
 import { LibModel } from '../models/lib.model';
 import { libReq } from '../requests/lib.req';
-import LibsList from '../components/libs_list';
+import TaggedItemsList from '../components/tagged_items_list';
+import { ProjectModel } from '../models/project.model';
+import { projReq } from '../requests/project.req';
+import { useHomePageLogic } from '../hooks/home_page_logic.hook';
 
-interface HomePageProps {
+export interface HomePageProps {
 	libsList: LibModel[];
+	projectsList: ProjectModel[];
 }
 
 const Home: NextPage<HomePageProps> = (props) => {
+	const { libPreviews, projectPreviews } = useHomePageLogic(props);
+
 	return (
 		<div className='page-content'>
 			<Head>
@@ -32,25 +37,14 @@ const Home: NextPage<HomePageProps> = (props) => {
 				{/* Libs section */}
 				<Goto href='/libs' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
 
-				<LibsList libs={props.libsList}
+				<TaggedItemsList items={libPreviews}
 				headMod={RM.createMod('mt-5')} />
 
 				{/* Projects section */}
 				<Goto href='/projects' title='Проекты' headMod={RM.createMod('mt-7')} />
 
-				<div className="previews-list mt-5">
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-
-					<TaggedItemPreview name="K React CM" 
-					description="Простая cli утилита для создания компонентов с помощью своих шаблонов. Поддерживает файлы с любыми расширениями, есть возможность автоматического создания стилей основанных на и..." 
-					tags={['утилита', 'react']} href="/projects/test" />
-				</div>
+				<TaggedItemsList items={projectPreviews}
+				headMod={RM.createMod('mt-5')} />
 			</main>
 		</div>
 	);
@@ -60,13 +54,23 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 	let libsRes: Response | null = null;
 	let libsList: LibModel[] = [];
 
+	let projectsResp: Response | null = null;
+	let projectsList: ProjectModel[] = [];
+
 	try {
 		libsRes = await libReq.getMany({
-			count: 15,
+			count: 6,
 			desc: true,
 			offset: 0
 		});
+
+		projectsResp = await projReq.getMany({
+			count: 6,
+			desc: true,
+			offset: 0
+		})
 	} catch(e) {
+		console.error('Error while loading projects and libs in main page!');
 		console.error(e);
 	}
 
@@ -74,9 +78,14 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 		libsList = await libsRes.json() as LibModel[];
 	}
 
+	if (projectsResp?.ok) {
+		projectsList = await projectsResp.json() as ProjectModel[];
+	}
+
 	return {
 		props: {
-			libsList
+			libsList,
+			projectsList
 		}
 	};
 };
