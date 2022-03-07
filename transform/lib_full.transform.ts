@@ -3,7 +3,7 @@ import { transformBackendNamedLink } from "./named_link.transform";
 import clone from 'clone';
 import { transformBackendProject } from "./project.transform";
 
-export function transformBackendLib(data: LibModel) {
+export function transformBackendFullLib(data: LibModel) {
     const lib = clone(data);
 
     lib.downloads = lib.downloads.map(d => {
