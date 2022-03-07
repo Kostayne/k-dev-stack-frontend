@@ -11,6 +11,7 @@ import { transformProjectToTaggedItemPreview } from '../../transform/tagged_item
 
 interface ProjectsPageProps {
 	projects: ProjectModel[];
+	errorOccured?: boolean;
 }
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
@@ -63,9 +64,15 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 					<div className='blue-splitter mt-5' />
 				</div>
 
-				<div className='mt-8 previews-list'>
-					{getProjectPreviewsToR()}
-				</div>
+				{!props.errorOccured && (
+					<div className='mt-8 previews-list'>
+						{getProjectPreviewsToR()}
+					</div>
+				)}
+
+				{props.errorOccured && (
+					<p className='mt-4'>Не удалось загрузить список проектов.</p>
+				)}
 			</main>
 		</div>
 	);
@@ -89,12 +96,14 @@ export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
 			}
 		};
 	} catch(e) {
-
+		console.error('Error while loading projects list in proj index page');
+		console.error(e);
 	}
 
 	return {
 		props: {
-			projects: []
+			projects: [],
+			errorOccured: true
 		}
 	};
 };
