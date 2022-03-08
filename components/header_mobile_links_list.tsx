@@ -18,7 +18,8 @@ const HeaderMobileLinksList= (props: HeaderMobileLinksProps) => {
         return props.links.map((l, i) => {
             return (
                 <Goto title={l.name} href={l.href} key={l.name} 
-                onLinkClick={onLinkClick} disableTabNavigation={disableTabNavigation} />
+                onLinkClick={onLinkClick} disableTabNavigation={disableTabNavigation} 
+                nameMod={RM.createMod('text-3xl')} />
             );
         });
     };

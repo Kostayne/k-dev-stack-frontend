@@ -9,6 +9,7 @@ interface GotoProps {
     goBack?: boolean;
     href: string;
     disableTabNavigation?: boolean;
+    nameMod?: RM.IModifier;
 
     onLinkClick?: () => void;
 }
@@ -34,7 +35,9 @@ const Goto= (props: GotoProps) => {
                 )}
 
                 {!props.isMainHeading && (
-                    <h2>{props.title}</h2>
+                    RM.modElement((
+                        <h2>{props.title}</h2>
+                    ), props.nameMod || RM.createMod())
                 )}
 
                 <Link passHref href={props.href}>

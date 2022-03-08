@@ -67,7 +67,7 @@ const HeaderComment = () => {
             <div className={`${bannerCn} md:hidden`}>
                 <HeaderMobileLinksList disableTabNavigation={!isOpened} 
                 links={mobileLinks} onLinkClick={onLinkClick} 
-                headMod={RM.createMod('ml-8 mt-6')} />
+                headMod={RM.createMod('px-[20px] mt-6')} />
             </div>
         </div>
     );
