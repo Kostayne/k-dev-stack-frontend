@@ -32,6 +32,25 @@ class LibReq {
         });
     }
 
+    getByFilter(params: GetManyParamsModel, tags: string[], name: string) {
+        const manyQueries = getGetManyQuery(params);
+        const queryBuilder = new URLSearchParams(manyQueries);
+        
+        tags.forEach(t => {
+            queryBuilder.append('tags', t);
+        });
+
+        if (name) {
+            queryBuilder.append('name', name);
+        }
+
+        const queries = queryBuilder.toString();
+
+        return fetch(`${apiUrl}/lib/by_filter?${queries}`, {
+            method: 'GET'
+        });
+    }
+
     edit(data: LibModel) {
         return fetch(`${apiUrl}/lib`, {
             method: 'PUT',

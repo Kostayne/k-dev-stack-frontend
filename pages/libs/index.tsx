@@ -11,14 +11,15 @@ import TaggedItemsList from '../../components/tagged_items_list';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 
 export interface LibsPageProps {
-	libsList: LibModel[];
+	initialLibs: LibModel[];
 	errorOccured?: boolean;
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
-	const nameInp = useSyntheticInput();
-	const tagsInp = useSyntheticInput();
-	const { libPreviews } = useLibsPageLogic(props);
+	const { 
+		libPreviews, tagsInp, nameInp, 
+		onFilterClick 
+	} = useLibsPageLogic(props);
 
 	return (
 		<div className='page-content'>
@@ -53,7 +54,8 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 						headMod={RM.createMod([
 							'primary-btn w-[110px] mx-auto',
 							'md:mb-[2px]'
-						].join(' '))} />
+						].join(' '))} 
+						onClick={onFilterClick} />
 					</div>
 
 					<div className='blue-splitter mt-5' />
@@ -99,7 +101,7 @@ export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
 
 	return {
 		props: {
-			libsList,
+			initialLibs: libsList,
 			errorOccured
 		}
 	};

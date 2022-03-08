@@ -1,4 +1,3 @@
-import { URLSearchParams } from "url";
 import { GetManyParamsModel } from "../models/get_many_params.model";
 
 export function getGetManyQuery(params: GetManyParamsModel) {
