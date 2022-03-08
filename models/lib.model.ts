@@ -14,6 +14,7 @@ export interface LibModel {
     weight: string;
     projects: ProjectModel[];
     alternativeFor: LibModel[];
+    alternativeBy: LibModel[];
     comments: CommentModel[];
 }
 
