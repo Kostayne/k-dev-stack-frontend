@@ -2,32 +2,21 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import TaggedItemPreview from '../../components/tagged-item-preview';
 import StyledTextInput from '../../components/styled-text-input';
-import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 import { projReq } from '../../requests/project.req';
 import { ProjectModel } from '../../models/project.model';
-import { transformProjectToTaggedItemPreview } from '../../transform/tagged_item_preview.transform';
+import { useProjectPageLogic } from '../../hooks/projects_page_logic.hook';
 
-interface ProjectsPageProps {
+export interface ProjectsPageProps {
 	projects: ProjectModel[];
 	errorOccured?: boolean;
 }
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
-	const nameInp = useSyntheticInput();
-	const libsInp = useSyntheticInput();
-	const tagsInp = useSyntheticInput();
-
-	const getProjectPreviewsToR = () => {
-		return props.projects.map((p, i) => {
-			const previewProps = transformProjectToTaggedItemPreview(p);
-
-			return (
-				<TaggedItemPreview {...previewProps} key={i} />
-			);
-		});
-	};
+	const { 
+		libsInp, nameInp, tagsInp,
+		getProjectPreviewsToR, onFilterClick
+	} = useProjectPageLogic(props);
 
 	return (
 		<div className='page-content'>
@@ -62,7 +51,8 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 						</div>
 
 						<button className={['primary-btn w-[110px] mx-auto',
-						'md:mb-[2px]'].join(' ')}>применить</button>
+						'md:mb-[2px]'].join(' ')}
+						onClick={onFilterClick}>применить</button>
 					</div>
 
 					<div className='blue-splitter mt-5' />

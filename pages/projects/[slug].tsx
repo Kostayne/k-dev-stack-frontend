@@ -7,15 +7,17 @@ import NamedLinksList from '../../components/named_links_list';
 import CreateComment from '../../components/create_comment';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
-import { transformBackendProject } from '../../transform/project.transform';
 import { transformBackendFullProject } from '../../transform/project_full.transform';
+import Carousel from '../../components/carousel';
+import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook';
 
-interface ProjectPageProps {
+export interface ProjectPageProps {
 	project: ProjectModel;
 }
 
 const Project: NextPage<ProjectPageProps> = (props) => {
 	const { comments, description, name, sources, libs, tags } = props.project;
+	const { libPreviews, carouselShowCount } = useConcreteProjectLogic(props);
 
 	return (
 		<div className='page-content'>
@@ -38,7 +40,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* stack (libs) */}
 				<h2 className='mt-4'>Стек</h2>
 
-				
+				<Carousel previews={libPreviews} 
+				showCount={carouselShowCount}
+				headMod={RM.createMod('mt-2')} />
 
 				{/* <NamedLinksList links={libs} 
 				headMod={RM.createMod('mt-1')} /> */}

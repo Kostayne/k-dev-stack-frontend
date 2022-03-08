@@ -26,14 +26,12 @@ const Lib: NextPage<LibPageProps> = (props) => {
 	const { 
 		weight, 
 		name, 
-		projects, 
 		downloads, 
 		tags, 
 		description, 
 		comments,
 		codeExample, 
 		codeLang,
-		alternativeFor,
 		id
 	} = props.lib;
 
@@ -126,6 +124,7 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 				lib: {
 					id: 0,
 					alternativeFor: [],
+					alternativeBy: [],
 					codeExample: '',
 					comments: [],
 					description: 'Ошибка',

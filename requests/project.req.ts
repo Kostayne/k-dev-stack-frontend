@@ -26,6 +26,25 @@ export class ProjectReq {
         });
     }
 
+    getByFilter(params: GetManyParamsModel, tags: string[], name: string) {
+        const manyQueries = getGetManyQuery(params);
+        const queryBuilder = new URLSearchParams(manyQueries);
+        
+        tags.forEach(t => {
+            queryBuilder.append('tags', t);
+        });
+
+        if (name) {
+            queryBuilder.append('name', name);
+        }
+
+        const queries = queryBuilder.toString();
+
+        return fetch(`${apiUrl}/project/by_filter?${queries}`, {
+            method: 'GET'
+        });
+    }
+
     getFullBySlug(slug: string) {
         return fetch(`${apiUrl}/project/full_by_slug?slug=${slug}`, {
             method: 'GET'
