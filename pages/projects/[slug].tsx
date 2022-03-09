@@ -44,9 +44,6 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				showCount={carouselShowCount}
 				headMod={RM.createMod('mt-2')} />
 
-				{/* <NamedLinksList links={libs} 
-				headMod={RM.createMod('mt-1')} /> */}
-
 				{/* sources */}
 				<h2 className='mt-4'>Исходники</h2>
 

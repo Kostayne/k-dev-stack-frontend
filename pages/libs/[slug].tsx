@@ -64,7 +64,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{alternativePreviews.length > 0 && (
 					<Carousel previews={alternativePreviews} 
-					showCount={carouselShowCount} innerMod={swiperMod} />
+					showCount={carouselShowCount} innerMod={swiperMod} 
+					headMod={RM.createMod('mt-2')} />
 				)}
 
 				{alternativePreviews.length == 0 && (
@@ -78,7 +79,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{projectPreviews.length > 0 && (
 					<Carousel previews={projectPreviews} 
-					showCount={carouselShowCount} innerMod={swiperMod} />	
+					showCount={carouselShowCount} innerMod={swiperMod}
+					headMod={RM.createMod('mt-2')} />	
 				)}
 
 				{projectPreviews.length == 0 && (
