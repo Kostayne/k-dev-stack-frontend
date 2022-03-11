@@ -34,9 +34,7 @@ const Profile: NextPage = () => {
 	const { userRequiredStatus } = useUserRequired();
 
 	if (userRequiredStatus != UserRequiredStatus.ok) {
-		return (
-			<Banner />
-		);
+		return null;
 	}
 
 	let statusColor = 'success';

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { userStore } from "../stores/user.store";
+import { loadJwtFromLocalStore } from "../utils/auth";
 
 export enum UserRequiredStatus {
     userNeeded,
@@ -14,16 +15,16 @@ export interface UserRequiredResult {
 export function useUserRequired(adminNeeded?: boolean): UserRequiredResult {
     const router = useRouter();
 
-    const redirectToLogin = () => {
-        const onClient = typeof window !== 'undefined'
+    const onClient = typeof window !== 'undefined'
 
-        if (onClient) {
-            router.push('/login');
-        }
-    };
+    if (!onClient) {
+        return {
+            userRequiredStatus: UserRequiredStatus.ok
+        };
+    }
 
-    if (!userStore.isLoading && !userStore.userData) {
-        redirectToLogin();
+    if (!loadJwtFromLocalStore()) {
+        router.push('/login');
 
         return {
             userRequiredStatus: UserRequiredStatus.userNeeded
@@ -31,7 +32,7 @@ export function useUserRequired(adminNeeded?: boolean): UserRequiredResult {
     }
 
     if (adminNeeded && !userStore.userData?.isAdmin) {
-        redirectToLogin();
+        router.push('/login');
 
         return {
             userRequiredStatus: UserRequiredStatus.adminNeeded
