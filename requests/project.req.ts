@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { GetManyParamsModel } from "../models/get_many_params.model";
+import { GetManyParams } from "../models/get_many_params";
 import { ProjectModel } from "../models/project.model";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
@@ -19,14 +19,14 @@ export class ProjectReq {
         });
     }
 
-    getMany(params: GetManyParamsModel) {
+    getMany(params: GetManyParams) {
         const queries = getGetManyQuery(params);
         return fetch(`${apiUrl}/project/many?${queries}`, {
             method: 'GET'
         });
     }
 
-    getByFilter(params: GetManyParamsModel, tags: string[], name: string) {
+    getByFilter(params: GetManyParams, tags: string[], name: string) {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         

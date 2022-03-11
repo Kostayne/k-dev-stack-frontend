@@ -1,14 +1,14 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import type { GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import { useSyntheticInput } from '../../hooks/input_synthetic.hook';
 import StyledTextInput from '../../components/styled-text-input';
 import StyledBtn from '../../components/styled_btn';
 import { libReq } from '../../requests/lib.req';
 import { LibModel } from '../../models/lib.model';
-import TaggedItemsList from '../../components/tagged_items_list';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
+import { dehydrate, QueryClient } from 'react-query';
+import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 
 export interface LibsPageProps {
 	initialLibs: LibModel[];
@@ -16,9 +16,9 @@ export interface LibsPageProps {
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
-	const { 
+	const {
 		libPreviews, tagsInp, nameInp, 
-		onFilterClick 
+		onFilterClick, loadMorePreviews
 	} = useLibsPageLogic(props);
 
 	return (
@@ -63,8 +63,9 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 
 				{/* Lib previews */}
 				{!props.errorOccured && (
-					<TaggedItemsList items={libPreviews} 
-					headMod={RM.createMod('mt-8')} />
+					<TaggedItemPreviewsInfiniteList previews={libPreviews} 
+					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
+					canLoad={false} loadMore={loadMorePreviews} />
 				)}
 
 				{props.errorOccured && (
@@ -78,31 +79,23 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 export default Libs;
 
 export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
-	let libsRes: Response | null = null;
 	let libsList: LibModel[] = [];
-	let errorOccured = false;
+	const queryClient = new QueryClient();
 
-	try {
-		libsRes = await libReq.getMany({
+	await queryClient.prefetchQuery<LibModel[], Error>('getLibPreviews', async () => {
+		const resp = await libReq.getMany({
 			count: 15,
 			desc: true,
 			offset: 0
 		});
-	} catch(e) {
-		console.error(e);
-		errorOccured = true;
-	}
 
-	if (libsRes?.ok) {
-		libsList = await libsRes.json() as LibModel[];
-	} else {
-		errorOccured = true;
-	}
+		return await resp.json() as LibModel[];
+	});
 
 	return {
 		props: {
+			dehydratedState: dehydrate(queryClient),
 			initialLibs: libsList,
-			errorOccured
 		}
 	};
 };

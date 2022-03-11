@@ -1,48 +1,48 @@
-import { useState } from "react";
+import { useQuery } from "react-query";
 import { LibModel } from "../models/lib.model";
 import { LibsPageProps } from "../pages/libs";
 import { libReq } from "../requests/lib.req";
-import { transformBackendLib } from "../transform/lib.transform";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 import { useSyntheticInput } from "./input_synthetic.hook";
 
 export function useLibsPageLogic(props: LibsPageProps) {
     const nameInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
-    const [libs, setLibs] = useState<LibModel[]>(props.initialLibs);
 
-    const libPreviews = libs.map(l => {
-        return transformLibToTaggedItemPreview(l);
+    const { isError, data: libs, isSuccess, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
+        const resp = await libReq.getMany({
+			count: 15,
+			desc: true,
+			offset: 0
+		});
+
+        if (!resp.ok) {
+            throw new Error('Error, when fetching lib previews: ' + resp.statusText);
+        }
+
+        return await resp.json() as LibModel[];
     });
+
+    const loadMorePreviews = (offset: number) => {
+        console.log(offset);
+    };
+
+    const libPreviews = libs? libs.map(l => {
+        return transformLibToTaggedItemPreview(l);
+    }) : [];
 
     const tags = tagsInp.binding.value.split(', ');
 
     const onFilterClick = async () => {
-        try {
-            const resp = await libReq.getByFilter({
-                count: 15,
-                desc: true,
-                offset: 0
-            }, tags, nameInp.binding.value);
-
-            if (!resp.ok) {
-                console.error(resp.statusText);
-                return;
-            }
-
-            const newLibs = await resp.json() as LibModel[];
-            setLibs(newLibs);
-        } catch(e) {
-            console.error('Error while filter libs req');
-            console.error(e);
-        }
+        refetch();
     };
 
     return {
         libPreviews,
         nameInp,
         tagsInp,
+        isError,
         onFilterClick,
-        setLibs
+        loadMorePreviews
     };
 }

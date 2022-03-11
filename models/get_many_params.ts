@@ -1,4 +1,4 @@
-export interface GetManyParamsModel {
+export interface GetManyParams {
     desc?: boolean;
     offset?: number;
     count: number;

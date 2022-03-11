@@ -1,6 +1,6 @@
-import { GetManyParamsModel } from "../models/get_many_params.model";
+import { GetManyParams } from "../models/get_many_params";
 
-export function getGetManyQuery(params: GetManyParamsModel) {
+export function getGetManyQuery(params: GetManyParams) {
     return new URLSearchParams({
         count: params.count.toString(),
         desc: params.desc? 'true' : 'false',

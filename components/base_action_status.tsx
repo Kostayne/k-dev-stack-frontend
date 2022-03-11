@@ -1,6 +1,6 @@
 import React from 'react';
 import * as RM from 'react-modifier';
-import { BaseActionStatusType } from '../models/base_action_status';
+import { BaseActionStatusType } from '../interfaces/base_action_status';
 
 interface BaseActionStatusProps {
     headMod?: RM.IModifier;

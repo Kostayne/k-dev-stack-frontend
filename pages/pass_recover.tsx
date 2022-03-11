@@ -8,7 +8,7 @@ import { validateEmail } from '../validators/email.validator';
 import StyledBtn from '../components/styled_btn';
 import ValidationErr from '../components/validation_err';
 import { useEffect, useState } from 'react';
-import { BaseActionStatusType } from '../models/base_action_status';
+import { BaseActionStatusType } from '../interfaces/base_action_status';
 import BaseActionStatus from '../components/base_action_status';
 
 const PassRecover: NextPage = () => {

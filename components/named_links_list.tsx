@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import * as RM from 'react-modifier';
-import { NamedLinkModel } from '../models/named_link';
+import { NamedLinkModel } from '../models/named_link.model';
 
 interface NamedLinksListProps {
     headMod?: RM.IModifier;

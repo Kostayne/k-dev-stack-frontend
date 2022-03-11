@@ -8,7 +8,7 @@ import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
 import { userFetch } from "../requests/user.req";
 import { useRouter } from "next/router";
-import { ActionStatusInfo } from "../models/base_action_status";
+import { ActionStatusInfo } from "../interfaces/base_action_status";
 import { UserModel } from "../models/user.model";
 
 const prevUserData = {

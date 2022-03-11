@@ -1,5 +1,5 @@
 import { CommentModel } from './comment.model';
-import { NamedLinkModel } from './named_link';
+import { NamedLinkModel } from './named_link.model';
 import { ProjectModel } from './project.model';
 
 export interface LibModel {
