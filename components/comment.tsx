@@ -4,6 +4,7 @@ import { CommentPersonalizedModel } from '../models/comment.model';
 import Image from 'next/image';
 import { UserCommentRefModel } from '../models/user.model';
 import Rating from './rating';
+import { staticUrl } from '../cfg';
 
 interface CommentProps {
     headMod?: RM.IModifier;
@@ -15,15 +16,15 @@ interface CommentProps {
 const Comment = (props: CommentProps) => {
     const headMod = props.headMod || RM.createMod();
     const { date, likesCount, likedByUser } = props.data;
-    const { firstName, lastName, avatarName } = props.data.author;
+    const { firstName, lastName } = props.data.author;
 
     return (
         RM.modElement((
             <div className='w-full'>
                 {/* current comment */}
-                <div className='flex gap-x-2'>
+                <div className='flex gap-x-3'>
                     <div className='relative w-[45px] h-[45px] rounded-[50%] overflow-hidden'>
-                        <Image src={avatarName} alt="Аватарка" layout='fill' className='' />
+                        <Image src={`${staticUrl}/avatars/${props.data.author.id}.jpg`} alt="Аватарка" layout='fill' className='' />
                     </div>
 
                     {/* right part */}
@@ -35,9 +36,11 @@ const Comment = (props: CommentProps) => {
                         </div>
 
                         <pre className='font-robotoCond whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
-                        <button className='text-btn mt-[5px] w-fit ml-auto'>ответить</button>
 
-                        <Rating onLikeClick={props.onLike} likesCount={likesCount} liked={likedByUser} />
+                        <div className='flex items-center mt-[5px]'>
+                            <Rating onLikeClick={props.onLike} likesCount={likesCount} liked={likedByUser} />
+                            <button className='text-btn text-xs w-fit ml-1'>ОТВЕТИТЬ</button>
+                        </div>
                     </div>
                 </div>
             </div>
