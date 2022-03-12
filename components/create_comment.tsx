@@ -30,9 +30,9 @@ const CreateComment= (props: CreateCommentProps) => {
 
                 {/* actions */}
                 {isFocused && (
-                    <div className='w-fit ml-auto mt-3 flex gap-x-1 items-center'>
+                    <div className='w-fit ml-auto mt-3 flex gap-x-2 items-center'>
                         <button className='text-btn' onClick={handleCancel}>ОТМЕНА</button>
-                        <button className='text-btn'>ОТПРАВИТЬ</button>
+                        <button className='primary-btn w-[110px]'>ОТПРАВИТЬ</button>
                     </div>
                 )}
             </div>
