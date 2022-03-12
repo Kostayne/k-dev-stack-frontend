@@ -12,6 +12,7 @@ import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
 import CodeViewer from '../../components/code_viewer';
+import CommentsList from '../../components/comments_list';
 
 export interface LibPageProps {
 	lib: LibModel;
@@ -20,7 +21,8 @@ export interface LibPageProps {
 const Lib: NextPage<LibPageProps> = (props) => {
 	const { 
 		carouselShowCount, alternativePreviews,
-		projectPreviews, swiperMod
+		projectPreviews, swiperMod, comments,
+		onCommentLike
 	} = useConcreteLibPageLogic(props);
 
 	const { 
@@ -29,7 +31,6 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		downloads, 
 		tags, 
 		description, 
-		comments,
 		codeExample, 
 		codeLang,
 		id
@@ -98,6 +99,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} />
+
+				<CommentsList onLike={onCommentLike} comments={comments} 
+				headMod={RM.createMod('mt-4')} />
 			</main>
 		</div>
 	);

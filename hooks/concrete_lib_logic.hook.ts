@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { CommentLikeResultModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
+import { commentReq } from "../requests/comment.req";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {
@@ -21,6 +24,8 @@ const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boo
 };
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
+	const [comments, setComments] = useState(props.lib.comments);
+
     const isMobile = useMediaQuery({
 		minWidth: 0
 	});
@@ -41,6 +46,29 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         return transformProjectToTaggedItemPreview(p);
     });
 
+	const onCommentLike = async (id: number) => {
+		const resp = await commentReq.like(id);
+
+		if (!resp?.ok) {
+			return;
+		}
+
+		const likeResult = await resp.json() as CommentLikeResultModel;
+
+		const newComments = [...comments];
+		const comment = newComments.find(c => c.id == id);
+
+		if (!comment) {
+			console.error('Cant find local comment in state to update'!);
+			return;
+		}
+
+		comment.likedByUser = likeResult.likedByUser;
+		comment.likesCount = likeResult.likesCount;
+
+		setComments(newComments);
+	};
+
 	const swiperMod = '';
 
     return {
@@ -50,6 +78,8 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         carouselShowCount: getShowSlidesCount(isMobile, isTablet, isDesktop),
         alternativePreviews,
         projectPreviews,
-		swiperMod
+		swiperMod,
+		comments,
+		onCommentLike
     };
 }

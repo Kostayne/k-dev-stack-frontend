@@ -15,6 +15,7 @@ interface CommentProps {
 
 const Comment = (props: CommentProps) => {
     const headMod = props.headMod || RM.createMod();
+    const { onLike } = props;
     const { date, likesCount, likedByUser } = props.data;
     const { firstName, lastName } = props.data.author;
 
@@ -38,7 +39,7 @@ const Comment = (props: CommentProps) => {
                         <pre className='font-robotoCond whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
 
                         <div className='flex items-center mt-[5px]'>
-                            <Rating onLikeClick={props.onLike} likesCount={likesCount} liked={likedByUser} />
+                            <Rating onLikeClick={onLike} likesCount={likesCount} liked={likedByUser} />
                             <button className='text-btn text-xs w-fit ml-1'>ОТВЕТИТЬ</button>
                         </div>
                     </div>

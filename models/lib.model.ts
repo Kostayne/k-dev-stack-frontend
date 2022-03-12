@@ -1,4 +1,4 @@
-import { CommentModel } from './comment.model';
+import { CommentPersonalizedModel } from './comment.model';
 import { NamedLinkModel } from './named_link.model';
 import { ProjectModel } from './project.model';
 
@@ -15,7 +15,7 @@ export interface LibModel {
     projects: ProjectModel[];
     alternativeFor: LibModel[];
     alternativeBy: LibModel[];
-    comments: CommentModel[];
+    comments: CommentPersonalizedModel[];
 }
 
 export interface LibNamedLinkModel {

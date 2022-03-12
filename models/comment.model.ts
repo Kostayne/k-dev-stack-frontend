@@ -15,3 +15,8 @@ export interface CommentPersonalizedModel extends CommentModel {
     likedByUser: boolean;
     nestedComments: CommentPersonalizedModel[];
 };
+
+export interface CommentLikeResultModel {
+    likesCount: number;
+    likedByUser: boolean;
+}
