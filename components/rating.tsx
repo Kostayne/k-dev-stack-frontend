@@ -15,7 +15,10 @@ const Rating= (props: RatingProps) => {
     return (
         RM.modElement((
             <div className='flex items-center gap-x-1.5'>
-                <span>{props.likesCount}</span>
+                {props.likesCount > 0 && (
+                    <span className='text-[#EB478C]'>{props.likesCount}</span>
+                )}
+
                 <LikeBtn onClick={props.onLikeClick} liked={props.liked} />
             </div>
         ), headMod)
