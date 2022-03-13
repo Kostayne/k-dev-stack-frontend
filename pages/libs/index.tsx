@@ -65,7 +65,8 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				{!props.errorOccured && (
 					<TaggedItemPreviewsInfiniteList previews={libPreviews} 
 					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
-					canLoad={false} loadMore={loadMorePreviews} />
+					canLoad={false} loadMore={loadMorePreviews}
+					tagHrefPrefix={'/libs?tags='} />
 				)}
 
 				{props.errorOccured && (

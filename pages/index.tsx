@@ -40,7 +40,8 @@ const Home: NextPage<HomePageProps> = (props) => {
 
 				{!props.errorOccured && (
 					<TaggedItemsList items={libPreviews}
-					headMod={RM.createMod('mt-5')} />
+					headMod={RM.createMod('mt-5')} 
+					tagHrefPrefix={`/libs?tags=`} />
 				)}
 				
 				{props.errorOccured && (
@@ -52,7 +53,8 @@ const Home: NextPage<HomePageProps> = (props) => {
 
 				{!props.errorOccured && (
 					<TaggedItemsList items={projectPreviews}
-					headMod={RM.createMod('mt-5')} />
+					headMod={RM.createMod('mt-5')}
+					tagHrefPrefix={`/projects?tags=`} />
 				)}
 
 				{props.errorOccured && (

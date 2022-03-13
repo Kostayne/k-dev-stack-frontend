@@ -8,6 +8,7 @@ export interface TaggedItemPreviewProps {
     description: string;
     tags: string[];
     href: string;
+    tagHrefPrefix: string;
 }
 
 const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
@@ -16,7 +17,9 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
     const getTagsToR = () => {
         return props.tags.map((t, i) => {
             return (
-                <span key={i} className="text-robotoCond text-contrast"># {t}</span>
+                <Link href={`${props.tagHrefPrefix}${t}`} key={i}>
+                    <a className="text-robotoCond text-contrast"># {t}</a>
+                </Link>
             );
         });
     };

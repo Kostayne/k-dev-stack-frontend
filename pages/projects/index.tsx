@@ -6,6 +6,7 @@ import StyledTextInput from '../../components/styled-text-input';
 import { projReq } from '../../requests/project.req';
 import { ProjectModel } from '../../models/project.model';
 import { useProjectPageLogic } from '../../hooks/projects_page_logic.hook';
+import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 
 export interface ProjectsPageProps {
 	projects: ProjectModel[];
@@ -15,7 +16,7 @@ export interface ProjectsPageProps {
 const Projects: NextPage<ProjectsPageProps> = (props) => {
 	const { 
 		libsInp, nameInp, tagsInp,
-		getProjectPreviewsToR, onFilterClick
+		previews, onFilterClick
 	} = useProjectPageLogic(props);
 
 	return (
@@ -59,9 +60,11 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 				</div>
 
 				{!props.errorOccured && (
-					<div className='mt-8 previews-list'>
-						{getProjectPreviewsToR()}
-					</div>
+					//  {getProjectPreviewsToR()}
+					<TaggedItemPreviewsInfiniteList previews={previews} 
+					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
+					canLoad={false} loadMore={() => {}}
+					tagHrefPrefix={'/projects?tags='} />
 				)}
 
 				{props.errorOccured && (

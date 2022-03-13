@@ -8,6 +8,7 @@ interface TaggedItemsPreviewInfiniteListProps {
     previews: TaggedItemPreviewProps[];
     hasMoreItemsLeft: boolean;
     canLoad: boolean;
+    tagHrefPrefix: string;
     loadMore: (offset: number) => void;
 }
 
@@ -32,7 +33,9 @@ const TaggedItemPreviewsInfiniteList= (props: TaggedItemsPreviewInfiniteListProp
     return (
         RM.modElement((
             <div>
-                <TaggedItemsList items={props.previews} />
+                <TaggedItemsList items={props.previews}
+                tagHrefPrefix={props.tagHrefPrefix} />
+                
                 <div className='h-[1px]' ref={endRef} />
             </div>
         ), headMod)

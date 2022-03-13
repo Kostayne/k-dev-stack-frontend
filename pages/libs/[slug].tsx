@@ -7,7 +7,7 @@ import NamedLinksList from '../../components/named_links_list';
 import CreateComment from '../../components/create_comment';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendFullLib } from '../../transform/lib_full.transform';
-import Carousel from '../../components/carousel';
+import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
@@ -65,9 +65,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<h2 className='mt-4'>Альтернативы</h2>
 
 				{alternativePreviews.length > 0 && (
-					<Carousel previews={alternativePreviews} 
+					<TaggedItemsCarousel previews={alternativePreviews} 
 					showCount={carouselShowCount} innerMod={swiperMod} 
-					headMod={RM.createMod('mt-2')} />
+					headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
 				)}
 
 				{alternativePreviews.length == 0 && (
@@ -80,9 +80,9 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<h2 className='mt-4'>Проекты</h2>
 
 				{projectPreviews.length > 0 && (
-					<Carousel previews={projectPreviews} 
+					<TaggedItemsCarousel previews={projectPreviews} 
 					showCount={carouselShowCount} innerMod={swiperMod}
-					headMod={RM.createMod('mt-2')} />	
+					headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
 				)}
 
 				{projectPreviews.length == 0 && (

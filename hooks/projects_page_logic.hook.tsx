@@ -15,10 +15,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
     const getProjectPreviewsToR = () => {
 		return previews.map((p, i) => {
 			const previewProps = transformProjectToTaggedItemPreview(p);
-
-			return (
-				<TaggedItemPreview {...previewProps} key={i} />
-			);
+			return previewProps;
 		});
 	};
 
@@ -49,8 +46,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
         nameInp,
         libsInp,
         tagsInp,
-
-		getProjectPreviewsToR,
+        previews: getProjectPreviewsToR(),
 		onFilterClick,
     };
 }

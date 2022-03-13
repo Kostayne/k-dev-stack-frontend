@@ -5,14 +5,15 @@ import * as RM from 'react-modifier';
 import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
 import { RenderDotsProps } from 'pure-react-carousel/typings/carouselElements';
 
-interface CarouselProps {
+interface TaggedItemsCarouselProps {
     headMod?: RM.IModifier;
     previews: TaggedItemPreviewProps[];
     showCount: number;
     innerMod?: string;
+    tagHrefPrefix: string;
 }
 
-const Carousel= (props: CarouselProps) => {
+const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
     const headMod = props.headMod || RM.createMod();
     const itemsCount = props.previews.length;
     const { showCount } = props;
@@ -22,7 +23,8 @@ const Carousel= (props: CarouselProps) => {
             return (
                 <Slide index={i} key={i}
                 innerClassName="!pr-[15px]">
-                    <TaggedItemPreview {...p}/>
+                    <TaggedItemPreview {...p} 
+                    tagHrefPrefix={props.tagHrefPrefix} />
                 </Slide>
             );
         });
@@ -102,4 +104,4 @@ const Carousel= (props: CarouselProps) => {
     );
 };
 
-export default Carousel;
+export default TaggedItemsCarousel;

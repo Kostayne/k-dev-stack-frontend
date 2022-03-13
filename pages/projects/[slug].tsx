@@ -7,7 +7,7 @@ import NamedLinksList from '../../components/named_links_list';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
 import { transformBackendFullProject } from '../../transform/project_full.transform';
-import Carousel from '../../components/carousel';
+import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook';
 import CommentsBlock from '../../components/comments_block';
 
@@ -40,9 +40,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* stack (libs) */}
 				<h2 className='mt-4'>Стек</h2>
 
-				<Carousel previews={libPreviews} 
-				showCount={carouselShowCount}
-				headMod={RM.createMod('mt-2')} />
+				<TaggedItemsCarousel previews={libPreviews} 
+				showCount={carouselShowCount} headMod={RM.createMod('mt-2')} 
+				tagHrefPrefix={`/projects?tags=`} />
 
 				{/* sources */}
 				<h2 className='mt-4'>Исходники</h2>

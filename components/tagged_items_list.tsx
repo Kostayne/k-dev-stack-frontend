@@ -6,6 +6,7 @@ import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview
 interface TaggedItemsListProps {
     headMod?: RM.IModifier;
     items: TaggedItemPreviewProps[];
+    tagHrefPrefix: string;
 }
 
 const TaggedItemsList= (props: TaggedItemsListProps) => {
@@ -14,7 +15,8 @@ const TaggedItemsList= (props: TaggedItemsListProps) => {
     const getLibsToR = () => {
         return props.items.map((item, index) => {
             return (
-                <TaggedItemPreview {...item} key={index} />
+                <TaggedItemPreview {...item} key={index} 
+                tagHrefPrefix={props.tagHrefPrefix} />
             );
         });
     };
