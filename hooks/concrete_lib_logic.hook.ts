@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { CommentLikeResultModel } from "../models/comment.model";
+import { CommentLikeResultModel, CommentModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
 import { userStore } from "../stores/user.store";
@@ -26,8 +26,6 @@ const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boo
 };
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
-	const [comments, setComments] = useState(props.lib.comments);
-
     const isMobile = useMediaQuery({
 		minWidth: 0
 	});
@@ -48,27 +46,13 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         return transformProjectToTaggedItemPreview(p);
     });
 
-	const onCommentCreate = async (text: string) => {
-		if (!userStore.userData) {
-			return;
-		}
-
+	const createCommentReq = async (text: string) => {
 		const createdComment = await commentReq.create({
 			text,
 			libId: props.lib.id
 		});
 
-		if (!createdComment) {
-			return;
-		}
-
-		createdComment.author = {...userStore.userData};
-
-		const personalized = transformCommentToPersonalized(createdComment);
-		const newComments = [...comments];
-
-		newComments.push(personalized);
-		setComments(newComments);
+		return createdComment as CommentModel;
 	};
 
 	const swiperMod = '';
@@ -81,7 +65,6 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         alternativePreviews,
         projectPreviews,
 		swiperMod,
-		comments,
-		onCommentCreate
+		createCommentReq
     };
 }

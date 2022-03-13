@@ -13,16 +13,17 @@ import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
 import CodeViewer from '../../components/code_viewer';
 import CommentsList from '../../components/comments_list';
+import CommentsBlock from '../../components/comments_block';
 
 export interface LibPageProps {
 	lib: LibModel;
 }
 
 const Lib: NextPage<LibPageProps> = (props) => {
-	const { 
+	const {
 		carouselShowCount, alternativePreviews,
-		projectPreviews, swiperMod, comments,
-		onCommentCreate
+		projectPreviews, swiperMod,
+		createCommentReq
 	} = useConcreteLibPageLogic(props);
 
 	const { 
@@ -94,15 +95,10 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<h2 className='mt-4'>Пример кода</h2>
 				<CodeViewer code={codeExample} codeLang={codeLang} />
 
-				{/* <div className='mt-3 h-[250px] w-[100%] bg-[gray]'></div> */}
-
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
-				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} 
-				onCreate={onCommentCreate} />
-
-				<CommentsList initialComments={comments} 
-				headMod={RM.createMod('mt-4')} />
+				<CommentsBlock initialComments={props.lib.comments} 
+				headMod={RM.createMod('mt-2')} createCommentReq={createCommentReq} />
 			</main>
 		</div>
 	);
