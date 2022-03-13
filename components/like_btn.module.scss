@@ -2,7 +2,6 @@
     transition: 250ms;
 
     &:hover {
-        fill: var(--like);
         background: rgba(235, 71, 139, 0.17);
     }
 
@@ -11,6 +10,6 @@
     }
 }
 
-._liked {
-    fill: var(--like);
+.svg_liked {
+    fill: #EB478C;
 }
