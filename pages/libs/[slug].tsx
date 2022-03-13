@@ -50,7 +50,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				goBack />
 
 				<TagRoundedList tags={tags}
-				headMod={RM.createMod('mt-2')} />
+				headMod={RM.createMod('mt-2')}
+				hrefPrefix={`/libs?tags=`} />
 
 				<NamedLinksList links={downloads} 
 				headMod={RM.createMod('mt-1')} />

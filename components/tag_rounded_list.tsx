@@ -5,6 +5,7 @@ import TagRounded from './tag_rounded';
 interface TagRoundedListProps {
     headMod?: RM.IModifier;
     tags: string[];
+    hrefPrefix: string;
 }
 
 const TagRoundedList= (props: TagRoundedListProps) => {
@@ -17,7 +18,8 @@ const TagRoundedList= (props: TagRoundedListProps) => {
     const getItemsToR = () => {
         return props.tags.map((t, i) => {
             return (
-                <TagRounded value={t} key={i} />
+                <TagRounded value={t} key={i}
+                hrefPrefix={props.hrefPrefix} />
             );
         });
     }

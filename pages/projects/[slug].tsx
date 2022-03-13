@@ -32,7 +32,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				goBack />
 
 				<TagRoundedList tags={tags}
-				headMod={RM.createMod('mt-2')} />
+				headMod={RM.createMod('mt-2')}
+				hrefPrefix={`/projects?tags=`} />
 
 				{/* description */}
 				<p className='mt-3'>{description}</p>
