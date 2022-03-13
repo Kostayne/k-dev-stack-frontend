@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { CommentModel, CreateCommentModel } from "../models/comment.model";
+import { CommentLikeResultModel, CommentModel, CreateCommentModel } from "../models/comment.model";
 import { HeaderBuilder } from "../utils/header_builder";
 
 class CommentReq {
@@ -13,9 +13,11 @@ class CommentReq {
             if (!resp.ok) {
                 console.error('Error in like comment req');
                 console.error(resp.statusText); 
+                return;
             }
 
-            return resp;
+            const likeResult = await resp.json() as CommentLikeResultModel;
+            return likeResult;
         } catch(e) {
             console.error('Error in like comment req');
             console.error(e);

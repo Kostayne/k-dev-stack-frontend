@@ -40,29 +40,6 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 		minWidth: 1024
 	});
 
-	useEffect(() => {
-		const asyncWrapper = async () =>{ 
-			const commentIds = comments.map(c => c.id);
-			const liked = await commentReq.filterLikedByUser(commentIds);
-
-			if (!liked) {
-				return;
-			}
-
-			const newComents = [...comments];
-			
-			newComents.forEach(c => {
-				if (liked.includes(c.id)) {
-					c.likedByUser = true;
-				}
-			});
-
-			setComments(newComents);
-		}
-
-		asyncWrapper();
-	}, []);
-
 	const alternativePreviews = props.lib.alternativeFor.map((a) => {
 		return transformLibToTaggedItemPreview(a);
 	});
@@ -70,29 +47,6 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
     const projectPreviews = props.lib.projects.map((p) => {
         return transformProjectToTaggedItemPreview(p);
     });
-
-	const onCommentLike = async (id: number) => {
-		const resp = await commentReq.like(id);
-
-		if (!resp?.ok) {
-			return;
-		}
-
-		const likeResult = await resp.json() as CommentLikeResultModel;
-
-		const newComments = [...comments];
-		const comment = newComments.find(c => c.id == id);
-
-		if (!comment) {
-			console.error('Cant find local comment in state to update'!);
-			return;
-		}
-
-		comment.likedByUser = likeResult.likedByUser;
-		comment.likesCount = likeResult.likesCount;
-
-		setComments(newComments);
-	};
 
 	const onCommentCreate = async (text: string) => {
 		if (!userStore.userData) {
@@ -128,7 +82,6 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         projectPreviews,
 		swiperMod,
 		comments,
-		onCommentLike,
 		onCommentCreate
     };
 }

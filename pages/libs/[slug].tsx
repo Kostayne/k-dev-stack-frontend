@@ -22,7 +22,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 	const { 
 		carouselShowCount, alternativePreviews,
 		projectPreviews, swiperMod, comments,
-		onCommentLike, onCommentCreate
+		onCommentCreate
 	} = useConcreteLibPageLogic(props);
 
 	const { 
@@ -101,7 +101,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} 
 				onCreate={onCommentCreate} />
 
-				<CommentsList onLike={onCommentLike} comments={comments} 
+				<CommentsList initialComments={comments} 
 				headMod={RM.createMod('mt-4')} />
 			</main>
 		</div>

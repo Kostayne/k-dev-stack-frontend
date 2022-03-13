@@ -77,6 +77,19 @@ export class UserStore {
             return 500;
         }
     }
+
+    async getOrLoadUser() {
+        if (!loadJwtFromLocalStore()) {
+            return null;
+        }
+
+        if (this.userData) {
+            return this.userData;
+        }
+
+        await this.loadUserFromServer();
+        return this.userData;
+    }
 }
 
 export const userStore = new UserStore(userFetch);
