@@ -55,6 +55,33 @@ class CommentReq {
             console.error(e);
         }
     }
+
+    async filterLikedByUser(ids: number[]) {
+        const queries = new URLSearchParams();
+
+        ids.map(id => {
+            queries.append('ids', id.toString());
+        });
+
+        const queriesStr = queries.toString();
+
+        try {
+            const resp = await fetch(`${apiUrl}/comment/filter_liked_by_user?${queriesStr}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error when filterLikeByUser req');
+                return;
+            }
+
+            return await resp.json() as number[];
+        } catch(e) {
+            console.error('Error when filterLikeByUser req');
+            console.error(e);
+        }
+    }
 }
 
 export const commentReq = new CommentReq();

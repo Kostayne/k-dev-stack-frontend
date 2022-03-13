@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { CommentLikeResultModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
@@ -39,6 +39,29 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 	const isDesktop = useMediaQuery({
 		minWidth: 1024
 	});
+
+	useEffect(() => {
+		const asyncWrapper = async () =>{ 
+			const commentIds = comments.map(c => c.id);
+			const liked = await commentReq.filterLikedByUser(commentIds);
+
+			if (!liked) {
+				return;
+			}
+
+			const newComents = [...comments];
+			
+			newComents.forEach(c => {
+				if (liked.includes(c.id)) {
+					c.likedByUser = true;
+				}
+			});
+
+			setComments(newComents);
+		}
+
+		asyncWrapper();
+	}, []);
 
 	const alternativePreviews = props.lib.alternativeFor.map((a) => {
 		return transformLibToTaggedItemPreview(a);
