@@ -3,6 +3,8 @@ import { useMediaQuery } from "react-responsive";
 import { CommentLikeResultModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
+import { userStore } from "../stores/user.store";
+import { transformCommentToPersonalized } from "../transform/comment.transform";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {
@@ -69,6 +71,29 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 		setComments(newComments);
 	};
 
+	const onCommentCreate = async (text: string) => {
+		if (!userStore.userData) {
+			return;
+		}
+
+		const createdComment = await commentReq.create({
+			text,
+			libId: props.lib.id
+		});
+
+		if (!createdComment) {
+			return;
+		}
+
+		createdComment.author = {...userStore.userData};
+
+		const personalized = transformCommentToPersonalized(createdComment);
+		const newComments = [...comments];
+
+		newComments.push(personalized);
+		setComments(newComments);
+	};
+
 	const swiperMod = '';
 
     return {
@@ -80,6 +105,7 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         projectPreviews,
 		swiperMod,
 		comments,
-		onCommentLike
+		onCommentLike,
+		onCommentCreate
     };
 }

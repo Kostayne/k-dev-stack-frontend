@@ -4,6 +4,7 @@ import StyledTextInput from './styled-text-input';
 
 interface CreateCommentProps {
     headMod?: RM.IModifier;
+    onCreate: (text: string) => void;
 }
 
 const CreateComment= (props: CreateCommentProps) => {
@@ -32,7 +33,7 @@ const CreateComment= (props: CreateCommentProps) => {
                 {isFocused && (
                     <div className='w-fit ml-auto mt-3 flex gap-x-2 items-center'>
                         <button className='text-btn' onClick={handleCancel}>ОТМЕНА</button>
-                        <button className='primary-btn w-[110px]'>ОТПРАВИТЬ</button>
+                        <button className='primary-btn w-[110px]' onClick={() => {props.onCreate(text)}}>ОТПРАВИТЬ</button>
                     </div>
                 )}
             </div>

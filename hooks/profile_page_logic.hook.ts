@@ -98,6 +98,10 @@ export function useProfilePageLogic() {
 			if (selectedFile) {
 				const img = selectedFile as unknown as File;
 				avatarRes = await userFetch.editAvatar(img);
+
+				if (avatarRes.ok) {
+					user.avatarName = user.id + '.jpg';
+				}
 			}
 
 			if (firstName || lastName) {
@@ -178,9 +182,7 @@ export function useProfilePageLogic() {
 		...passwordValidationMsgs
 	];
 
-	const userAvatarUrl = user? 
-		`${staticUrl}/avatars/${user?.id}.jpg`
-		: `/default_ava.jpeg`;
+	const userAvatarUrl = `${staticUrl}/avatars/${user?.avatarName}`;
 
 	const allInputsAreEmpty = [
 		email,

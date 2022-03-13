@@ -10,7 +10,6 @@ import { useProfilePageLogic } from '../hooks/profile_page_logic.hook';
 import { observer } from 'mobx-react-lite';
 import TextMsgBlock from '../components/text_msg_block';
 import { UserRequiredStatus, useUserRequired } from '../hooks/user_required.hook';
-import Banner from '../components/banner';
 
 const Profile: NextPage = () => {
 	const {

@@ -17,7 +17,7 @@ const Comment = (props: CommentProps) => {
     const headMod = props.headMod || RM.createMod();
     const { onLike } = props;
     const { date, likesCount, likedByUser } = props.data;
-    const { firstName, lastName } = props.data.author;
+    const { firstName, lastName, avatarName } = props.data.author;
 
     return (
         RM.modElement((
@@ -25,8 +25,12 @@ const Comment = (props: CommentProps) => {
                 {/* current comment */}
                 <div className='flex gap-x-3'>
                     <div className='relative w-[45px] h-[45px] rounded-[50%] overflow-hidden'>
-                        <Image src={`${staticUrl}/avatars/${props.data.author.id}.jpg`} alt="Аватарка" layout='fill' className='' />
+                        <Image src={`${staticUrl}/avatars/${avatarName}`} alt="Аватарка" layout='fill' className='' />
                     </div>
+                    
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* <img src={`${staticUrl}/avatars/${props.data.author.id}.jpg`}
+                    alt="Аватарка" className='relative w-[45px] h-[45px] rounded-[50%] overflow-hidden' /> */}
 
                     {/* right part */}
                     <div className='flex flex-col grow-[1]'>

@@ -23,7 +23,7 @@ const CommentsList= (props: CommentsListProps) => {
 
     return (
         RM.modElement((
-            <div className='flex gap-y-4'>
+            <div className='flex gap-y-4 flex-col'>
                 {getCommentsToR()}
             </div>
         ), headMod)

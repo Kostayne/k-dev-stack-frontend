@@ -1,5 +1,10 @@
 import { UserCommentRefModel } from "./user.model";
 
+export interface CommentLikedUser {
+    commentId: number;
+    userId: number;
+}
+
 export interface CommentModel {
     id: number;
     libId: number;
@@ -9,6 +14,7 @@ export interface CommentModel {
     date: string;
     text: string;
     nestedComments: CommentModel[];
+    likedUsers?: CommentLikedUser[];
 };
 
 export interface CommentPersonalizedModel extends CommentModel {
@@ -19,4 +25,10 @@ export interface CommentPersonalizedModel extends CommentModel {
 export interface CommentLikeResultModel {
     likesCount: number;
     likedByUser: boolean;
+}
+
+export interface CreateCommentModel {
+    text: string;
+    libId?: number;
+    projectId?: number;
 }
