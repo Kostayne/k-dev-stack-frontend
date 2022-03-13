@@ -4,20 +4,20 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import { ProjectModel } from '../../models/project.model';
 import NamedLinksList from '../../components/named_links_list';
-import CreateComment from '../../components/create_comment';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
 import { transformBackendFullProject } from '../../transform/project_full.transform';
 import Carousel from '../../components/carousel';
 import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook';
+import CommentsBlock from '../../components/comments_block';
 
 export interface ProjectPageProps {
 	project: ProjectModel;
 }
 
 const Project: NextPage<ProjectPageProps> = (props) => {
-	const { comments, description, name, sources, libs, tags } = props.project;
-	const { libPreviews, carouselShowCount } = useConcreteProjectLogic(props);
+	const { description, name, sources, libs, tags } = props.project;
+	const { libPreviews, carouselShowCount, createCommentReq } = useConcreteProjectLogic(props);
 
 	return (
 		<div className='page-content'>
@@ -52,7 +52,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
-				<CreateComment headMod={RM.createMod('mt-2 w-[100%]')} />
+				<CommentsBlock initialComments={props.project.comments}
+				createCommentReq={createCommentReq} />
 			</main>
 		</div>
 	);
@@ -93,7 +94,8 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 					description: 'Ошибка',
 					sources: [],
 					tags: [],
-					slug
+					slug,
+					id: 0
 				}
 			}
 		};

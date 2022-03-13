@@ -1,4 +1,4 @@
-import { CommentModel } from "./comment.model";
+import { CommentModel, CommentPersonalizedModel } from "./comment.model";
 import { LibModel } from "./lib.model";
 import { NamedLinkModel } from "./named_link.model";
 
@@ -8,7 +8,7 @@ export interface ProjectModel {
     description: string;
     libs: LibModel[];
     sources: NamedLinkModel[];
-    comments: CommentModel[];
+    comments: CommentPersonalizedModel[];
     slug: string;
     tags: string[];
 };

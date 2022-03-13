@@ -1,4 +1,5 @@
 import { useMediaQuery } from "react-responsive";
+import { CommentModel } from "../models/comment.model";
 import { ProjectPageProps } from "../pages/projects/[slug]";
 import { commentReq } from "../requests/comment.req";
 import { userStore } from "../stores/user.store";
@@ -40,8 +41,18 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
         return transformLibToTaggedItemPreview(l);
     });
 
+	const createCommentReq = async (text: string) => {
+		const createdComment = await commentReq.create({
+			text,
+			projectId: props.project.id
+		});
+
+		return createdComment as CommentModel;
+	}
+
     return {
         libPreviews,
-        carouselShowCount: getShowSlidesCount(isMobile, isTablet, isDesktop)
+        carouselShowCount: getShowSlidesCount(isMobile, isTablet, isDesktop),
+		createCommentReq
     };
 }

@@ -9,7 +9,7 @@ export function useLibsPageLogic(props: LibsPageProps) {
     const nameInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
 
-    const { isError, data: libs, isSuccess, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
+    const { isError, data: libs, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
         const resp = await libReq.getMany({
 			count: 15,
 			desc: true,
