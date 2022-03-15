@@ -15,11 +15,16 @@ export function useRegisterPageLogic() {
     const [errorStatus, setErrorStatus] = useState('');
     const router = useRouter();
 
+    const nameVal = nameInp.binding.value;
+    const lastNameVal = lastNameInp.binding.value;
+    const emailVal = emailInp.binding.value;
+    const passwordVal = passwordInp.binding.value;
+
     const validationMessages = [
-		...validateFirstName(nameInp.binding.value),
-		...validateLastName(lastNameInp.binding.value),
-		...validateEmail(emailInp.binding.value),
-		...validatePassword(passwordInp.binding.value)
+		...(validateFirstName(nameVal)),
+		...(validateLastName(lastNameVal)),
+		...(validateEmail(emailVal)),
+		...(validatePassword(passwordVal))
 	];
 
     const onSendClick = async () => {
@@ -29,10 +34,10 @@ export function useRegisterPageLogic() {
 
         try {
             const resp = await userFetch.register({
-                email: emailInp.binding.value,
-                firstName: nameInp.binding.value,
-                lastName: lastNameInp.binding.value,
-                password: passwordInp.binding.value
+                email: emailVal,
+                firstName: nameVal,
+                lastName: lastNameVal,
+                password: passwordVal
             });
 
             if (resp.ok) {
