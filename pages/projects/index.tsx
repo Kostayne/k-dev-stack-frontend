@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
@@ -7,6 +7,7 @@ import { projReq } from '../../requests/project.req';
 import { ProjectModel } from '../../models/project.model';
 import { useProjectPageLogic } from '../../hooks/projects_page_logic.hook';
 import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
+import { parseArrQuery } from '../../utils/parse_next_arr_query';
 
 export interface ProjectsPageProps {
 	projects: ProjectModel[];
@@ -77,12 +78,18 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 
 export default Projects;
 
-export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
-	const projects = await projReq.getMany({
+export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (ctx) => {
+	const tagsQuery = ctx.query.tags;
+	const libsQuery = ctx.query.libs;
+	const nameQuery = ctx.query.name as string || '';
+	const tags = parseArrQuery(tagsQuery);
+	const libs = parseArrQuery(libsQuery);
+
+	const projects = await projReq.getByFilter({
 		count: 25,
 		desc: true,
 		offset: 0
-	});
+	}, tags, libs, nameQuery);
 
 	if (!projects) {
 		console.error('Error while loading projects list in proj index page');

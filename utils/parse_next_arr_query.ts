@@ -1,4 +1,4 @@
-export function parseNextArrQuery(query: string | string[] | undefined) {
+export function parseArrQuery(query: string | string[] | undefined) {
     let arr = query as string[];
 
 	if (!query) {

@@ -41,14 +41,12 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
 		});
 	};
 
-	const tags = tagsInp.binding.value.split(', ');
-
 	const onFilterClick = async () => {
         const newPreviews = await projReq.getByFilter({
             count: 15,
             desc: true,
             offset: 0
-        }, tags, nameInp.binding.value);
+        }, tagsArr, libsArr, nameInp.binding.value);
 
         if (!newPreviews) {
             return;

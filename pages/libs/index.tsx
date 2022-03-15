@@ -9,7 +9,7 @@ import { LibModel } from '../../models/lib.model';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 import { dehydrate, QueryClient } from 'react-query';
 import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
-import { parseNextArrQuery } from '../../utils/parse_next_arr_query';
+import { parseArrQuery } from '../../utils/parse_next_arr_query';
 
 export interface LibsPageProps {
 	errorOccured?: boolean;
@@ -84,8 +84,7 @@ export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx)
 
 	let tagsQuery = ctx.query.tags;
 	const nameQuery = ctx.query.name as string || '';
-
-	const tags = parseNextArrQuery(tagsQuery);
+	const tags = parseArrQuery(tagsQuery);
 
 	await queryClient.prefetchQuery<LibModel[], Error>('getLibPreviews', async () => {
 		const resp = await libReq.getByFilter({

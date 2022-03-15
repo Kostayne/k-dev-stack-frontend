@@ -35,12 +35,16 @@ export class ProjectReq {
         return data;
     }
 
-    async getByFilter(params: GetManyParams, tags: string[], name: string) {
+    async getByFilter(params: GetManyParams, tags: string[], libs: string[], name: string) {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
         tags.forEach(t => {
             queryBuilder.append('tags', t);
+        });
+
+        libs.forEach(l => {
+            queryBuilder.append('libs', l);
         });
 
         if (name) {
