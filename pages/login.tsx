@@ -18,9 +18,12 @@ const InnerLogin: NextPage = () => {
 	const emailInp = useSyntheticInput();
 	const passwordInp = useSyntheticInput();
 
-	const validationMessages =[
-		...validateEmail(emailInp.binding.value),
-		...validatePassword(passwordInp.binding.value)
+	const emailVal = emailInp.binding.value;
+	const passVal = passwordInp.binding.value
+
+	let validationMessages = [
+		...(emailVal? validateEmail(emailInp.binding.value) : []),
+		...(passVal? validatePassword(passwordInp.binding.value) : [])
 	];
 
 	const logic = useLoginPageLogic();
