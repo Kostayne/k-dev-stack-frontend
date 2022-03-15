@@ -20,7 +20,7 @@ export function useLibsPageLogic(props: LibsPageProps) {
 
     const tagsVal = tagsInp.binding.value;
     const tagsArr = inputValToArr(tagsVal);
-    const nameFilter = nameInp.binding.value;
+    const nameVal = nameInp.binding.value;
 
     const { isError, data: libs, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
         // TODO add count & offset params
@@ -28,7 +28,7 @@ export function useLibsPageLogic(props: LibsPageProps) {
 			count: 15,
 			desc: true,
 			offset: 0,
-		}, tagsArr, nameFilter);
+		}, tagsArr, nameVal);
 
         if (!resp.ok) {
             throw new Error('Error, when fetching lib previews: ' + resp.statusText);
@@ -53,8 +53,8 @@ export function useLibsPageLogic(props: LibsPageProps) {
         const qBuilder = new URLSearchParams();
         appendArrToQuery(qBuilder, 'tags', tagsArr);
         
-        if (nameFilter) {
-            qBuilder.append('name', nameFilter);
+        if (nameVal) {
+            qBuilder.append('name', nameVal);
         }
 
         const curUrl = window.location.href.split('?')[0];
