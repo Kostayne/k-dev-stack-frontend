@@ -1,26 +1,42 @@
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { LibModel } from "../models/lib.model";
 import { LibsPageProps } from "../pages/libs";
 import { libReq } from "../requests/lib.req";
+import { inputValToArr } from "../utils/input_val_to_arr";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 import { useSyntheticInput } from "./input_synthetic.hook";
+import { appendArrToQuery } from "../utils/append_arr_to_query";
 
 export function useLibsPageLogic(props: LibsPageProps) {
     const nameInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
 
+    useEffect(() => {
+        const qBuilder = new URLSearchParams(window.location.search);
+        const qTags = qBuilder.getAll('tags');
+        tagsInp.setValue(qTags.join(', '));
+    }, []);
+
+    const tagsVal = tagsInp.binding.value;
+    const tagsArr = inputValToArr(tagsVal);
+    const nameFilter = nameInp.binding.value;
+
     const { isError, data: libs, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
-        const resp = await libReq.getMany({
+        // TODO add count & offset params
+        const resp = await libReq.getByFilter({
 			count: 15,
 			desc: true,
-			offset: 0
-		});
+			offset: 0,
+		}, tagsArr, nameFilter);
 
         if (!resp.ok) {
             throw new Error('Error, when fetching lib previews: ' + resp.statusText);
         }
 
         return await resp.json() as LibModel[];
+    }, {
+        enabled: false
     });
 
     const loadMorePreviews = (offset: number) => {
@@ -31,10 +47,20 @@ export function useLibsPageLogic(props: LibsPageProps) {
         return transformLibToTaggedItemPreview(l);
     }) : [];
 
-    const tags = tagsInp.binding.value.split(', ');
-
     const onFilterClick = async () => {
         refetch();
+
+        const qBuilder = new URLSearchParams();
+        appendArrToQuery(qBuilder, 'tags', tagsArr);
+        
+        if (nameFilter) {
+            qBuilder.append('name', nameFilter);
+        }
+
+        const curUrl = window.location.href.split('?')[0];
+        const newUrl = new URL(curUrl);
+        newUrl.search = qBuilder.toString();
+        window.history.replaceState('', '', newUrl.toString());
     };
 
     return {

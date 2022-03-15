@@ -1,6 +1,7 @@
 import { apiUrl } from "../cfg";
 import { GetManyParams } from "../models/get_many_params";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
+import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -36,9 +37,7 @@ class LibReq {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
-        tags.forEach(t => {
-            queryBuilder.append('tags', t);
-        });
+        appendArrToQuery(queryBuilder, 'tags', tags);
 
         if (name) {
             queryBuilder.append('name', name);

@@ -1,4 +1,4 @@
-import type { GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
@@ -9,9 +9,9 @@ import { LibModel } from '../../models/lib.model';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 import { dehydrate, QueryClient } from 'react-query';
 import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
+import { parseNextArrQuery } from '../../utils/parse_next_arr_query';
 
 export interface LibsPageProps {
-	initialLibs: LibModel[];
 	errorOccured?: boolean;
 }
 
@@ -79,16 +79,20 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 
 export default Libs;
 
-export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
-	let libsList: LibModel[] = [];
+export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx) => {
 	const queryClient = new QueryClient();
 
+	let tagsQuery = ctx.query.tags;
+	const nameQuery = ctx.query.name as string || '';
+
+	const tags = parseNextArrQuery(tagsQuery);
+
 	await queryClient.prefetchQuery<LibModel[], Error>('getLibPreviews', async () => {
-		const resp = await libReq.getMany({
+		const resp = await libReq.getByFilter({
 			count: 15,
 			desc: true,
 			offset: 0
-		});
+		}, tags, nameQuery);
 
 		return await resp.json() as LibModel[];
 	});
@@ -96,7 +100,7 @@ export const getStaticProps: GetStaticProps<LibsPageProps> = async () => {
 	return {
 		props: {
 			dehydratedState: dehydrate(queryClient),
-			initialLibs: libsList,
+			errorOccured: false
 		}
 	};
 };
