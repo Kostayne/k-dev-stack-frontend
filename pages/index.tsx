@@ -68,8 +68,6 @@ const Home: NextPage<HomePageProps> = (props) => {
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 	let libsRes: Response | null = null;
 	let libsList: LibModel[] = [];
-
-	let projectsResp: Response | null = null;
 	let projectsList: ProjectModel[] = [];
 
 	let errorOccured = false;
@@ -81,13 +79,19 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 			offset: 0
 		});
 
-		projectsResp = await projReq.getMany({
+		const projectsResp = await projReq.getMany({
 			count: 6,
 			desc: true,
 			offset: 0
 		});
+
+		if (!projectsResp) {
+			errorOccured = true;
+		}
+
+		projectsList = projectsResp || [];
 	} catch(e) {
-		console.error('Error while loading projects and libs in main page!');
+		console.error('Error while loading libs in main page!');
 		console.error(e);
 
 		errorOccured = false;
@@ -97,11 +101,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
 		libsList = await libsRes.json() as LibModel[];
 	}
 
-	if (projectsResp?.ok) {
-		projectsList = await projectsResp.json() as ProjectModel[];
-	}
-
-	if (!libsRes?.ok || !projectsResp?.ok) {
+	if (!libsRes?.ok) {
 		errorOccured = true;
 	}
 

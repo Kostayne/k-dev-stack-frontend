@@ -104,23 +104,18 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	let projects: ProjectModel[] = [];
+	const projects = await projReq.getMany({
+		count: 9999,
+		desc: true,
+		offset: 0
+	});
 
-	try {
-		const resp = await projReq.getMany({
-			count: 9999,
-			desc: true,
-			offset: 0
-		});
-
-		projects = await resp.json() as ProjectModel[];
-	} catch(e) {
+	if (!projects) {
 		console.log('Error in loading project paths');
-		console.error(e);
 	}
 
 	return {
-		paths: projects.map(p => {
+		paths: (projects || []).map(p => {
 			return {
 				params: {
 					slug: p.slug

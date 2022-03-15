@@ -78,29 +78,26 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 export default Projects;
 
 export const getStaticProps: GetStaticProps<ProjectsPageProps> = async () => {
-	try {
-		const projResp = await projReq.getMany({
-			count: 25,
-			desc: true,
-			offset: 0
-		});
+	const projects = await projReq.getMany({
+		count: 25,
+		desc: true,
+		offset: 0
+	});
 
-		const projects = await projResp.json() as ProjectModel[];
+	if (!projects) {
+		console.error('Error while loading projects list in proj index page');
 
 		return {
 			props: {
-				projects
+				projects: [],
+				errorOccured: true
 			}
 		};
-	} catch(e) {
-		console.error('Error while loading projects list in proj index page');
-		console.error(e);
 	}
 
 	return {
 		props: {
-			projects: [],
-			errorOccured: true
+			projects
 		}
 	};
 };

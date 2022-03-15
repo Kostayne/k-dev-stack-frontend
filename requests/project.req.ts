@@ -19,14 +19,23 @@ export class ProjectReq {
         });
     }
 
-    getMany(params: GetManyParams) {
+    async getMany(params: GetManyParams) {
         const queries = getGetManyQuery(params);
-        return fetch(`${apiUrl}/project/many?${queries}`, {
+        const resp = await fetch(`${apiUrl}/project/many?${queries}`, {
             method: 'GET'
         });
+
+        if (!resp.ok) {
+            console.error('Error while get many project req');
+            console.error(resp.statusText);
+            return;
+        }
+
+        const data = await resp.json() as ProjectModel[];
+        return data;
     }
 
-    getByFilter(params: GetManyParams, tags: string[], name: string) {
+    async getByFilter(params: GetManyParams, tags: string[], name: string) {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
@@ -40,9 +49,24 @@ export class ProjectReq {
 
         const queries = queryBuilder.toString();
 
-        return fetch(`${apiUrl}/project/by_filter?${queries}`, {
-            method: 'GET'
-        });
+        try {
+            const resp = await fetch(`${apiUrl}/project/by_filter?${queries}`, {
+                method: 'GET'
+            });
+    
+            if (!resp.ok) {
+                console.error('Error at get projects by filter req!');
+                console.error(resp.statusText);
+            }
+    
+            const data = await resp.json() as ProjectModel[];
+            return data;
+        } catch(e) {
+            console.error('Error at get many projects req!');
+            console.error(e);
+        }
+
+        return;
     }
 
     getFullBySlug(slug: string) {

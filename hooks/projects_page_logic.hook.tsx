@@ -1,9 +1,9 @@
 import { useState } from "react";
-import TaggedItemPreview from "../components/tagged-item-preview";
 import { ProjectModel } from "../models/project.model";
 import { ProjectsPageProps } from "../pages/projects";
 import { projReq } from "../requests/project.req";
 import { transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
+import { inputValToArr } from "../utils/input_val_to_arr";
 import { useSyntheticInput } from "./input_synthetic.hook";
 
 export function useProjectPageLogic(props: ProjectsPageProps) {
@@ -11,6 +11,10 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
 	const libsInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
 	const [previews, setPreviews] = useState<ProjectModel[]>(props.projects);
+
+    const tagsVal = tagsInp.binding.value;
+    const tagsArr = inputValToArr(tagsVal);
+    const nameFilter = nameInp.binding.value;
 
     const getProjectPreviewsToR = () => {
 		return previews.map((p, i) => {
@@ -22,24 +26,17 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
 	const tags = tagsInp.binding.value.split(', ');
 
 	const onFilterClick = async () => {
-        try {
-            const resp = await projReq.getByFilter({
-                count: 15,
-                desc: true,
-                offset: 0
-            }, tags, nameInp.binding.value);
+        const newPreviews = await projReq.getByFilter({
+            count: 15,
+            desc: true,
+            offset: 0
+        }, tags, nameInp.binding.value);
 
-            if (!resp.ok) {
-                console.error(resp.statusText);
-                return;
-            }
-
-            const newLibs = await resp.json() as ProjectModel[];
-            setPreviews(newLibs);
-        } catch(e) {
-            console.error('Error while filter libs req');
-            console.error(e);
+        if (!newPreviews) {
+            return;
         }
+
+        setPreviews(newPreviews);
     };
 
     return {
