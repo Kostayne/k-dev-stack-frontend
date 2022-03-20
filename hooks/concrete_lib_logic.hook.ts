@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import React, {  } from "react";
 import { useMediaQuery } from "react-responsive";
-import { CommentLikeResultModel, CommentModel } from "../models/comment.model";
+import { CommentModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
-import { userStore } from "../stores/user.store";
-import { transformCommentToPersonalized } from "../transform/comment.transform";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {
@@ -46,10 +44,11 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         return transformProjectToTaggedItemPreview(p);
     });
 
-	const createCommentReq = async (text: string) => {
+	const createCommentReq = async (text: string, parentId?: number) => {
 		const createdComment = await commentReq.create({
 			text,
-			libId: props.lib.id
+			libId: props.lib.id,
+			parentId
 		});
 
 		return createdComment as CommentModel;

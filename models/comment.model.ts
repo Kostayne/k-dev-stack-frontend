@@ -15,6 +15,7 @@ export interface CommentModel {
     text: string;
     nestedComments: CommentModel[];
     likedUsers?: CommentLikedUser[];
+    parentId: number;
 };
 
 export interface CommentPersonalizedModel extends CommentModel {
@@ -31,4 +32,5 @@ export interface CreateCommentModel {
     text: string;
     libId?: number;
     projectId?: number;
+    parentId?: number;
 }

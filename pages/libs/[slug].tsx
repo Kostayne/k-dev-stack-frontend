@@ -12,7 +12,6 @@ import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
 import CodeViewer from '../../components/code_viewer';
-import CommentsList from '../../components/comments_list';
 import CommentsBlock from '../../components/comments_block';
 
 export interface LibPageProps {

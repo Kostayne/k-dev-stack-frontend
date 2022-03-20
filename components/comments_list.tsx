@@ -6,6 +6,7 @@ import Comment from '../components/comment';
 interface CommentsListProps {
     headMod?: RM.IModifier;
     comments: CommentPersonalizedModel[];
+    onSendCommentReply: (text: string, parentId: number) => void;
     onCommentLike: (id: number) => void;
 }
 
@@ -16,7 +17,8 @@ const CommentsList= (props: CommentsListProps) => {
         return props.comments.map((c, i) => {
             return (
                 <Comment data={c} key={i} 
-                onLike={() => { props.onCommentLike(c.id) }} />
+                onLike={props.onCommentLike}
+                onSendReply={props.onSendCommentReply} />
             );
         });
     };

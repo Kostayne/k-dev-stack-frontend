@@ -30,9 +30,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(() => new QueryClient());
 
     useState(() => {
-        if (typeof window != 'undefined') {
-            logAuthors();
-        }
+        // if (typeof window != 'undefined') {
+            // logAuthors();
+        // }
     });
 
     return (
