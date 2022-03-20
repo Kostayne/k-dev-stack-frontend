@@ -62,7 +62,7 @@ class CommentReq {
         const queries = new URLSearchParams();
 
         ids.map(id => {
-            queries.append('ids', id.toString());
+            queries.append('ids[]', id.toString());
         });
 
         const queriesStr = queries.toString();
