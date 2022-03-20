@@ -69,15 +69,12 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
             // TODO show auth needed banner
             return;
         }
-
-
         
         const createdComment = await props.createCommentReq(text);
+        
         if (!createdComment) {
             return;
         }
-
-        createdComment.author = {...user};
 
 		const personalized = transformCommentToPersonalized(createdComment);
 		const newComments = [...comments];
@@ -95,22 +92,25 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
         }
 
         const createdComment = await props.createCommentReq(text, parentId);
+
+        if (!createdComment) {
+            console.error('smth happened');
+            return;
+        }
+
         const personalizedNewComment = transformCommentToPersonalized(createdComment);
 
-        const firstLevelComments = [...comments];
-        const allComments = firstLevelComments.flatMap(c => c.nestedComments);
-		const parentComment = allComments.find(c => c.id == parentId);
+        const flatMappedComments = flatMapCommentsArr(comments);
+		const parentComment = flatMappedComments.find(c => c.id == parentId);
 
         if (!parentComment) {
             console.error('Cant find parent comment to attach nested comment in comment reply handler');
             return;
         }
 
+        const newComments = transformCommentListToNested(flatMappedComments) as CommentPersonalizedModel[];
         parentComment.nestedComments.push(personalizedNewComment);
-
-        if (!createdComment) {
-            return;
-        }
+        setComments([...newComments]);
     }
 
     return {

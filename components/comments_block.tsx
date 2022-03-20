@@ -18,6 +18,8 @@ const CommentsBlock= (props: CommentsBlockProps) => {
         onCommentCreate, onCommentLike, onCommentReply, 
     } = useCommentBlockLogic(props);
 
+    console.log('comments block have been updated');
+
     return (
         RM.modElement((
             <div>
