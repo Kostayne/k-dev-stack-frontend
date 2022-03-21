@@ -80,7 +80,7 @@ const Comment = (props: CommentProps) => {
                     <CommentsList comments={nestedComments}
                     onCommentLike={props.onLike}
                     onSendCommentReply={props.onSendReply}
-                    headMod={RM.createMod('ml-5 mt-1 gap-y-1')} />
+                    headMod={RM.createMod('ml-2 md:ml-5 mt-1 gap-y-1')} />
                 )}
             </div>
         ), headMod)
