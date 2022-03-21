@@ -8,7 +8,7 @@ import CreateComment from './create_comment';
 export interface CommentsBlockProps {
     headMod?: RM.IModifier;
     initialComments: CommentPersonalizedModel[];
-    commentsUniqueid: string;
+    commentsUniqueId: string;
     createCommentReq: (text: string, parentId?: number) => Promise<CommentModel>;
 }
 

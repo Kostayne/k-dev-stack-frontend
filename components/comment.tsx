@@ -55,12 +55,12 @@ const Comment = (props: CommentProps) => {
                     {/* right part */}
                     <div className='flex flex-col grow-[1]'>
                         {/* right top */}
-                        <div className='flex items-center gap-x-2 text-contrast'>
+                        <div className='flex items-center gap-x-2 text-contrast text-sm'>
                             <span className='font-roboto font-medium'>{firstName} {lastName}</span>
-                            <span>{date}</span>
+                            <span className=''>{date}</span>
                         </div>
 
-                        <pre className='font-robotoCond whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
+                        <pre className='font-roboto whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
 
                         <div className='flex items-center mt-[5px]'>
                             <Rating onLikeClick={handleLike} likesCount={likesCount} liked={likedByUser} />

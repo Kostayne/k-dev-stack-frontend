@@ -36,6 +36,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		id
 	} = props.lib;
 
+	const commentsId = `lib_${props.lib.id}`;
+
 	return (
 		<div className='page-content'>
 			<Head>
@@ -98,7 +100,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock initialComments={props.lib.comments} 
-				headMod={RM.createMod('mt-2')} createCommentReq={createCommentReq} />
+				headMod={RM.createMod('mt-2')} createCommentReq={createCommentReq}
+				commentsUniqueId={commentsId} />
 			</main>
 		</div>
 	);

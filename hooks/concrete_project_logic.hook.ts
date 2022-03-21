@@ -2,8 +2,6 @@ import { useMediaQuery } from "react-responsive";
 import { CommentModel } from "../models/comment.model";
 import { ProjectPageProps } from "../pages/projects/[slug]";
 import { commentReq } from "../requests/comment.req";
-import { userStore } from "../stores/user.store";
-import { transformCommentToPersonalized } from "../transform/comment.transform";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {

@@ -19,6 +19,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 	const { description, name, sources, libs, tags } = props.project;
 	const { libPreviews, carouselShowCount, createCommentReq } = useConcreteProjectLogic(props);
 
+	const commentsId = `proj_${props.project.id}`;
+
 	return (
 		<div className='page-content'>
 			<Head>
@@ -54,7 +56,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock initialComments={props.project.comments}
-				createCommentReq={createCommentReq} />
+				createCommentReq={createCommentReq} commentsUniqueId={commentsId} />
 			</main>
 		</div>
 	);
