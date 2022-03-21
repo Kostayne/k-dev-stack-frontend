@@ -6,6 +6,7 @@ import Rating from './rating';
 import { staticUrl } from '../cfg';
 import CreateComment from '../components/create_comment';
 import CommentsList from './comments_list';
+import { backendDateToHuman } from '../utils/backend_date_to_str';
 
 interface CommentProps {
     headMod?: RM.IModifier;
@@ -16,9 +17,11 @@ interface CommentProps {
 
 const Comment = (props: CommentProps) => {
     const headMod = props.headMod || RM.createMod();
-    const { date, likesCount, likedByUser, nestedComments, id } = props.data;
+    const { likesCount, likedByUser, nestedComments, id } = props.data;
     const { firstName, lastName, avatarName } = props.data.author;
     const [replyOpened, setReplyOpened] = useState(false);
+
+    const date = backendDateToHuman(props.data.creationDate);
 
     const onOpenReplyBtn = () => {
         setReplyOpened(true);
@@ -28,6 +31,8 @@ const Comment = (props: CommentProps) => {
         if (props.onSendReply) {
             props.onSendReply(text, props.data.id);
         }
+
+        setReplyOpened(false);
     };
 
     const handleLike = () => {
@@ -67,16 +72,16 @@ const Comment = (props: CommentProps) => {
                             <CreateComment onCancel={() => { setReplyOpened(false); }}
                             onCreate={onSendReply} prefix={props.data.author.firstName + ', '} />
                         )}
-
-                        {/* nested comments */}
-                        {nestedComments && nestedComments.length > 0 && (
-                            <CommentsList comments={nestedComments}
-                            onCommentLike={props.onLike}
-                            onSendCommentReply={props.onSendReply}
-                            headMod={RM.createMod('ml-1 mt-2')} />
-                        )}
                     </div>
                 </div>
+
+                {/* nested comments */}
+                {nestedComments && nestedComments.length > 0 && (
+                    <CommentsList comments={nestedComments}
+                    onCommentLike={props.onLike}
+                    onSendCommentReply={props.onSendReply}
+                    headMod={RM.createMod('ml-5 mt-1 gap-y-1')} />
+                )}
             </div>
         ), headMod)
     );

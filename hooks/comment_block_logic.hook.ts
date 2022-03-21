@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { CommentsBlockProps } from "../components/comments_block";
 import { CommentPersonalizedModel } from "../models/comment.model";
 import { commentReq } from "../requests/comment.req";
@@ -9,6 +10,10 @@ import { flatMapCommentsArr } from "../utils/flatmap_comments";
 export function useCommentBlockLogic(props: CommentsBlockProps) {
     const { initialComments } = props;
     const [comments, setComments] = useState(initialComments);
+
+    // const {} = useQuery(['comments', props.commentsUniqueid], () => {
+        
+    // });
 
     useEffect(() => {
         const asyncWrapper = async () => {

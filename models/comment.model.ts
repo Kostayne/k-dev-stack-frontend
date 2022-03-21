@@ -11,7 +11,7 @@ export interface CommentModel {
     replyTo?: UserCommentRefModel;
     author: UserCommentRefModel;
     likesCount: number;
-    date: string;
+    creationDate: string;
     text: string;
     nestedComments: CommentModel[];
     likedUsers?: CommentLikedUser[];

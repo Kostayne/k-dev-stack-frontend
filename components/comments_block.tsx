@@ -8,6 +8,7 @@ import CreateComment from './create_comment';
 export interface CommentsBlockProps {
     headMod?: RM.IModifier;
     initialComments: CommentPersonalizedModel[];
+    commentsUniqueid: string;
     createCommentReq: (text: string, parentId?: number) => Promise<CommentModel>;
 }
 
@@ -17,8 +18,6 @@ const CommentsBlock= (props: CommentsBlockProps) => {
         comments,
         onCommentCreate, onCommentLike, onCommentReply, 
     } = useCommentBlockLogic(props);
-
-    console.log('comments block have been updated');
 
     return (
         RM.modElement((
