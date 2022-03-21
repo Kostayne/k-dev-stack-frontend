@@ -4,15 +4,16 @@ import StyledTextInput from './styled-text-input';
 
 interface CreateCommentProps {
     headMod?: RM.IModifier;
+    prefix?: string;
+    isFocused?: boolean;
     onCreate: (text: string) => void;
     onCancel?: () => void;
-    prefix?: string;
 }
 
 const CreateComment= (props: CreateCommentProps) => {
     const headMod = props.headMod || RM.createMod();
     const [text, setText] = useState(props.prefix || '');
-    const [isFocused, setFocused] = useState(false);
+    const [isFocused, setFocused] = useState(props.isFocused || false);
 
     const handleFocus = () => {
         setFocused(true);

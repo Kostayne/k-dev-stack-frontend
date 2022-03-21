@@ -70,7 +70,8 @@ const Comment = (props: CommentProps) => {
 
                         {replyOpened && (
                             <CreateComment onCancel={() => { setReplyOpened(false); }}
-                            onCreate={onSendReply} prefix={props.data.author.firstName + ', '} />
+                            onCreate={onSendReply} prefix={props.data.author.firstName + ', '} 
+                            isFocused />
                         )}
                     </div>
                 </div>
