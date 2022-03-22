@@ -92,7 +92,7 @@ class CommentReq {
         // const queries = new URLSearchParams(getManyQueries);
 
         try {
-            const resp = await fetch(`${apiUrl}/comment/filter_liked_by_user?${getManyQueries}`, {
+            const resp = await fetch(`${apiUrl}/comment/many_personalized?${getManyQueries}`, {
                 method: 'GET',
                 headers: new HeaderBuilder().jwt().headers
             });
