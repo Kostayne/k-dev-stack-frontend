@@ -14,9 +14,10 @@ export interface CommentsBlockProps {
 
 const CommentsBlock= (props: CommentsBlockProps) => {
     const headMod = props.headMod || RM.createMod();
-    const { 
+
+    const {
         comments,
-        onCommentCreate, onCommentLike, onCommentReply, 
+        onCommentCreate, onCommentLike, onCommentReply,
     } = useCommentBlockLogic(props);
 
     return (

@@ -1,29 +1,10 @@
 import { apiUrl } from "../cfg";
 import { CommentLikeResultModel, CommentModel, CreateCommentModel } from "../models/comment.model";
+import { GetManyParams } from "../models/get_many_params";
+import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
 class CommentReq {
-    async like(id: number) {
-        try {
-            const resp = await fetch(`${apiUrl}/comment/like?id=${id}`, {
-                method: 'GET',
-                headers: new HeaderBuilder().jwt().headers
-            });
-    
-            if (!resp.ok) {
-                console.error('Error in like comment req');
-                console.error(resp.statusText); 
-                return;
-            }
-
-            const likeResult = await resp.json() as CommentLikeResultModel;
-            return likeResult;
-        } catch(e) {
-            console.error('Error in like comment req');
-            console.error(e);
-        }
-    }
-
     async create(data: CreateCommentModel) {
         try {
             const body = {
@@ -58,6 +39,27 @@ class CommentReq {
         }
     }
 
+    async like(id: number) {
+        try {
+            const resp = await fetch(`${apiUrl}/comment/like?id=${id}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+    
+            if (!resp.ok) {
+                console.error('Error in like comment req');
+                console.error(resp.statusText); 
+                return;
+            }
+
+            const likeResult = await resp.json() as CommentLikeResultModel;
+            return likeResult;
+        } catch(e) {
+            console.error('Error in like comment req');
+            console.error(e);
+        }
+    }
+
     async filterLikedByUser(ids: number[]) {
         const queries = new URLSearchParams();
 
@@ -81,6 +83,28 @@ class CommentReq {
             return await resp.json() as number[];
         } catch(e) {
             console.error('Error when filterLikeByUser req');
+            console.error(e);
+        }
+    }
+
+    async getManyPersonalized(params: GetManyParams) {
+        const getManyQueries = getGetManyQuery(params);
+        // const queries = new URLSearchParams(getManyQueries);
+
+        try {
+            const resp = await fetch(`${apiUrl}/comment/filter_liked_by_user?${getManyQueries}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error when getManyPersonalized comments req');
+                console.error(resp.statusText);
+            }
+
+            const comments = await resp.json();
+        } catch(e) {
+            console.error('Error when getManyPersonalized comments req');
             console.error(e);
         }
     }
