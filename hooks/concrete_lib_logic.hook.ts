@@ -1,41 +1,9 @@
-import React, {  } from "react";
-import { useMediaQuery } from "react-responsive";
 import { CommentModel } from "../models/comment.model";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
-const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boolean) => {
-    let carouselShowCount = 3;
-
-	if (isMobile) {
-		carouselShowCount = 1;
-	}
-
-	if (isTablet) {
-		carouselShowCount = 2;
-	}
-
-	if (isDesktop) {
-		carouselShowCount = 3;
-	}
-
-    return carouselShowCount;
-};
-
 export function useConcreteLibPageLogic(props: LibPageProps) {
-    const isMobile = useMediaQuery({
-		minWidth: 0
-	});
-
-	const isTablet = useMediaQuery({
-		minWidth: 768
-	});
-
-	const isDesktop = useMediaQuery({
-		minWidth: 1024
-	});
-
 	const alternativePreviews = props.lib.alternativeFor.map((a) => {
 		return transformLibToTaggedItemPreview(a);
 	});
@@ -57,10 +25,6 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 	const swiperMod = '';
 
     return {
-        isDesktop,
-        isMobile,
-        isTablet,
-        carouselShowCount: getShowSlidesCount(isMobile, isTablet, isDesktop),
         alternativePreviews,
         projectPreviews,
 		swiperMod,

@@ -4,11 +4,11 @@ import React from 'react';
 import * as RM from 'react-modifier';
 import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
 import { RenderDotsProps } from 'pure-react-carousel/typings/carouselElements';
+import { useTaggedItemsCarouselLogic } from '../hooks/tagged_items_carousel_logic.hook';
 
 interface TaggedItemsCarouselProps {
     headMod?: RM.IModifier;
     previews: TaggedItemPreviewProps[];
-    showCount: number;
     innerMod?: string;
     tagHrefPrefix: string;
 }
@@ -16,7 +16,7 @@ interface TaggedItemsCarouselProps {
 const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
     const headMod = props.headMod || RM.createMod();
     const itemsCount = props.previews.length;
-    const { showCount } = props;
+    const { showCount } = useTaggedItemsCarouselLogic();
     
     const getSlidesToR = () => {
         return props.previews.map((p, i) => {
@@ -35,7 +35,7 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
             const selectedSlide = ctx.currentSlide || 0;
             const curToLast = (itemsCount - 1) - i;
 
-            if ((i + props.showCount) % props.showCount != 0) {
+            if ((i + showCount) % showCount != 0) {
                 return null;
             }
 
@@ -43,7 +43,7 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
 
             //relative & permanent
             // only last can be true
-            if (curToLast < props.showCount) {
+            if (curToLast < showCount) {
                 // only when cur selected
                 if (itemsCount - 1 - selectedSlide < showCount) {
                     curActive = true;

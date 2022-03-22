@@ -17,7 +17,7 @@ export interface ProjectPageProps {
 
 const Project: NextPage<ProjectPageProps> = (props) => {
 	const { description, name, sources, libs, tags } = props.project;
-	const { libPreviews, carouselShowCount, createCommentReq } = useConcreteProjectLogic(props);
+	const { libPreviews, createCommentReq } = useConcreteProjectLogic(props);
 
 	const commentsId = `proj_${props.project.id}`;
 
@@ -43,8 +43,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* stack (libs) */}
 				<h2 className='mt-4'>Стек</h2>
 
-				<TaggedItemsCarousel previews={libPreviews} 
-				showCount={carouselShowCount} headMod={RM.createMod('mt-2')} 
+				<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
 				tagHrefPrefix={`/projects?tags=`} />
 
 				{/* sources */}
