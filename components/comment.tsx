@@ -44,7 +44,7 @@ const Comment = (props: CommentProps) => {
             <div className='w-full'>
                 {/* current comment */}
                 <div className='flex gap-x-3'>
-                    <div className='relative w-[40px] h-[40px] md:w-[45px] md:h-[45px] rounded-[50%] overflow-hidden'>
+                    <div className='relative min-w-[40px] min-h-[40px] w-[40px] h-[40px] md:w-[45px] md:h-[45px] rounded-[50%] overflow-hidden'>
                         <Image src={`${staticUrl}/avatars/${avatarName}`} alt="Аватарка" layout='fill' className='' />
                     </div>
                     
@@ -81,7 +81,7 @@ const Comment = (props: CommentProps) => {
                     <CommentsList comments={nestedComments}
                     onCommentLike={props.onLike}
                     onSendCommentReply={props.onSendReply}
-                    headMod={RM.createMod('ml-2 md:ml-5 mt-1 !gap-y-1')} />
+                    headMod={RM.createMod('mobMd:ml-2 md:ml-5 mt-1 !gap-y-1')} />
                 )}
             </div>
         ), headMod)

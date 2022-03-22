@@ -8,6 +8,10 @@ module.exports = {
         extend: {
             boxShadow: {
                 'preview': '0px 0px 4px rgb(122 177 255 / 25%), 0px 4px 4px -1px rgb(77 149 255 / 25%)'
+            },
+
+            screens: {
+                'mobMd': '375px'
             }
         },
 

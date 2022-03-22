@@ -17,5 +17,6 @@ export function transformBackendFullLib(data: LibModel) {
     });
 
     lib.comments = transformCommentListToNested(lib.comments || []) as CommentPersonalizedModel[];
+    
     return lib;
 }

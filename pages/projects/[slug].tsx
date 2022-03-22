@@ -53,7 +53,6 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				<NamedLinksList links={sources} 
 				headMod={RM.createMod('mt-1')} />
 
-				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock initialComments={props.project.comments}
 				createCommentReq={createCommentReq} commentsUniqueId={commentsId} />
