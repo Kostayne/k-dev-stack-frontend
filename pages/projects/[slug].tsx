@@ -17,7 +17,7 @@ export interface ProjectPageProps {
 
 const Project: NextPage<ProjectPageProps> = (props) => {
 	const { description, name, sources, libs, tags } = props.project;
-	const { libPreviews, createCommentReq } = useConcreteProjectLogic(props);
+	const { libPreviews, createCommentReq, fetchComments } = useConcreteProjectLogic(props);
 
 	const commentsId = `proj_${props.project.id}`;
 
@@ -54,7 +54,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock initialComments={props.project.comments}
-				createCommentReq={createCommentReq} commentsUniqueId={commentsId} />
+				createCommentReq={createCommentReq} commentsUniqueId={commentsId}
+				fetchComments={fetchComments} />
 			</main>
 		</div>
 	);

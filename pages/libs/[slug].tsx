@@ -21,7 +21,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 	const {
 		alternativePreviews,
 		projectPreviews, swiperMod,
-		createCommentReq
+		createCommentReq,
+		fetchComments
 	} = useConcreteLibPageLogic(props);
 
 	const { 
@@ -98,7 +99,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock initialComments={props.lib.comments} 
 				headMod={RM.createMod('mt-2')} createCommentReq={createCommentReq}
-				commentsUniqueId={commentsId} />
+				commentsUniqueId={commentsId}
+				fetchComments={fetchComments} />
 			</main>
 		</div>
 	);

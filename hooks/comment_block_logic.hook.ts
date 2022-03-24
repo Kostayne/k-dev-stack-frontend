@@ -45,28 +45,6 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onCommentLike = async (id: number) => {
-		const result = await commentReq.like(id);
-
-		if (!result) {
-			return;
-		}
-
-		const flatMappedComments = flatMapCommentsArr(comments) as CommentPersonalizedModel[];
-		const comment = flatMappedComments.find(c => c.id == id);
-
-		if (!comment) {
-			console.error('Cant find local comment to update like state'!);
-			return;
-		}
-
-		comment.likedByUser = result.likedByUser;
-		comment.likesCount = result.likesCount;
-
-        const newComments = transformCommentListToNested(flatMappedComments) as CommentPersonalizedModel[];
-		setComments(newComments);
-	};
-
     const onCommentCreate = async (text: string) => {
         const user = await userStore.getOrLoadUser();
 
@@ -120,7 +98,6 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
 
     return {
         onCommentCreate,
-        onCommentLike,
         onCommentReply,
         comments
     };
