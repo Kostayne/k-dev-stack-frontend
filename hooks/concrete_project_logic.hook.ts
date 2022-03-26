@@ -1,5 +1,5 @@
 import { CommentModel } from "../models/comment.model";
-import { GetManyParams } from "../models/get_many_params";
+import { PaginationParams } from "../models/get_many_params";
 import { ProjectPageProps } from "../pages/projects/[slug]";
 import { commentReq } from "../requests/comment.req";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
@@ -18,8 +18,8 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
 		return createdComment as CommentModel;
 	}
 
-	const fetchComments = (params: GetManyParams) => {
-		return commentReq.getManyPersonalizedByLibId(params, props.project.id);
+	const fetchComments = (params: PaginationParams) => {
+		return commentReq.getManyPersonalizedHoc(params, { projectId: props.project.id });
 	};
 
     return {

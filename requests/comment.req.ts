@@ -1,9 +1,14 @@
 import { apiUrl } from "../cfg";
 import { CommentLikeResultModel, CommentModel, CreateCommentModel } from "../models/comment.model";
-import { GetManyParams } from "../models/get_many_params";
+import { PaginationParams } from "../models/get_many_params";
 import { transformCommentToPersonalized } from "../transform/comment.transform";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
+
+export interface CommentOwner {
+    libId?: number;
+    projectId?: number;
+}
 
 class CommentReq {
     async create(data: CreateCommentModel) {
@@ -88,36 +93,20 @@ class CommentReq {
         }
     }
 
-    async getManyPersonalized(params: GetManyParams) {
-        const getManyQueries = getGetManyQuery(params);
-        // const queries = new URLSearchParams(getManyQueries);
-
-        try {
-            const resp = await fetch(`${apiUrl}/comment/many_personalized?${getManyQueries}`, {
-                method: 'GET',
-                headers: new HeaderBuilder().jwt().headers
-            });
-
-            if (!resp.ok) {
-                console.error('Error when getManyPersonalized comments req');
-                console.error(resp.statusText);
-            }
-
-            const comments = await resp.json();
-            return comments as CommentModel;
-        } catch(e) {
-            console.error('Error when getManyPersonalized comments req');
-            console.error(e);
-        }
-    }
-
-    async getManyPersonalizedByLibId(params: GetManyParams, id: number) {
+    async getManyPersonalizedHoc(params: PaginationParams, owner: CommentOwner) {
         const getManyQueries = getGetManyQuery(params);
         const queries = new URLSearchParams(getManyQueries);
-        queries.append('libId', id.toString());
+
+        if (owner.libId) {
+            queries.append('libId', owner.libId.toString());
+        }
+
+        if (owner.projectId) {
+            queries.append('projectId', owner.projectId.toString());
+        }
 
         try {
-            const resp = await fetch(`${apiUrl}/comment/many_by_lib_id?${getManyQueries}`, {
+            const resp = await fetch(`${apiUrl}/comment/many_hoc?${queries.toString()}`, {
                 method: 'GET',
                 headers: new HeaderBuilder().jwt().headers
             });
@@ -139,39 +128,6 @@ class CommentReq {
             console.error('Error when getManyPersonalized comments req');
             console.error(e);
             return [];
-        }
-    }
-
-    async getManyPersonalizedByProjectId(params: GetManyParams, id: number) {
-        const getManyQueries = getGetManyQuery(params);
-        const queries = new URLSearchParams(getManyQueries);
-        queries.append('projectId', id.toString());
-
-        try {
-            const resp = await fetch(`${apiUrl}/comment/many_by_project_id?${queries.toString()}`, {
-                method: 'GET',
-                headers: new HeaderBuilder().jwt().headers
-            });
-
-            if (!resp.ok) {
-                console.error('Error when getManyPersonalized comments req');
-                console.error(resp.statusText);
-
-                return [];
-            }
-
-            const comments = await resp.json() as CommentModel[];
-
-            const personalized = comments.map(c => {
-                return transformCommentToPersonalized(c);
-            });
-
-            return personalized;
-        } catch(e) {
-            console.error('Error when getManyPersonalized comments req');
-            console.error(e);
-
-            return[];
         }
     }
 }

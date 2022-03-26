@@ -2,7 +2,7 @@ import React from 'react';
 import * as RM from 'react-modifier';
 import { useCommentBlockLogic } from '../hooks/comment_block_logic.hook';
 import { CommentModel, CommentPersonalizedModel } from '../models/comment.model';
-import { GetManyParams } from '../models/get_many_params';
+import { PaginationParams } from '../models/get_many_params';
 import CommentsList from './comments_list';
 import CreateComment from './create_comment';
 
@@ -11,7 +11,7 @@ export interface CommentsBlockProps {
     initialComments: CommentPersonalizedModel[];
     commentsUniqueId: string;
     createCommentReq: (text: string, parentId?: number) => Promise<CommentModel>;
-    fetchComments: (params: GetManyParams) => Promise<CommentPersonalizedModel[]>;
+    fetchComments: (params: PaginationParams) => Promise<CommentPersonalizedModel[]>;
 }
 
 const CommentsBlock= (props: CommentsBlockProps) => {
@@ -20,6 +20,7 @@ const CommentsBlock= (props: CommentsBlockProps) => {
     const {
         comments,
         onCommentCreate, onCommentReply,
+        onFetchMore
     } = useCommentBlockLogic(props);
 
     return (
@@ -29,7 +30,8 @@ const CommentsBlock= (props: CommentsBlockProps) => {
 
 				<CommentsList comments={comments} 
 				headMod={RM.createMod('mt-4')} 
-                onSendCommentReply={onCommentReply} />
+                onSendCommentReply={onCommentReply}
+                fetchMore={onFetchMore} />
             </div>
         ), headMod)
     );

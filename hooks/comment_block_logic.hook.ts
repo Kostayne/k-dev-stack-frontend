@@ -96,9 +96,25 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
         setComments([...newComments]);
     }
 
+    const onFetchMore = async () => {
+        const fetched = await props.fetchComments({
+            count: 30,
+            desc: true,
+            offset: comments.length
+        });
+
+        if (!fetched || !fetched.length) {
+            return false;
+        }
+
+        comments.push(...fetched);
+        return true;
+    }
+
     return {
         onCommentCreate,
         onCommentReply,
+        onFetchMore,
         comments
     };
 }

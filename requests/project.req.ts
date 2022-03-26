@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { GetManyParams } from "../models/get_many_params";
+import { PaginationParams } from "../models/get_many_params";
 import { ProjectModel } from "../models/project.model";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
@@ -19,7 +19,7 @@ export class ProjectReq {
         });
     }
 
-    async getMany(params: GetManyParams) {
+    async getMany(params: PaginationParams) {
         const queries = getGetManyQuery(params);
         const resp = await fetch(`${apiUrl}/project/many?${queries}`, {
             method: 'GET'
@@ -35,7 +35,7 @@ export class ProjectReq {
         return data;
     }
 
-    async getByFilter(params: GetManyParams, tags: string[], libs: string[], name: string) {
+    async getByFilter(params: PaginationParams, tags: string[], libs: string[], name: string) {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         

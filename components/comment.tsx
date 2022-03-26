@@ -29,7 +29,7 @@ const Comment = (props: CommentProps, ref: React.Ref<HTMLDivElement>) => {
 
     return (
         RM.modElement((
-            <div className='w-full'>
+            <div className='w-full' ref={ref}>
                 {/* current comment */}
                 <div className='flex gap-x-3'>
                     <div className='relative min-w-[40px] min-h-[40px] w-[40px] h-[40px] md:w-[45px] md:h-[45px] rounded-[50%] overflow-hidden'>

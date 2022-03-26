@@ -1,9 +1,7 @@
 import { LibModel } from "../models/lib.model";
 import { transformBackendNamedLink } from "./named_link.transform";
-import clone from 'clone';
 import { transformBackendProject } from "./project.transform";
-import { transformCommentListToNested } from "./comment.transform";
-import { CommentPersonalizedModel } from "../models/comment.model";
+import clone from 'clone';
 
 export function transformBackendFullLib(data: LibModel) {
     const lib = clone(data);
@@ -16,7 +14,5 @@ export function transformBackendFullLib(data: LibModel) {
         return transformBackendProject(p);
     });
 
-    lib.comments = transformCommentListToNested(lib.comments || []) as CommentPersonalizedModel[];
-    
     return lib;
 }

@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { GetManyParams } from "../models/get_many_params";
+import { PaginationParams } from "../models/get_many_params";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
@@ -26,14 +26,14 @@ class LibReq {
         });
     }
 
-    getMany(params: GetManyParams) {
+    getMany(params: PaginationParams) {
         const queries = getGetManyQuery(params);
         return fetch(`${apiUrl}/lib/many?${queries}`, {
             method: 'GET'
         });
     }
 
-    getByFilter(params: GetManyParams, tags: string[], name: string) {
+    getByFilter(params: PaginationParams, tags: string[], name: string) {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
@@ -80,7 +80,7 @@ class LibReq {
         });
     }
 
-    getManyLinks(params: GetManyParams) {
+    getManyLinks(params: PaginationParams) {
         const queries = getGetManyQuery(params);
         return fetch(`${apiUrl}/lib/many_links?${queries}`, {
             method: 'GET'
