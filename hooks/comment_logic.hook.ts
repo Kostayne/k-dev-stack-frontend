@@ -32,10 +32,19 @@ export function useCommentLogic(props: CommentProps) {
         setReplyOpened(false);
     };
 
+    const getNestedCommentsMlCName = () => {
+        if (props.nestingLevel < 8) {
+            return 'mobMd:ml-2 md:ml-5';
+        }
+
+        return '';
+    };
+
     return {
         likedByUser,
         likesCount,
         replyOpened,
+        nestedCommentsMlCName: getNestedCommentsMlCName(),
         onCommentLike,
         onOpenReplyBtn,
         onSendReply,

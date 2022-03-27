@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { CommentsBlockProps } from "../components/comments_block";
 import { CommentPersonalizedModel } from "../models/comment.model";
-import { commentReq } from "../requests/comment.req";
 import { userStore } from "../stores/user.store";
 import { transformCommentListToNested, transformCommentToPersonalized } from "../transform/comment.transform";
 import { flatMapCommentsArr } from "../utils/flatmap_comments";
@@ -17,33 +15,35 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
 
     useEffect(() => {
         const asyncWrapper = async () => {
+            setComments(props.initialComments);
+
+            if (!comments.length) return;
+
             const user = await userStore.getOrLoadUser();
+            if (!user) return;
 
-            if (!user) {
-                return;
-            }
+            // const flatMappedComments = flatMapCommentsArr(comments) as CommentPersonalizedModel[];
 
-            const flatMappedComments = flatMapCommentsArr(comments) as CommentPersonalizedModel[];
-            const commentIds = flatMappedComments.map(c => c.id);
-            const likedCommentIds = await commentReq.filterLikedByUser(commentIds);
+            // const commentIds = flatMappedComments.map(c => c.id);
+            // const likedCommentIds = await commentReq.filterLikedByUser(commentIds);
 
-            if (!likedCommentIds) {
-				return;
-			}
+            // if (!likedCommentIds) {
+			// 	return;
+			// }
 
-            flatMappedComments.forEach(c => {
-				if (likedCommentIds.includes(c.id)) {
-					c.likedByUser = true;
-				}
-			});
+            // flatMappedComments.forEach(c => {
+			// 	if (likedCommentIds.includes(c.id)) {
+			// 		c.likedByUser = true;
+			// 	}
+			// });
 
-			const newComments = [...transformCommentListToNested(flatMappedComments)] as CommentPersonalizedModel[];
-			setComments(newComments);
+			// const newComments = [...transformCommentListToNested(flatMappedComments)] as CommentPersonalizedModel[];
+			// setComments(newComments);
         };
 
         asyncWrapper();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.initialComments]);
 
     const onCommentCreate = async (text: string) => {
         const user = await userStore.getOrLoadUser();
@@ -107,14 +107,17 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
             return false;
         }
 
-        comments.push(...fetched);
+        setComments([...comments, ...fetched]);
         return true;
     }
 
+    const hasMore = comments.length < props.hocsCount;
+
     return {
+        comments,
+        hasMore,
         onCommentCreate,
         onCommentReply,
         onFetchMore,
-        comments
     };
 }

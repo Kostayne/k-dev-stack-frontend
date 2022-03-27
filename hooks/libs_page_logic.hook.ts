@@ -7,6 +7,7 @@ import { inputValToArr } from "../utils/input_val_to_arr";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
+import { commentReq } from "../requests/comment.req";
 
 export function useLibsPageLogic(props: LibsPageProps) {
     const nameInp = useSyntheticInput();
@@ -23,7 +24,6 @@ export function useLibsPageLogic(props: LibsPageProps) {
     const nameVal = nameInp.binding.value;
 
     const { isError, data: libs, refetch } = useQuery<LibModel[], Error>('getLibPreviews', async () => {
-        // TODO add count & offset params
         const resp = await libReq.getByFilter({
 			count: 15,
 			desc: true,
