@@ -9,10 +9,11 @@ interface CommentsListProps {
     comments: CommentPersonalizedModel[];
     onSendCommentReply: (text: string, parentId: number) => void;
     fetchMore?: (comment: CommentModel) => Promise<boolean>;
+    nestingLevel: number;
 }
 
 const CommentsList= (props: CommentsListProps) => {
-    const { comments } = props;
+    const { comments, nestingLevel } = props;
     const headMod = props.headMod || RM.createMod();
     const lastCommentRef = useRef<HTMLDivElement>(null);
     const { inViewport: lastCommentInViewport } = useInViewport(lastCommentRef);
@@ -40,14 +41,16 @@ const CommentsList= (props: CommentsListProps) => {
             return (
                 <Comment data={c} key={i}
                 onSendReply={props.onSendCommentReply} 
-                ref={_ref} />
+                ref={_ref} nestingLevel={nestingLevel} />
             );
         });
     };
 
+    const gapY = nestingLevel > 0? 1 : 4;
+
     return (
         RM.modElement((
-            <div className='flex gap-y-4 flex-col'>
+            <div className={[`flex gap-y-${gapY} flex-col`].join(' ')}>
                 {getCommentsToR()}
             </div>
         ), headMod)

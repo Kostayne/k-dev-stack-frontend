@@ -12,6 +12,7 @@ import { useCommentLogic } from '../hooks/comment_logic.hook';
 export interface CommentProps {
     headMod?: RM.IModifier;
     data: CommentPersonalizedModel;
+    nestingLevel: number;
     onSendReply: (text: string, parentId: number) => void;
 }
 
@@ -22,7 +23,7 @@ const Comment = (props: CommentProps, ref: React.Ref<HTMLDivElement>) => {
     const date = backendDateToHuman(creationDate);
 
     const { 
-        likedByUser, likesCount, replyOpened,
+        likedByUser, likesCount, replyOpened, nestedCommentsMlCName,
         onCommentLike, onOpenReplyBtn, onSendReply,
         onCloseReply
     } = useCommentLogic(props);
@@ -68,7 +69,8 @@ const Comment = (props: CommentProps, ref: React.Ref<HTMLDivElement>) => {
                 {nestedComments && nestedComments.length > 0 && (
                     <CommentsList comments={nestedComments}
                     onSendCommentReply={props.onSendReply}
-                    headMod={RM.createMod('mobMd:ml-2 md:ml-5 mt-1 !gap-y-1')} />
+                    headMod={RM.createMod(`${nestedCommentsMlCName} mt-1`)}
+                    nestingLevel={props.nestingLevel + 1} />
                 )}
             </div>
         ), headMod)
