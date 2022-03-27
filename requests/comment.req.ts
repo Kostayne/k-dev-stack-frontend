@@ -2,6 +2,7 @@ import { apiUrl } from "../cfg";
 import { CommentLikeResultModel, CommentModel, CreateCommentModel } from "../models/comment.model";
 import { PaginationParams } from "../models/get_many_params";
 import { transformCommentToPersonalized } from "../transform/comment.transform";
+import { appendCommentOwnerToQuery } from "../utils/append_comment_owner_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -82,13 +83,13 @@ class CommentReq {
             });
 
             if (!resp.ok) {
-                console.error('Error when filterLikeByUser req');
+                console.error('Error while filterLikeByUser req');
                 return;
             }
 
             return await resp.json() as number[];
         } catch(e) {
-            console.error('Error when filterLikeByUser req');
+            console.error('Error while filterLikeByUser req');
             console.error(e);
         }
     }
@@ -96,14 +97,7 @@ class CommentReq {
     async getManyPersonalizedHoc(params: PaginationParams, owner: CommentOwner) {
         const getManyQueries = getGetManyQuery(params);
         const queries = new URLSearchParams(getManyQueries);
-
-        if (owner.libId) {
-            queries.append('libId', owner.libId.toString());
-        }
-
-        if (owner.projectId) {
-            queries.append('projectId', owner.projectId.toString());
-        }
+        appendCommentOwnerToQuery(queries, owner);
 
         try {
             const resp = await fetch(`${apiUrl}/comment/many_hoc?${queries.toString()}`, {
@@ -112,7 +106,7 @@ class CommentReq {
             });
 
             if (!resp.ok) {
-                console.error('Error when getManyPersonalized comments req');
+                console.error('Error while getManyPersonalized comments req');
                 console.error(resp.statusText);
                 return [];
             }
@@ -125,9 +119,37 @@ class CommentReq {
 
             return personalized;
         } catch(e) {
-            console.error('Error when getManyPersonalized comments req');
+            console.error('Error while getManyPersonalized comments req');
             console.error(e);
             return [];
+        }
+    }
+
+    async countHocByOwnerId(owner: CommentOwner) {
+        try {
+            const queries = new URLSearchParams();
+            appendCommentOwnerToQuery(queries, owner);
+
+            const resp = await fetch(`${apiUrl}/comment/count_hoc_by_owner?${queries.toString()}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error while countHocByOwnerId comments req');
+                console.error(resp.statusText);
+                return 0;
+            }
+
+            const text = await resp.text();
+            const count = parseInt(text);
+
+            return count;
+        } catch(e) {
+            console.error('Error while countHocByOwnerId comments req');
+            console.error(e);
+
+            return 0;
         }
     }
 }
