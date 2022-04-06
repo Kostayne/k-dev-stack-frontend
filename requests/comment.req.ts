@@ -1,8 +1,11 @@
 import { apiUrl } from "../cfg";
-import { CommentLikeResultModel, CommentModel, CreateCommentModel } from "../models/comment.model";
+import { PaginationRecursiveParams } from "../interfaces/pagintation_recursive";
+import { CommentLikeResultModel, CommentModel, CommentCreateModel } from "../models/comment.model";
+import { CountByParentId } from "../models/count_by_parent_id.model";
 import { PaginationParams } from "../models/get_many_params";
-import { transformCommentToPersonalized } from "../transform/comment.transform";
+import { transformCommentToBeDisplayReady, transformCommentToPersonalized } from "../transform/comment.transform";
 import { appendCommentOwnerToQuery } from "../utils/append_comment_owner_to_query";
+import { appendPaginationRecursiveToQuery } from "../utils/append_pagination_recursive_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -12,7 +15,100 @@ export interface CommentOwner {
 }
 
 class CommentReq {
-    async create(data: CreateCommentModel) {
+    async getManyByParentIdRecursive(params: PaginationRecursiveParams) {
+        const queries = new URLSearchParams();
+        appendPaginationRecursiveToQuery(queries, params);
+
+        try {
+            const resp = await fetch(`${apiUrl}/comment/many_by_parent_id_recursive?${queries.toString()}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error while getManyByParentIdRecursive comments req');
+                console.error(resp.statusText);
+                return [];
+            }
+
+            const comments = await resp.json() as CommentModel[];
+
+            const personalized = comments.map(c => {
+                return transformCommentToPersonalized(c);
+            });
+
+            const readyToDisplay = personalized.map(c => transformCommentToBeDisplayReady(c));
+            return readyToDisplay;
+        } catch(e) {
+            console.error('Error while getManyByParentIdRecursive comments req');
+            console.error(e);
+            return [];
+        }
+    }
+
+    async getManyByParentId(params: PaginationParams, id: number) {
+        const getManyQueries = getGetManyQuery(params);
+        const queries = new URLSearchParams(getManyQueries);
+        queries.append('id', id.toString());
+
+        try {
+            const resp = await fetch(`${apiUrl}/comment/many_by_parent_id?${queries.toString()}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error while getManyByParentId comments req');
+                console.error(resp.statusText);
+                return [];
+            }
+
+            const comments = await resp.json() as CommentModel[];
+
+            const personalized = comments.map(c => {
+                return transformCommentToPersonalized(c);
+            });
+
+            return personalized;
+        } catch(e) {
+            console.error('Error while getManyByParentId comments req');
+            console.error(e);
+            return [];
+        }
+    }
+
+    async countNestedByParentIdsArr(ids: number[]): Promise<CountByParentId[]> {
+        const queries = new URLSearchParams();
+
+        ids.map(id => {
+            queries.append('ids[]', id.toString());
+        });
+
+        const queriesStr = queries.toString();
+
+        try {
+            const resp = await fetch(`${apiUrl}/comment/count_nested_by_parent_ids_arr?${queriesStr}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error('Error while countNestedByParentIdsArr comments req');
+                console.error(resp.statusText);
+                return [];
+            }
+
+            const data = await resp.json() as CountByParentId[];
+            return data;
+        } catch(e) {
+            console.error('Error while countNestedByParentIdsArr comments req');
+            console.error(e);
+
+            return [];
+        }
+    }
+
+    async create(data: CommentCreateModel) {
         try {
             const body = {
                 ...data
@@ -94,7 +190,7 @@ class CommentReq {
         }
     }
 
-    async getManyPersonalizedHoc(params: PaginationParams, owner: CommentOwner) {
+    async getManyHoc(params: PaginationParams, owner: CommentOwner) {
         const getManyQueries = getGetManyQuery(params);
         const queries = new URLSearchParams(getManyQueries);
         appendCommentOwnerToQuery(queries, owner);
@@ -117,7 +213,8 @@ class CommentReq {
                 return transformCommentToPersonalized(c);
             });
 
-            return personalized;
+            const readyToDisplay = personalized.map(c => transformCommentToBeDisplayReady(c));
+            return readyToDisplay;
         } catch(e) {
             console.error('Error while getManyPersonalized comments req');
             console.error(e);
@@ -150,6 +247,27 @@ class CommentReq {
             console.error(e);
 
             return 0;
+        }
+    }
+
+    async delete(id: number) {
+        try {
+            const resp = await fetch(`${apiUrl}/comment?id=${id.toString()}`, {
+                method: 'DELETE',
+                headers: new HeaderBuilder().jwt().headers,
+            });
+
+            if (!resp.ok) {
+                console.error('Error while delete comment req');
+                console.error(resp.statusText);
+                return false;
+            }
+
+            return true;
+        } catch(e) {
+            console.error('Error while delete comment req');
+            console.error(e);
+            return false;
         }
     }
 }
