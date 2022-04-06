@@ -1,4 +1,4 @@
-import { CommentModel, CommentPersonalizedModel } from "../models/comment.model";
+import { CommentModel, CommentPersonalizedModel, CommentReadyToDisplay } from "../models/comment.model";
 
 export function transformCommentToPersonalized(comment: CommentModel): CommentPersonalizedModel {
     comment.likedUsers = comment.likedUsers || [];
@@ -10,32 +10,15 @@ export function transformCommentToPersonalized(comment: CommentModel): CommentPe
     return personalized;
 }
 
-export function transformCommentListToNested(comments: CommentModel[]) {
-    let result = [...comments];
-
-    result.forEach(c => {
-        c.nestedComments = [];
-    });
-
-    for (let i = 0; i < result.length; i++) {
-        const c = result[i];
-
-        if (!c.parentId) {
-            continue;
-        }
-
-        const parent = result.find(candidate => candidate.id == c.parentId);
-
-        if (!parent) {
-            console.error('Can\'t find parent of comment');
-            console.error('Comment id', c.id);
-            console.error('Parent id', c.parentId);
-        }
-
-        parent?.nestedComments.push(c);
+export function transformCommentToBeDisplayReady(comment: CommentPersonalizedModel) {
+    const res = {...comment} as any;
+    
+    if (!res['_count']) {
+        res['nestedCount'] = 0;
+    } else {
+        res['nestedCount'] = parseInt(res['_count']['children']);
     }
 
-    // remove nested comments
-    result = result.filter(c => !c.parentId);
-    return result;
+    delete res['_count'];
+    return res as CommentReadyToDisplay;
 }
