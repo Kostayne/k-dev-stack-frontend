@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { PaginationParams } from "../models/get_many_params";
+import { PaginationParams } from "../interfaces/get_many_params";
 import { ProjectModel } from "../models/project.model";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";

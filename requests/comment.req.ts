@@ -1,8 +1,8 @@
 import { apiUrl } from "../cfg";
 import { PaginationRecursiveParams } from "../interfaces/pagintation_recursive";
 import { CommentLikeResultModel, CommentModel, CommentCreateModel } from "../models/comment.model";
-import { CountByParentId } from "../models/count_by_parent_id.model";
-import { PaginationParams } from "../models/get_many_params";
+import { CountByParentId } from "../interfaces/count_by_parent_id.type";
+import { PaginationParams } from "../interfaces/get_many_params";
 import { transformCommentToBeDisplayReady, transformCommentToPersonalized } from "../transform/comment.transform";
 import { appendCommentOwnerToQuery } from "../utils/append_comment_owner_to_query";
 import { appendPaginationRecursiveToQuery } from "../utils/append_pagination_recursive_to_query";

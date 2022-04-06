@@ -19,10 +19,8 @@ export interface LibPageProps {
 
 const Lib: NextPage<LibPageProps> = (props) => {
 	const {
-		alternativePreviews,
-		projectPreviews, swiperMod,
-		createCommentReq,
-		fetchComments
+		alternativePreviews, 
+		projectPreviews, swiperMod
 	} = useConcreteLibPageLogic(props);
 
 	const { 
@@ -32,7 +30,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		tags, 
 		description, 
 		codeExample, 
-		codeLang,
+		codeLang,	
 		id
 	} = props.lib;
 
@@ -97,10 +95,8 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 				{/* comments */}
 				<h2 className='mt-5'>Комментарии</h2>
-				<CommentsBlock initialComments={props.lib.comments} 
-				headMod={RM.createMod('mt-2')} createCommentReq={createCommentReq}
-				commentsUniqueId={commentsId}
-				fetchComments={fetchComments} />
+				<CommentsBlock headMod={RM.createMod('mt-2')}
+				owner={{ libId: id }} uid={commentsId} />
 			</main>
 		</div>
 	);
@@ -124,10 +120,12 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	} catch(e) {
 		console.error(e);
 
+		// TODO send error, not props
 		return {
 			props: {
 				lib: {
 					id: 0,
+					slug,
 					alternativeFor: [],
 					alternativeBy: [],
 					codeExample: '',
@@ -138,7 +136,6 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 					projects: [],
 					tags: [],
 					weight: '0b',
-					slug,
 					codeLang: 'text'
 				}
 			}
@@ -149,7 +146,7 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 export const getStaticPaths: GetStaticPaths = async () => {
 	let libs: LibModel[] = [];
 
-	try {
+try {
 		const resp = await libReq.getMany({
 			count: 5000,
 			desc: true,

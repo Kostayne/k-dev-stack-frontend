@@ -1,49 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, } from "react";
 import { CommentsBlockProps } from "../components/comments_block";
-import { CommentPersonalizedModel } from "../models/comment.model";
+import { commentsStore } from "../stores/comment.store";
 import { userStore } from "../stores/user.store";
-import { transformCommentListToNested, transformCommentToPersonalized } from "../transform/comment.transform";
-import { flatMapCommentsArr } from "../utils/flatmap_comments";
 
 export function useCommentBlockLogic(props: CommentsBlockProps) {
-    const { initialComments } = props;
-    const [comments, setComments] = useState(initialComments);
-
-    // const {} = useQuery(['comments', props.commentsUniqueid], () => {
-        
-    // });
+    const { owner } = props;
 
     useEffect(() => {
         const asyncWrapper = async () => {
-            setComments(props.initialComments);
+            await commentsStore.fetchHocsByOwner(owner, {
+                count: 20,
+                desc: true,
+                offset: 0
+            });
 
-            if (!comments.length) return;
-
-            const user = await userStore.getOrLoadUser();
-            if (!user) return;
-
-            // const flatMappedComments = flatMapCommentsArr(comments) as CommentPersonalizedModel[];
-
-            // const commentIds = flatMappedComments.map(c => c.id);
-            // const likedCommentIds = await commentReq.filterLikedByUser(commentIds);
-
-            // if (!likedCommentIds) {
-			// 	return;
-			// }
-
-            // flatMappedComments.forEach(c => {
-			// 	if (likedCommentIds.includes(c.id)) {
-			// 		c.likedByUser = true;
-			// 	}
-			// });
-
-			// const newComments = [...transformCommentListToNested(flatMappedComments)] as CommentPersonalizedModel[];
-			// setComments(newComments);
+            await commentsStore.fetchHocsCount(owner);
         };
 
         asyncWrapper();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.initialComments]);
+    }, [props.uid]);
+
+    const hocs = commentsStore.getHocsByOwnerId(owner); 
+    const hocsCount = commentsStore.getHocsCountByOwnerId(owner);
+
+    const hasMore = hocsCount?
+        hocsCount > hocs.length
+        : false;
 
     const onCommentCreate = async (text: string) => {
         const user = await userStore.getOrLoadUser();
@@ -53,71 +36,16 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
             return;
         }
         
-        const createdComment = await props.createCommentReq(text);
-        
-        if (!createdComment) {
-            return;
-        }
-
-		const personalized = transformCommentToPersonalized(createdComment);
-		const newComments = [...comments];
-
-		newComments.push(personalized);
-		setComments(newComments);
-    };
-
-    const onCommentReply = async (text: string, parentId: number) => {
-        const user = await userStore.getOrLoadUser();
-
-        if (!user) {
-            // TODO show auth needed banner
-            return;
-        }
-
-        const createdComment = await props.createCommentReq(text, parentId);
-
-        if (!createdComment) {
-            console.error('smth happened');
-            return;
-        }
-
-        const personalizedNewComment = transformCommentToPersonalized(createdComment);
-
-        const flatMappedComments = flatMapCommentsArr(comments);
-		const parentComment = flatMappedComments.find(c => c.id == parentId);
-
-        if (!parentComment) {
-            console.error('Cant find parent comment to attach nested comment in comment reply handler');
-            return;
-        }
-
-        const newComments = transformCommentListToNested(flatMappedComments) as CommentPersonalizedModel[];
-        parentComment.nestedComments.push(personalizedNewComment);
-        setComments([...newComments]);
-    }
-
-    const onFetchMore = async () => {
-        const fetched = await props.fetchComments({
-            count: 30,
-            desc: true,
-            offset: comments.length
+        commentsStore.create({
+            text,
+            ...owner
         });
+    }; 
 
-        if (!fetched || !fetched.length) {
-            return false;
-        }
-
-        setComments([...comments, ...fetched]);
-        return true;
-    }
-
-    const hasMore = comments.length < props.hocsCount;
-
-    return {
-        comments,
+    return { 
+        hocs,
         hasMore,
+        hocsCount,
         onCommentCreate,
-        onCommentReply,
-        onFetchMore,
     };
 }

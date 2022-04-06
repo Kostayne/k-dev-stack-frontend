@@ -7,7 +7,8 @@ export interface CommentLikedUser {
 
 export interface CommentModel {
     id: number;
-    libId: number;
+    libId: number | null;
+    projectId: number | null;
     replyTo?: UserCommentRefModel;
     author: UserCommentRefModel;
     likesCount: number;
@@ -23,14 +24,19 @@ export interface CommentPersonalizedModel extends CommentModel {
     nestedComments: CommentPersonalizedModel[];
 };
 
+export interface CommentReadyToDisplay extends CommentPersonalizedModel {
+    nestedCount: number;
+    nestedComments: CommentReadyToDisplay[];
+}
+
 export interface CommentLikeResultModel {
     likesCount: number;
     likedByUser: boolean;
 }
 
-export interface CreateCommentModel {
+export interface CommentCreateModel {
     text: string;
-    libId?: number;
-    projectId?: number;
+    libId?: number | null;
+    projectId?: number | null;
     parentId?: number;
 }

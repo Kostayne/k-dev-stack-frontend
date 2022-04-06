@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CommentProps } from "../components/comment";
 import { commentReq } from "../requests/comment.req";
+import { commentsStore } from "../stores/comment.store";
 
 
 export function useCommentLogic(props: CommentProps) {
@@ -25,26 +26,14 @@ export function useCommentLogic(props: CommentProps) {
     }
 
     const onSendReply = (text: string) => {
-        if (props.onSendReply) {
-            props.onSendReply(text, props.data.id);
-        }
-
+        commentsStore.reply(props.data, text);
         setReplyOpened(false);
-    };
-
-    const getNestedCommentsMlCName = () => {
-        if (props.nestingLevel < 8) {
-            return 'mobMd:ml-2 md:ml-5';
-        }
-
-        return '';
     };
 
     return {
         likedByUser,
         likesCount,
         replyOpened,
-        nestedCommentsMlCName: getNestedCommentsMlCName(),
         onCommentLike,
         onOpenReplyBtn,
         onSendReply,

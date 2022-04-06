@@ -1,5 +1,5 @@
 import { apiUrl } from "../cfg";
-import { PaginationParams } from "../models/get_many_params";
+import { PaginationParams } from "../interfaces/get_many_params";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";

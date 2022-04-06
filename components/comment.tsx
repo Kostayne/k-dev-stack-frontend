@@ -1,45 +1,39 @@
 import React from 'react';
 import * as RM from 'react-modifier';
-import { CommentPersonalizedModel } from '../models/comment.model';
+import { CommentReadyToDisplay } from '../models/comment.model';
 import Image from 'next/image';
 import Rating from './rating';
 import { staticUrl } from '../cfg';
 import CreateComment from '../components/create_comment';
-import CommentsList from './comments_list';
 import { backendDateToHuman } from '../utils/backend_date_to_str';
 import { useCommentLogic } from '../hooks/comment_logic.hook';
+import { observer } from 'mobx-react-lite';
 
 export interface CommentProps {
     headMod?: RM.IModifier;
-    data: CommentPersonalizedModel;
-    nestingLevel: number;
-    onSendReply: (text: string, parentId: number) => void;
+    data: CommentReadyToDisplay;
 }
 
-const Comment = (props: CommentProps, ref: React.Ref<HTMLDivElement>) => {
+const Comment = (props: CommentProps) => {
     const headMod = props.headMod || RM.createMod();
-    const { nestedComments, creationDate } = props.data;
+    const { creationDate } = props.data;
     const { firstName, lastName, avatarName } = props.data.author;
     const date = backendDateToHuman(creationDate);
 
     const { 
-        likedByUser, likesCount, replyOpened, nestedCommentsMlCName,
+        likedByUser, likesCount, replyOpened, 
         onCommentLike, onOpenReplyBtn, onSendReply,
         onCloseReply
     } = useCommentLogic(props);
 
     return (
         RM.modElement((
-            <div className='w-full' ref={ref}>
+            <div className='w-full'>
                 {/* current comment */}
                 <div className='flex gap-x-3'>
                     <div className='relative min-w-[40px] min-h-[40px] w-[40px] h-[40px] md:w-[45px] md:h-[45px] rounded-[50%] overflow-hidden'>
                         <Image src={`${staticUrl}/avatars/${avatarName}`} alt="Аватарка" layout='fill' className='' />
                     </div>
-                    
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    {/* <img src={`${staticUrl}/avatars/${props.data.author.id}.jpg`}
-                    alt="Аватарка" className='relative w-[45px] h-[45px] rounded-[50%] overflow-hidden' /> */}
 
                     {/* right part */}
                     <div className='flex flex-col grow-[1]'>
@@ -64,17 +58,9 @@ const Comment = (props: CommentProps, ref: React.Ref<HTMLDivElement>) => {
                         )}
                     </div>
                 </div>
-
-                {/* nested comments */}
-                {nestedComments && nestedComments.length > 0 && (
-                    <CommentsList comments={nestedComments}
-                    onSendCommentReply={props.onSendReply}
-                    headMod={RM.createMod(`${nestedCommentsMlCName} mt-1`)}
-                    nestingLevel={props.nestingLevel + 1} />
-                )}
             </div>
         ), headMod)
     );
 };
 
-export default React.forwardRef(Comment);
+export default observer(Comment);

@@ -1,59 +1,35 @@
 import React from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import * as RM from 'react-modifier';
 import { useCommentBlockLogic } from '../hooks/comment_block_logic.hook';
-import { CommentModel, CommentPersonalizedModel } from '../models/comment.model';
-import { PaginationParams } from '../models/get_many_params';
 import CreateComment from './create_comment';
-import CommentC from './comment';
-import CommentLoader from './comment_loader';
-import ShowedAllComments from './showed_all_comments';
+import { CommentOwner } from '../requests/comment.req';
+import CommentsInfiniteList from './comments_infinite_list';
+import { observer } from 'mobx-react-lite';
 
-export interface CommentsBlockProps {
-    hocsCount: number;
+export interface CommentsBlockProps { 
     headMod?: RM.IModifier;
-    initialComments: CommentPersonalizedModel[];
-    commentsUniqueId: string;
-    createCommentReq: (text: string, parentId?: number) => Promise<CommentModel>;
-    fetchComments: (params: PaginationParams) => Promise<CommentPersonalizedModel[]>;
-    fetchHocsCount: () => Promise<number>;
+    owner: CommentOwner;
+    uid: string;
 }
 
-const CommentsBlock= (props: CommentsBlockProps) => {
+const CommentsBlock = (props: CommentsBlockProps) => {
     const headMod = props.headMod || RM.createMod();
+    const { owner } = props;
 
     const {
-        comments, hasMore,
-        onCommentCreate, onCommentReply,
-        onFetchMore
+        onCommentCreate, hocs, hocsCount
     } = useCommentBlockLogic(props);
-
-    const renderComments = () => {
-        return comments.map((c) => {
-            return (
-                <CommentC nestingLevel={0} data={c}
-                onSendReply={onCommentReply} key={c.id} />
-            );
-        });
-    }
-
-    const loader = (
-        <CommentLoader />
-    );
 
     return (
         RM.modElement((
             <div>
                 <CreateComment onCreate={onCommentCreate} />
 
-                <InfiniteScroll hasMore={hasMore} dataLength={comments.length}
-                loader={loader} next={onFetchMore} className={'mt-4 flex flex-col gap-y-4'}
-                >
-                    {renderComments()}
-                </InfiniteScroll>
+                <CommentsInfiniteList comments={hocs} commentsCount={hocsCount || 0}
+                ownerToFetchHocs={owner} headMod={RM.createMod('mt-4')} />
             </div>
         ), headMod)
     );
 };
 
-export default CommentsBlock;
+export default observer(CommentsBlock);

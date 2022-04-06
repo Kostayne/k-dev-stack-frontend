@@ -11,6 +11,8 @@ import { useAppLogicHook } from '../hooks/_app_logic.hook';
 import { BannerTypes } from '../enums/banner_types.enum';
 import Banner from '../components/banner';
 import { logAuthors } from '../shared/site_info_logger';
+import { configure } from 'mobx';
+// import { enableStaticRendering } from 'mobx-react-lite';
 
 // CONTEXT
 export interface BannerDataConsumer {
@@ -29,10 +31,22 @@ function MyApp({ Component, pageProps }: AppProps) {
     const { bannerData, onBannerDataChange } = useAppLogicHook();
     const [queryClient] = useState(() => new QueryClient());
 
+    // WARNING!
+    // BREAKS OBSERVERS
+    // if (typeof window != 'undefined') {
+    //     enableStaticRendering(true);
+    // } else {
+    //     enableStaticRendering(false);
+    // }
+
     useState(() => {
-        // if (typeof window != 'undefined') {
-            // logAuthors();
-        // }
+        if (typeof window != 'undefined') {
+            logAuthors();
+        }
+
+        configure({
+            enforceActions: 'never'
+        });
     });
 
     return (

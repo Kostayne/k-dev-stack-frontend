@@ -17,7 +17,9 @@ export interface ProjectPageProps {
 
 const Project: NextPage<ProjectPageProps> = (props) => {
 	const { description, name, sources, libs, tags } = props.project;
-	const { libPreviews, createCommentReq, fetchComments } = useConcreteProjectLogic(props);
+	const { 
+		libPreviews
+	} = useConcreteProjectLogic(props);
 
 	const commentsId = `proj_${props.project.id}`;
 
@@ -53,9 +55,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				headMod={RM.createMod('mt-1')} />
 
 				<h2 className='mt-5'>Комментарии</h2>
-				<CommentsBlock initialComments={props.project.comments}
-				createCommentReq={createCommentReq} commentsUniqueId={commentsId}
-				fetchComments={fetchComments} />
+				<CommentsBlock owner={{ projectId: props.project.id }} 
+				uid={commentsId} />
 			</main>
 		</div>
 	);
@@ -92,6 +93,7 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 				project: {
 					libs: [],
 					comments: [],
+					commentsCount: 0,
 					name: 'Ошибка',
 					description: 'Ошибка',
 					sources: [],
@@ -106,7 +108,7 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
 	const projects = await projReq.getMany({
-		count: 9999,
+		count: 30,
 		desc: true,
 		offset: 0
 	});

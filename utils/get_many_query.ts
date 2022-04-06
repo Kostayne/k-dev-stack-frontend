@@ -1,4 +1,4 @@
-import { PaginationParams } from "../models/get_many_params";
+import { PaginationParams } from "../interfaces/get_many_params";
 
 export function getGetManyQuery(params: PaginationParams) {
     return new URLSearchParams({
