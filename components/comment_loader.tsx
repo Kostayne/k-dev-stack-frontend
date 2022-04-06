@@ -12,7 +12,7 @@ const CommentLoader= (props: CommentLoaderProps) => {
 
     return (
         RM.modElement((
-            <div className='flex w-[350px] h-[150px]'>
+            <div className='flex w-[430px] h-[60px]'>
                 <Skeleton circle width={50} height={50} />
 
                 {/* right part */}
