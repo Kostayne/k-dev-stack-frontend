@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "clone": "^2.1.2",
+    "fast-equals": "^3.0.0",
     "get-module-style": "^1.0.4",
     "mobx": "^6.3.13",
     "mobx-react-lite": "^3.2.3",
