@@ -10,6 +10,7 @@ import { useProfilePageLogic } from '../hooks/profile_page_logic.hook';
 import { observer } from 'mobx-react-lite';
 import TextMsgBlock from '../components/text_msg_block';
 import { UserRequiredStatus, useUserRequired } from '../hooks/user_required.hook';
+import { userStore } from '../stores/user.store';
 
 const Profile: NextPage = () => {
 	const {
@@ -96,7 +97,8 @@ const Profile: NextPage = () => {
 				headMod={RM.createMod(['w-[150px] mx-auto mt-[50px]'].join(' '))}
 				onClick={onSend} />
 
-				<button className='mt-5 mx-auto w-fit block text-btn'>ВЫЙТИ</button>
+				<button className='mt-5 mx-auto w-fit block text-btn'
+				onClick={userStore.logOut}>ВЫЙТИ</button>
 
 				<input className='hidden' ref={imgInpRef} accept="image/*" type="file" 
 				onChange={onImgSelected} />
