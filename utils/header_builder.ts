@@ -10,7 +10,11 @@ export class HeaderBuilder {
 
     jwt() {
         const token = loadJwtFromLocalStore();
-        this.headers.set('Authorization', `Bearer ${token}`);
+
+        if (token) {
+            this.headers.set('Authorization', `Bearer ${token}`);
+        }
+        
         return this;
     }
 }
