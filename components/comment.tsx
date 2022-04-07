@@ -8,6 +8,9 @@ import CreateComment from '../components/create_comment';
 import { backendDateToHuman } from '../utils/backend_date_to_str';
 import { useCommentLogic } from '../hooks/comment_logic.hook';
 import { observer } from 'mobx-react-lite';
+import EditImgBtn from './edit_img_btn';
+import RmBtnRounded from './rm_btn_rounded';
+import RmIcoBtn from './rm_ico_btn';
 
 export interface CommentProps {
     headMod?: RM.IModifier;
@@ -22,8 +25,8 @@ const Comment = (props: CommentProps) => {
 
     const { 
         likedByUser, likesCount, replyOpened, 
-        onCommentLike, onOpenReplyBtn, onSendReply,
-        onCloseReply
+        showActions, onCommentLike, onOpenReplyBtn, 
+        onSendReply, onCloseReply
     } = useCommentLogic(props);
 
     return (
@@ -41,6 +44,13 @@ const Comment = (props: CommentProps) => {
                         <div className='flex items-center gap-x-2 text-contrast text-sm'>
                             <span className='font-roboto font-medium'>{firstName} {lastName}</span>
                             <span className=''>{date}</span>
+
+                            {showActions && (
+                                <>
+                                    <EditImgBtn  />
+                                    <RmIcoBtn onClick={() => {}} />
+                                </>
+                            )}
                         </div>
 
                         <pre className='font-roboto whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>

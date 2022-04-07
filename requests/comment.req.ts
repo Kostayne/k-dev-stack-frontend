@@ -202,7 +202,7 @@ class CommentReq {
             });
 
             if (!resp.ok) {
-                console.error('Error while getManyPersonalized comments req');
+                console.error('Error while getManyHOC comments req');
                 console.error(resp.statusText);
                 return [];
             }

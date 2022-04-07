@@ -69,6 +69,25 @@
     .styled-swiper .swiper-pagination-bullets {
         
     }
+
+    .edit-ico {
+        transition: .3s ease-out;
+        mask-image: url("/icons/edit.svg");
+        background: #96C0FF;
+    }
+
+    .rm-ico-btn__btn {
+        transition: .3s ease-out;
+        mask-image: url("/icons/trash.svg");
+        background: #FFADAD;    
+        mask-size: cover;
+        width: 15px;
+        height: 20px;
+    }
+
+    .rm-ico-btn__btn:hover {
+        background: #EE5A87;
+    }
 }
 
 @font-face {
