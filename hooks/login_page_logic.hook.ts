@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { TextMsgColor } from "../components/text_msg_block";
 import { userStore } from "../stores/user.store";
 import { validateEmail } from "../validators/email.validator";
@@ -30,7 +30,9 @@ export function useLoginPageLogic() {
 		...(validatePassword(passwordInp.binding.value))
 	] : [];
 
-    const handleLogin = async() => {
+    const handleLogin = async(e: React.MouseEvent) => {
+        e.preventDefault();
+
         const respCode = await userStore.login(
             emailVal,
             passVal
@@ -38,12 +40,6 @@ export function useLoginPageLogic() {
 
         if (respCode == 200) {
             router.push('/');
-
-            // setStatus({
-            //     text: 'Вы успешно вошли!',
-            //     color: 'status',
-            // });
-
             return;
         }
 

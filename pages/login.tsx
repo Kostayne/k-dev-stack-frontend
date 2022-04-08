@@ -13,6 +13,7 @@ import { useLoginPageLogic } from '../hooks/login_page_logic.hook';
 // import ValidationErrInline from '../components/validation_err_inline';
 import ValidationErrBlock from '../components/validation_err_block';
 import TextMsgBlock from '../components/text_msg_block';
+import React from 'react';
 
 const InnerLogin: NextPage = () => {
 	const {
@@ -60,7 +61,7 @@ const InnerLogin: NextPage = () => {
 					headMod={RM.createMod([
 						'mt-[38px] w-[92px] mx-auto'
 					].join(' '))} 
-					onClick={handleLogin} />
+					onClick={(e) => handleLogin(e as React.MouseEvent)} />
 				</form>
 
 				{/* links */}
