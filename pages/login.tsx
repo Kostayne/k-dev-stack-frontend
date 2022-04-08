@@ -15,18 +15,10 @@ import ValidationErrBlock from '../components/validation_err_block';
 import TextMsgBlock from '../components/text_msg_block';
 
 const InnerLogin: NextPage = () => {
-	const emailInp = useSyntheticInput();
-	const passwordInp = useSyntheticInput();
-
-	const emailVal = emailInp.binding.value;
-	const passVal = passwordInp.binding.value
-
-	let validationMessages = [
-		...(emailVal? validateEmail(emailInp.binding.value) : []),
-		...(passVal? validatePassword(passwordInp.binding.value) : [])
-	];
-
-	const logic = useLoginPageLogic();
+	const {
+		emailInp, passwordInp, status,
+		validationMessages, handleLogin
+	} = useLoginPageLogic();
 
 	return (
 		<div className='page-content'>
@@ -40,33 +32,36 @@ const InnerLogin: NextPage = () => {
 				<Goto href='/' title='Войти' isMainHeading={true} goBack />
 
 				{/* inputs */}
-				<div className='mt-[25px] mx-auto w-fit'>
-					<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  />
+				<form>
+					<div className='mt-[25px] mx-auto w-fit'>
+						<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com' 
+						name='email' />
 
-					<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
-					type='password' headMod={RM.createMod('mt-3')} />
-				</div>
+						<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
+						type='password' name='password' headMod={RM.createMod('mt-3')} />
+					</div>
 
-				{/* status */}
-				{logic.status.text && (
-					<TextMsgBlock color={logic.status.color} title='статус'
-					headMod={RM.createMod('mx-auto mt-4')}>
-						<p>{logic.status.text}</p>
-					</TextMsgBlock>
-				)}
+					{/* status */}
+					{status.text && (
+						<TextMsgBlock color={status.color} title='статус'
+						headMod={RM.createMod('mx-auto mt-4')}>
+							<p>{status.text}</p>
+						</TextMsgBlock>
+					)}
 
-				{validationMessages.length > 0 && (
-					<>
-						<ValidationErrBlock messages={validationMessages} 
-						headMod={RM.createMod('mt-4 mx-auto')} />
-					</>
-				)}
+					{validationMessages.length > 0 && (
+						<>
+							<ValidationErrBlock messages={validationMessages} 
+							headMod={RM.createMod('mt-4 mx-auto')} />
+						</>
+					)}
 
-				<StyledBtn value='войти' disabled={validationMessages.length > 0}
-				headMod={RM.createMod([
-					'mt-[38px] w-[92px] mx-auto'
-				].join(' '))} 
-				onClick={() => logic.handleLogin(emailInp, passwordInp)} />
+					<StyledBtn value='войти' disabled={validationMessages.length > 0}
+					headMod={RM.createMod([
+						'mt-[38px] w-[92px] mx-auto'
+					].join(' '))} 
+					onClick={handleLogin} />
+				</form>
 
 				{/* links */}
 				<div className='mt-9 w-fit mx-auto'>

@@ -2,7 +2,9 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { TextMsgColor } from "../components/text_msg_block";
 import { userStore } from "../stores/user.store";
-import { SyntheticInputData } from "./input_synthetic.hook";
+import { validateEmail } from "../validators/email.validator";
+import { validatePassword } from "../validators/password.validator";
+import { SyntheticInputData, useSyntheticInput } from "./input_synthetic.hook";
 
 interface LoginStatus {
     color: TextMsgColor;
@@ -16,10 +18,22 @@ export function useLoginPageLogic() {
         text: ''
     });
 
-    const handleLogin = async(email: SyntheticInputData, password: SyntheticInputData) => {
+    const emailInp = useSyntheticInput();
+	const passwordInp = useSyntheticInput();
+
+	const emailVal = emailInp.binding.value;
+	const passVal = passwordInp.binding.value;
+    const allInputsAreEmpty = emailVal == '' && passVal == '';
+
+	let validationMessages = !allInputsAreEmpty? [
+		...(validateEmail(emailInp.binding.value)),
+		...(validatePassword(passwordInp.binding.value))
+	] : [];
+
+    const handleLogin = async() => {
         const respCode = await userStore.login(
-            email.binding.value,
-            password.binding.value
+            emailVal,
+            passVal
         );
 
         if (respCode == 200) {
@@ -49,7 +63,10 @@ export function useLoginPageLogic() {
     }
 
     return {
+        emailInp,
+        passwordInp,
+        status,
+        validationMessages,
         handleLogin,
-        status
     };
 }

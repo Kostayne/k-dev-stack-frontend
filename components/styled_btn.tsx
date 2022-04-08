@@ -6,6 +6,7 @@ interface StyledBtnProps {
 
     value: string;
     disabled?: boolean;
+    type?: 'button' | 'submit';
     onClick?: () => void;
 }
 
@@ -19,7 +20,9 @@ const StyledBtn= (props: StyledBtnProps) => {
 
     const curCName = props.disabled ? inactiveCName : activeCName;
 
-    const onClick = () => {
+    const onClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
         if (props.disabled) {
             return;
         }
@@ -29,7 +32,8 @@ const StyledBtn= (props: StyledBtnProps) => {
 
     return (
         RM.modElement((
-            <button className={`primary-btn ${curCName}`} onClick={onClick}>
+            <button className={`primary-btn ${curCName}`} onClick={onClick}
+            type={props.type}>
                 {props.value}
             </button>
         ), headMod)
