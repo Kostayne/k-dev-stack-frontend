@@ -36,6 +36,7 @@ const CommentsInfiniteList = (props: CommentsInfiniteList) => {
         <CommentLoader />
     );
 
+    // next fn
     const onListedToTheEnd = () => {
         // nested
         if (props.parentIdToFetch) {

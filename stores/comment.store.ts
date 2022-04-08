@@ -7,6 +7,10 @@ import { flatMapCommentsArr } from "../utils/flatmap_comments";
 import { deepEqual, shallowEqual } from "fast-equals";
 import { PaginationParams } from "../interfaces/get_many_params";
 import { PaginationRecursiveParams } from "../interfaces/pagintation_recursive";
+import { transformCommentToBeDisplayReady, transformCommentToPersonalized } from "../transform/comment.transform";
+import { findNestedCommentIdsByParentIdRecursive } from "../utils/find_nested_comments_by_parent_id";
+import { getOwnerFromComment } from "../utils/get_owner_from_comment";
+import { isCommentOwnerMatch } from "../utils/is_comment_owner_match";
 
 class CommentsStore {
     comments: CommentReadyToDisplay[] = [];
@@ -23,9 +27,6 @@ class CommentsStore {
             fetchHocsCount: action,
             fetchNestedRecursive: action,
             like: action,
-            saveComment: action,
-            saveHocs: action,
-            saveNested: action
         });
     }
 
@@ -85,8 +86,7 @@ class CommentsStore {
 
     fetchHocsCount = async (owner: CommentOwner) => {
         const newCount = await commentReq.countHocByOwnerId(owner);
-
-        const existsCountRecord = this.hocsCount.find(c => deepEqual(owner, c.owner));
+        const existsCountRecord = this.hocsCount.find(c => isCommentOwnerMatch(c.owner, owner));
 
         runInAction(() => {
             if (existsCountRecord) {
@@ -105,15 +105,27 @@ class CommentsStore {
         const newComment = await commentReq.create(data);
 
         if (!newComment) {
+            console.log('no new comment getted, return');
             return;
         }
+
+        const personalized = transformCommentToPersonalized(newComment);
+        const transformed = transformCommentToBeDisplayReady(personalized);
 
         runInAction(() => {
             if (newComment.parentId) {
                 const flat = flatMapCommentsArr(this.comments);
-                flat.push(newComment);
+                flat.unshift(transformed);
 
                 this.comments = flatCommentsArrToNested(flat) as CommentReadyToDisplay[];
+            } else {
+                this.comments.unshift(transformed);
+                const owner = getOwnerFromComment(newComment);
+                const curHocsCount = this.hocsCount.find(c => isCommentOwnerMatch(c.owner, owner));
+
+                if (curHocsCount) {
+                    curHocsCount.count += 1;
+                }
             }
         });
     }
@@ -153,18 +165,6 @@ class CommentsStore {
 
             return false;
         });
-    }    
-
-    saveHocs(hocs: CommentReadyToDisplay[]) {
-        this.comments.push(...hocs);
-    }
-
-    saveNested(parent: CommentReadyToDisplay, nested: CommentReadyToDisplay) {
-        parent.nestedComments.push(nested);
-    }
-
-    saveComment(comment: CommentReadyToDisplay) {
-        this.comments.push(comment);
     }
 
     deleteComment = async (commentId: number) => {
@@ -174,11 +174,28 @@ class CommentsStore {
             return;
         }
 
+        const flatComments = flatMapCommentsArr(this.comments);
+        const deletedComment = flatComments.find(c => c.id == commentId);
+
+        const nestedComments = findNestedCommentIdsByParentIdRecursive(commentId, flatComments);
+        const commentIdsToRemove = [commentId, ...nestedComments.map(c => c.id)];
+        const filteredFlat = flatComments.filter(c => !commentIdsToRemove.includes(c.id));
+        const filteredNested = flatCommentsArrToNested(filteredFlat) as CommentReadyToDisplay[];
+
         runInAction(() => {
-            const flatComments = flatMapCommentsArr(this.comments);
-            const filteredFlat = flatComments.filter(c => commentId != c.id);
-            const filteredNested = flatCommentsArrToNested(filteredFlat) as CommentReadyToDisplay[];
             this.comments = filteredNested;
+
+            if (deletedComment && deletedComment.parentId == undefined) {
+                const owner = getOwnerFromComment(deletedComment);
+                const curPageHocsCount = this.hocsCount.find(c => isCommentOwnerMatch(c.owner, owner));
+
+                if (!curPageHocsCount) {
+                    console.error('Cur page hocs count not found!');
+                    return;
+                }
+
+                curPageHocsCount.count -= 1;
+            }
         });
     }
 
@@ -196,8 +213,7 @@ class CommentsStore {
         }
 
         const flat = flatMapCommentsArr(this.comments) as CommentReadyToDisplay[];
-        const filteredResp = resp.filter(c => !flat.some(fc => fc.id == c.id));
-        flat.push(...filteredResp);
+        flat.push(...resp);
         
         const newComments = flatCommentsArrToNested(flat) as CommentReadyToDisplay[];
 

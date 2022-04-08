@@ -26,7 +26,7 @@ const Comment = (props: CommentProps) => {
     const { 
         likedByUser, likesCount, replyOpened, 
         showActions, onCommentLike, onOpenReplyBtn, 
-        onSendReply, onCloseReply
+        onSendReply, onCloseReply, onDelete
     } = useCommentLogic(props);
 
     return (
@@ -47,8 +47,8 @@ const Comment = (props: CommentProps) => {
 
                             {showActions && (
                                 <>
-                                    <EditImgBtn  />
-                                    <RmIcoBtn onClick={() => {}} />
+                                    <EditImgBtn />
+                                    <RmIcoBtn onClick={onDelete} />
                                 </>
                             )}
                         </div>

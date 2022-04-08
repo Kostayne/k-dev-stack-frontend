@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CommentProps } from "../components/comment";
+import comment, { CommentProps } from "../components/comment";
 import { commentReq } from "../requests/comment.req";
 import { commentsStore } from "../stores/comment.store";
 import { userStore } from "../stores/user.store";
@@ -52,6 +52,10 @@ export function useCommentLogic(props: CommentProps) {
         setReplyOpened(false);
     };
 
+    const onDelete = async () => {
+        commentsStore.deleteComment(props.data.id);
+    };
+
     return {
         likedByUser,
         likesCount,
@@ -60,6 +64,7 @@ export function useCommentLogic(props: CommentProps) {
         onCommentLike,
         onOpenReplyBtn,
         onSendReply,
-        onCloseReply
+        onCloseReply,
+        onDelete,
     };
 }

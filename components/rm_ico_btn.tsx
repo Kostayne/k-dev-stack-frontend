@@ -11,7 +11,8 @@ const RmIcoBtn= (props: RmIcoBtnProps) => {
 
     return (
         RM.modElement((
-            <button className='rm-ico-btn__btn' />
+            <button className='rm-ico-btn__btn'
+            onClick={props.onClick} />
         ), headMod)
     );
 };
