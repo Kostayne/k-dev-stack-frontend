@@ -1,7 +1,9 @@
+import clone from "clone";
 import { CommentModel } from "../models/comment.model";
 
 export function flatCommentsArrToNested(flatComments: CommentModel[]) {
-    let result = [...flatComments];
+    const flatCopy = flatComments.map(c => clone(c));
+    let result = [...flatCopy];
 
     result.forEach(c => {
         c.nestedComments = [];
