@@ -8,6 +8,7 @@ import StyledBtn from '../components/styled_btn';
 import { useRegisterPageLogic } from '../hooks/register_page_logic.hook';
 import ValidationErrBlock from '../components/validation_err_block';
 import TextMsgBlock from '../components/text_msg_block';
+import React from 'react';
 
 const Register: NextPage = () => {
 	const {
@@ -31,29 +32,39 @@ const Register: NextPage = () => {
 			<main>
 				<Goto href='/' title='Регистрация' isMainHeading={true} goBack />
 
-				{/* inputs */}
-				<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
-					<StyledTextInput {...nameInp.binding} label='Имя' placeholder='ваше имя'  />
-					<StyledTextInput {...lastNameInp.binding} label='Фамилия' placeholder='ваша фамилия'  />
-					<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'  />
-					<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
-					type='password' />
-				</div>
+				<form>
+					{/* inputs */}
+					<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
+						<StyledTextInput {...nameInp.binding} label='Имя' placeholder='ваше имя' 
+						name='firstname' />
 
-				{errorStatus && (
-					<TextMsgBlock color={'error'} title='статус'
-					headMod={RM.createMod('mx-auto mt-4')}>
-						<p>{errorStatus}</p>
-					</TextMsgBlock>
-				)}
+						<StyledTextInput {...lastNameInp.binding} label='Фамилия' placeholder='ваша фамилия' 
+						name='lastname' />
 
-				{validationMessages.length > 0 && (
-					<ValidationErrBlock messages={validationMessages} 
-					headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
-				)}
+						<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'
+						name='email' />
 
-				<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
-				headMod={RM.createMod('mt-9 w-[150px] mx-auto')} onClick={onSendClick} />
+						<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
+						type='password' name='password' />
+					</div>
+
+					{errorStatus && (
+						<TextMsgBlock color={'error'} title='статус'
+						headMod={RM.createMod('mx-auto mt-4')}>
+							<p>{errorStatus}</p>
+						</TextMsgBlock>
+					)}
+
+					{validationMessages.length > 0 && (
+						<ValidationErrBlock messages={validationMessages} 
+						headMod={RM.createMod('mt-8 w-fit mx-auto text-center')} />
+					)}
+
+					<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
+					headMod={RM.createMod('mt-9 w-[150px] mx-auto')} 
+					onClick={(e) => onSendClick(e as React.MouseEvent)}
+					type="submit" />
+				</form>
 
 				<div className='mt-9 w-[165px] mx-auto splitter' />
 

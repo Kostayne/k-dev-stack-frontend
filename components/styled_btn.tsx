@@ -7,7 +7,7 @@ interface StyledBtnProps {
     value: string;
     disabled?: boolean;
     type?: 'button' | 'submit';
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent) => void;
 }
 
 const StyledBtn= (props: StyledBtnProps) => {
@@ -20,14 +20,12 @@ const StyledBtn= (props: StyledBtnProps) => {
 
     const curCName = props.disabled ? inactiveCName : activeCName;
 
-    const onClick = (e: React.MouseEvent) => {
-        e.preventDefault();
-
+    const onClick = (e?: React.MouseEvent) => {
         if (props.disabled) {
             return;
         }
 
-        props.onClick?.call(this);
+        props.onClick?.call(this, e);
     };
 
     return (

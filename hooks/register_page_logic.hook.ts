@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import React, { useState } from "react";
 import { userFetch } from "../requests/user.req";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
@@ -27,34 +27,40 @@ export function useRegisterPageLogic() {
 		...(validatePassword(passwordVal))
 	];
 
-    const onSendClick = async () => {
+    const onSendClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
         if (validationMessages.length > 0) {
             return;
         }
 
-        try {
-            const resp = await userFetch.register({
-                email: emailVal,
-                firstName: nameVal,
-                lastName: lastNameVal,
-                password: passwordVal
-            });
-
-            if (resp.ok) {
-                router.push('/');
-                return;
+        const asyncWrapper = async () => {            
+            try {
+                const resp = await userFetch.register({
+                    email: emailVal,
+                    firstName: nameVal,
+                    lastName: lastNameVal,
+                    password: passwordVal
+                });
+    
+                if (resp.ok) {
+                    router.push('/');
+                    return;
+                }
+    
+                if (resp.status == 409) {
+                    setErrorStatus('Пользователь с такой почтой уже существует!');
+                    return;
+                }
+    
+                setErrorStatus('Произошла ошибка, повторите позже!');
+            } catch(e) {
+                console.log('Register page req error');
+                console.error(e);
             }
+        };
 
-            if (resp.status == 409) {
-                setErrorStatus('Пользователь с такой почтой уже существует!');
-                return;
-            }
-
-            setErrorStatus('Произошла ошибка, повторите позже!');
-        } catch(e) {
-            console.log('Register page req error');
-            console.error(e);
-        }
+        asyncWrapper();
 	};
 
     return {
