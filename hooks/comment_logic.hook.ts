@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import comment, { CommentProps } from "../components/comment";
+import { CommentProps } from "../components/comment";
 import { commentReq } from "../requests/comment.req";
 import { commentsStore } from "../stores/comment.store";
 import { userStore } from "../stores/user.store";
@@ -9,6 +9,7 @@ export function useCommentLogic(props: CommentProps) {
     const [likedByUser, setLikedByUser] = useState(props.data.likedByUser);
     const [replyOpened, setReplyOpened] = useState(false);
     const [showActions, setShowActions] = useState(false);
+    const [showEdit, setShowEdit] = useState(false);
 
     useEffect(() => {
         const asyncWrapper = async () => {
@@ -56,15 +57,32 @@ export function useCommentLogic(props: CommentProps) {
         commentsStore.deleteComment(props.data.id);
     };
 
+    const onEditClick = () => {
+        setShowEdit(true);
+    };
+
+    const onCancelEdit = () => {
+        setShowEdit(false);
+    };
+
+    const onSaveEdit = (text: string) => {
+        commentsStore.edit(props.data, text);
+        setShowEdit(false);
+    };
+
     return {
         likedByUser,
         likesCount,
         replyOpened,
         showActions,
+        showEdit,
         onCommentLike,
         onOpenReplyBtn,
         onSendReply,
         onCloseReply,
         onDelete,
+        onEditClick,
+        onCancelEdit,
+        onSaveEdit
     };
 }

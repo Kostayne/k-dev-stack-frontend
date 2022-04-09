@@ -4,12 +4,11 @@ import { CommentReadyToDisplay } from '../models/comment.model';
 import Image from 'next/image';
 import Rating from './rating';
 import { staticUrl } from '../cfg';
-import CreateComment from '../components/create_comment';
+import ManipulateComment from './manipulate_comment';
 import { backendDateToHuman } from '../utils/backend_date_to_str';
 import { useCommentLogic } from '../hooks/comment_logic.hook';
 import { observer } from 'mobx-react-lite';
 import EditImgBtn from './edit_img_btn';
-import RmBtnRounded from './rm_btn_rounded';
 import RmIcoBtn from './rm_ico_btn';
 
 export interface CommentProps {
@@ -25,8 +24,10 @@ const Comment = (props: CommentProps) => {
 
     const { 
         likedByUser, likesCount, replyOpened, 
-        showActions, onCommentLike, onOpenReplyBtn, 
-        onSendReply, onCloseReply, onDelete
+        showActions, showEdit, onCommentLike, onOpenReplyBtn, 
+        onSendReply, onCloseReply, onDelete,
+        onCancelEdit, onEditClick, onSaveEdit,
+
     } = useCommentLogic(props);
 
     return (
@@ -47,24 +48,35 @@ const Comment = (props: CommentProps) => {
 
                             {showActions && (
                                 <>
-                                    <EditImgBtn />
+                                    <EditImgBtn onClick={onEditClick} />
                                     <RmIcoBtn onClick={onDelete} />
                                 </>
                             )}
                         </div>
 
-                        <pre className='font-roboto whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
+                        {!showEdit && (                            
+                            <pre className='font-roboto whitespace-pre-wrap mt-[5px]'>{props.data.text}</pre>
+                        )}
 
-                        <div className='flex items-center mt-[5px]'>
-                            <Rating onLikeClick={onCommentLike} likesCount={likesCount} liked={likedByUser} />
-                            <button className='text-btn text-xs w-fit ml-1' 
-                            onClick={onOpenReplyBtn}>ОТВЕТИТЬ</button>
-                        </div>
+                        {showEdit && (
+                            <ManipulateComment manipulationName='ИЗМЕНИТЬ' 
+                            onManipulate={onSaveEdit} onCancel={onCancelEdit}
+                            initialValue={props.data.text} placeholder="Измененный комментарий" />
+                        )}
+
+                        {/* {!showEdit && ( */}
+                        {/* Comment bottom */}
+                            <div className='flex items-center mt-[5px]'>
+                                <Rating onLikeClick={onCommentLike} likesCount={likesCount} liked={likedByUser} />
+                                <button className='text-btn text-xs w-fit ml-1' 
+                                onClick={onOpenReplyBtn}>ОТВЕТИТЬ</button>
+                            </div>
+                        {/* )} */}
 
                         {replyOpened && (
-                            <CreateComment onCancel={onCloseReply}
-                            onCreate={onSendReply} prefix={props.data.author.firstName + ', '} 
-                            isFocused />
+                            <ManipulateComment onCancel={onCloseReply}
+                            onManipulate={onSendReply} initialValue={props.data.author.firstName + ', '} 
+                            isFocused manipulationName="ОТВЕТИТЬ" />
                         )}
                     </div>
                 </div>

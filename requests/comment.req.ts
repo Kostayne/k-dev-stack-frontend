@@ -270,6 +270,30 @@ class CommentReq {
             return false;
         }
     }
+
+    async edit(id: number, text: string) {
+        try {
+            const resp = await fetch(`${apiUrl}/comment?id=${id.toString()}`, {
+                method: 'PUT',
+                headers: new HeaderBuilder().jwt().json().headers,
+                body: JSON.stringify({
+                    id,
+                    text,
+                })
+            });
+
+            if (!resp.ok) {
+                console.error('Error when sending edit comment req');
+                console.error(resp.statusText);
+                return false;
+            }
+
+            return true;
+        } catch {
+            console.error('Error when sending edit comment req');
+            return false;
+        }
+    }
 }
 
 export const commentReq = new CommentReq();

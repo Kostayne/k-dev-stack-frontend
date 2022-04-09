@@ -221,6 +221,16 @@ class CommentsStore {
             this.comments = newComments;
         });
     }
+
+    edit = async (comment: CommentModel, val: string) => {
+        const respSuccess = await commentReq.edit(comment.id, val);
+
+        if (!respSuccess) {
+            return;
+        }
+
+        comment.text = val;
+    }
 }
 
 export const commentsStore = new CommentsStore();
