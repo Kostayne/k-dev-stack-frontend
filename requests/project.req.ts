@@ -1,6 +1,8 @@
 import { apiUrl } from "../cfg";
 import { PaginationParams } from "../interfaces/get_many_params";
+import { ProjectFilterData } from "../interfaces/project_filter_data";
 import { ProjectModel } from "../models/project.model";
+import { appendProjectFilterToQuery } from "../utils/append_project_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -39,17 +41,11 @@ export class ProjectReq {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
-        tags.forEach(t => {
-            queryBuilder.append('tags', t);
-        });
-
-        libs.forEach(l => {
-            queryBuilder.append('libs', l);
-        });
-
-        if (name) {
-            queryBuilder.append('name', name);
-        }
+        appendProjectFilterToQuery({
+            libs,
+            name,
+            tags
+        }, queryBuilder);
 
         const queries = queryBuilder.toString();
 
@@ -92,6 +88,59 @@ export class ProjectReq {
             method: 'DELETE',
             headers: new HeaderBuilder().json().jwt().headers,
         });
+    }
+
+    async countAll() {
+        try {
+            const resp = await fetch(`${apiUrl}/project/count_all`, {
+                method: 'GET'
+            });
+
+            if (!resp.ok) {
+                console.error('Error at count all projects req!');
+                console.error(resp.statusText);
+
+                return -1;
+            }
+
+            const text = await resp.text();
+            const result = parseInt(text);
+
+            return result;
+        } catch(e) {
+            console.error('Error at count all projects req!');
+            console.error(e);
+
+            return -1;
+        }
+    }
+
+    async countWithFilter(filter: ProjectFilterData) {
+        const qb = new URLSearchParams();
+        appendProjectFilterToQuery(filter, qb);
+        const queries = qb.toString();
+
+        try {
+            const resp = await fetch(`${apiUrl}/project/count_with_filter?${queries}`, {
+                method: 'GET'
+            });
+    
+            if (!resp.ok) {
+                console.error('Error at count projects with filter req!');
+                console.error(resp.statusText);
+
+                return -1;
+            }
+
+            const text = await resp.text();
+            const result = parseInt(text);
+            return result;
+        } catch(e) {
+            console.error('Error at count projects with filter req!');
+            console.error(e);
+
+            return -1;
+        }
     }
 }
 

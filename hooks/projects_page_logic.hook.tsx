@@ -12,6 +12,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
 	const libsInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
 	const [previews, setPreviews] = useState<ProjectModel[]>(props.projects);
+    const [previewsCount, setPreviewsCount] = useState(props.projectsCount);
 
     const tagsVal = tagsInp.binding.value;
     const libsVal = libsInp.binding.value;
@@ -42,25 +43,36 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
 	};
 
 	const onFilterClick = async () => {
-        const newPreviews = await projReq.getByFilter({
+        const previewsFromServer = await projReq.getByFilter({
             count: 15,
             desc: true,
             offset: 0
         }, tagsArr, libsArr, nameInp.binding.value);
 
-        if (!newPreviews) {
+        if (!previewsFromServer) {
             return;
         }
 
-        const qBuilder = new URLSearchParams();
-        appendArrToQuery(qBuilder, 'tags', tagsArr);
-        appendArrToQuery(qBuilder, 'libs', libsArr);
+        setPreviews(previewsFromServer);
 
-        if (nameVal) {
-            qBuilder.append('name', nameVal);
-        }
+        const countRes = await projReq.countWithFilter({
+            libs: libsArr,
+            name: nameVal,
+            tags: tagsArr
+        });
 
-        setPreviews(newPreviews);
+        setPreviewsCount(countRes);
+    };
+
+    const loadMorePreviews = async (offset: number) => {
+        const resp = await projReq.getMany({
+            count: 20,
+            desc: true,
+            offset
+        }) as ProjectModel[];
+
+        const transformed = resp.map(p => transformProjectToTaggedItemPreview(p));
+        return transformed;
     };
 
     return {
@@ -68,6 +80,8 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
         libsInp,
         tagsInp,
         previews: getProjectPreviewsToR(),
+        previewsCount,
 		onFilterClick,
+        loadMorePreviews
     };
 }

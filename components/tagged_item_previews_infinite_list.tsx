@@ -1,42 +1,86 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as RM from 'react-modifier';
-import { TaggedItemPreviewProps } from './tagged-item-preview';
-import TaggedItemsList from './tagged_items_list';
+import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
+import TaggedItemLoader from './tagged_item_loader';
 
 interface TaggedItemsPreviewInfiniteListProps {
     headMod?: RM.IModifier;
-    previews: TaggedItemPreviewProps[];
-    hasMoreItemsLeft: boolean;
-    canLoad: boolean;
+    initialPreviews: TaggedItemPreviewProps[];
     tagHrefPrefix: string;
-    loadMore: (offset: number) => void;
+    allPreviewsCount: number;
+    loadMore: (offset: number) => Promise<TaggedItemPreviewProps[]>;
 }
 
 const TaggedItemPreviewsInfiniteList= (props: TaggedItemsPreviewInfiniteListProps) => {
     const headMod = props.headMod || RM.createMod();
-    const endRef = useRef<HTMLDivElement>(null);
+    const [previews, setPreviews] = useState(props.initialPreviews);
+    const lastItemRef = useRef<HTMLDivElement>(null);
+    const prevPreviewsCount = useRef(-1);
+    const hasMore = props.allPreviewsCount > previews.length;
+
+    const loadNext = async () => {
+        const newPreviews = await props.loadMore(previews.length);
+        setPreviews([...previews, ...newPreviews]);
+    };
 
     useEffect(() => {
-        const intersectionObs = new IntersectionObserver((entries, observer) => {
-            if (entries.length > 0 && props.hasMoreItemsLeft && props.canLoad) {
-                props.loadMore(props.previews.length - 1);
+        prevPreviewsCount.current = -1;
+    }, [props.allPreviewsCount]);
+
+    useEffect(() => {
+        const intersectionObs = new IntersectionObserver((ent, obs) => {
+            if (!ent[0]) {
+                return;
             }
+
+            if (!ent[0].isIntersecting) {
+                return;
+            }
+
+            if (!hasMore) {
+                return;
+            }
+
+            // already called load,
+            if (prevPreviewsCount.current == previews.length) {
+                return;
+            }
+
+            prevPreviewsCount.current = previews.length;
+            loadNext();
         });
 
-        intersectionObs.observe(endRef.current as HTMLDivElement);
+        intersectionObs.observe(lastItemRef.current as Element);
 
         return () => {
             intersectionObs.disconnect();
         };
-    }, []);
+    });
+
+    const getLibsToR = () => {
+        return previews.map((p, i) => {
+            return (
+                <TaggedItemPreview {...p} key={i} 
+                tagHrefPrefix={props.tagHrefPrefix} />
+            );
+        });
+    };
+
+    const loader = (
+        <TaggedItemLoader />
+    );
 
     return (
         RM.modElement((
-            <div>
-                <TaggedItemsList items={props.previews}
-                tagHrefPrefix={props.tagHrefPrefix} />
-                
-                <div className='h-[1px]' ref={endRef} />
+            <div className={[`previews-list`].join(' ')}>
+                {getLibsToR()}
+
+                {hasMore && (
+                    loader
+                )}
+
+                <div className=' h-[100%]'
+                ref={lastItemRef} />
             </div>
         ), headMod)
     );

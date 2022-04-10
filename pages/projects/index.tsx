@@ -10,14 +10,15 @@ import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_preview
 import { parseArrQuery } from '../../utils/parse_next_arr_query';
 
 export interface ProjectsPageProps {
+	projectsCount: number;
 	projects: ProjectModel[];
 	errorOccured?: boolean;
 }
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
 	const { 
-		libsInp, nameInp, tagsInp,
-		previews, onFilterClick
+		libsInp, nameInp, tagsInp, previewsCount,
+		previews, onFilterClick, loadMorePreviews
 	} = useProjectPageLogic(props);
 
 	return (
@@ -61,11 +62,9 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 				</div>
 
 				{!props.errorOccured && (
-					//  {getProjectPreviewsToR()}
-					<TaggedItemPreviewsInfiniteList previews={previews} 
-					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
-					canLoad={false} loadMore={() => {}}
-					tagHrefPrefix={'/projects?tags='} />
+					<TaggedItemPreviewsInfiniteList initialPreviews={previews}
+					headMod={RM.createMod('mt-8')} allPreviewsCount={previewsCount}
+					loadMore={loadMorePreviews} tagHrefPrefix={'/projects?tags='} />
 				)}
 
 				{props.errorOccured && (
@@ -86,25 +85,40 @@ export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (
 	const libs = parseArrQuery(libsQuery);
 
 	const projects = await projReq.getByFilter({
-		count: 25,
+		count: 1,
 		desc: true,
 		offset: 0
 	}, tags, libs, nameQuery);
+
+	const errProps = {
+		projects: [],
+		errorOccured: true,
+		projectsCount: 0
+	}
 
 	if (!projects) {
 		console.error('Error while loading projects list in proj index page');
 
 		return {
-			props: {
-				projects: [],
-				errorOccured: true
-			}
+			props: errProps
+		};
+	}
+
+	const projectsCount = await projReq.countAll();
+	
+	// error throwen
+	if (projectsCount < 0) {
+		console.error('Error while loading projects count in proj index page');
+
+		return {
+			props: errProps
 		};
 	}
 
 	return {
 		props: {
-			projects
+			projects,
+			projectsCount
 		}
 	};
 };

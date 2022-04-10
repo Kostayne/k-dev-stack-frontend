@@ -63,7 +63,7 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 
 				{/* Lib previews */}
 				{!props.errorOccured && (
-					<TaggedItemPreviewsInfiniteList previews={libPreviews} 
+					<TaggedItemPreviewsInfiniteList initialPreviews={libPreviews} 
 					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
 					canLoad={false} loadMore={loadMorePreviews}
 					tagHrefPrefix={'/libs?tags='} />
@@ -103,17 +103,3 @@ export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx)
 		}
 	};
 };
-
-// export const getStaticPaths: GetStaticPaths = () => {
-// 	return {
-// 		paths: [
-// 			{
-// 				params: {
-
-// 				}
-// 			}
-// 		],
-
-// 		fallback: 'blocking'
-// 	};
-// };

@@ -1,6 +1,5 @@
 import React from 'react';
 import * as RM from 'react-modifier';
-import { LibModel } from '../models/lib.model';
 import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
 
 interface TaggedItemsListProps {
