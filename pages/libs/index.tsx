@@ -9,6 +9,8 @@ import { LibModel } from '../../models/lib.model';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
 import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 import { parseArrQuery } from '../../utils/parse_next_arr_query';
+import LibsFilterWithPreviews from '../../components/libs_filter_with_previews';
+import { transformLibToTaggedItemPreview } from '../../transform/tagged_item_preview.transform';
 
 export interface LibsPageProps {
 	errorOccured?: boolean;
@@ -35,41 +37,9 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				<Goto href='/' title='Библиотеки' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
-				{/* filter */}
-				<div className='mt-6'>
-					<div className='blue-splitter' />
-
-					{/* centered content */}
-					<div className={['w-fit mx-auto mt-5 flex flex-col gap-4',
-					'md:flex-row md:mx-0 md:items-end'].join(' ')}>
-						{/* inputs */}
-						<div className={['flex flex-col gap-2',
-						'md:flex-row md:gap-3'].join(' ')}>
-							<StyledTextInput {...nameInp.binding} label='Имя' 
-							placeholder='react' />
-
-							<StyledTextInput {...tagsInp.binding} label='Теги' 
-							placeholder='tag1, tag2' />
-						</div>
-
-						<StyledBtn value='применить' 
-						headMod={RM.createMod([
-							'primary-btn w-[110px] mx-auto',
-							'md:mb-[2px]'
-						].join(' '))} 
-						onClick={onFilterClick} />
-					</div>
-
-					<div className='blue-splitter mt-5' />
-				</div>
-
-				{/* Lib previews */}
-				{!props.errorOccured && (
-					<TaggedItemPreviewsInfiniteList initialPreviews={libPreviews} 
-					headMod={RM.createMod('mt-8')} allPreviewsCount={libsCount}
-					loadMore={loadMorePreviews}
-					tagHrefPrefix={'/libs?tags='} />
-				)}
+				<LibsFilterWithPreviews initialCount={props.libsCount}
+				initialPreviews={props.libs.map(l => transformLibToTaggedItemPreview(l))}
+				headMod={RM.createMod('mt-6')} />
 
 				{props.errorOccured && (
 					<p className='mt-4'>Не удалось загрузить список библиотек.</p>
