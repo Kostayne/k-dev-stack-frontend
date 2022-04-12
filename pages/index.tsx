@@ -66,44 +66,19 @@ const Home: NextPage<HomePageProps> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-	let libsRes: Response | null = null;
-	let libsList: LibModel[] = [];
-	let projectsList: ProjectModel[] = [];
-
 	let errorOccured = false;
 
-	try {
-		libsRes = await libReq.getMany({
-			count: 6,
-			desc: true,
-			offset: 0
-		});
+	const libsList = await libReq.getMany({
+		count: 6,
+		desc: true,
+		offset: 0
+	});
 
-		const projectsResp = await projReq.getMany({
-			count: 6,
-			desc: true,
-			offset: 0
-		});
-
-		if (!projectsResp) {
-			errorOccured = true;
-		}
-
-		projectsList = projectsResp || [];
-	} catch(e) {
-		console.error('Error while loading libs in main page!');
-		console.error(e);
-
-		errorOccured = false;
-	}
-
-	if (libsRes?.ok) {
-		libsList = await libsRes.json() as LibModel[];
-	}
-
-	if (!libsRes?.ok) {
-		errorOccured = true;
-	}
+	const projectsList = await projReq.getMany({
+		count: 6,
+		desc: true,
+		offset: 0
+	});
 
 	return {
 		props: {

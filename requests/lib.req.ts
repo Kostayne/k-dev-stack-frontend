@@ -1,7 +1,9 @@
 import { apiUrl } from "../cfg";
 import { PaginationParams } from "../interfaces/get_many_params";
+import { LibFilterData } from "../interfaces/lib_filter_data";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
+import { appendLibFilterToQuery } from "../utils/append_lib_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -26,14 +28,25 @@ class LibReq {
         });
     }
 
-    getMany(params: PaginationParams) {
-        const queries = getGetManyQuery(params);
-        return fetch(`${apiUrl}/lib/many?${queries}`, {
-            method: 'GET'
-        });
+    async getMany(params: PaginationParams) {
+        try {
+            const queries = getGetManyQuery(params);
+
+            const resp = await fetch(`${apiUrl}/lib/many?${queries}`, {
+                method: 'GET'
+            });
+
+            const res = await resp.json() as LibModel[];
+            return res;
+        } catch(e) {
+            console.error(e);
+            console.error('Error when load get many libs');
+
+            return [];
+        }
     }
 
-    getByFilter(params: PaginationParams, tags: string[], name: string) {
+    getByFilter = async (params: PaginationParams, tags: string[], name: string) => {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
@@ -45,9 +58,24 @@ class LibReq {
 
         const queries = queryBuilder.toString();
 
-        return fetch(`${apiUrl}/lib/by_filter?${queries}`, {
-            method: 'GET'
-        });
+        try {
+            const resp = await fetch(`${apiUrl}/lib/by_filter?${queries}`, {
+                method: 'GET'
+            });
+
+            if (!resp.ok) {
+                console.error('Error when sending getByFilter libs req');
+                return [];
+            }
+
+            const libs = await resp.json() as LibModel[];
+            return libs;
+        } catch(e) {
+            console.error(e);
+            console.error('Error when sending getByFilter libs req');
+
+            return[];
+        }
     }
 
     edit(data: LibModel) {
@@ -100,6 +128,55 @@ class LibReq {
             method: 'DELETE',
             headers: new HeaderBuilder().json().jwt().headers,
         });
+    }
+
+    async countAll() {
+        try {
+            const resp = await fetch(`${apiUrl}/lib/count_all`, {
+                method: 'GET'
+            });
+
+            if (!resp.ok) {
+                console.error('Error while count all libs req');
+                console.error(resp.statusText);
+
+                return -1;
+            }
+
+            const text = await resp.text();
+            const res = parseInt(text);
+            return res;
+        } catch(e) {
+            console.error(e);
+            console.error('Error while count all libs req');
+            return -1;
+        }
+    }
+
+    async countWithFilter(f: LibFilterData) {
+        try {
+            const q = new URLSearchParams();
+            appendLibFilterToQuery(f, q);
+
+            const resp = await fetch(`${apiUrl}/lib/count_with_filter?${q.toString()}`, {
+                method: 'GET'
+            });
+
+            if (!resp.ok) {
+                console.error('Error while count all libs req');
+                console.error(resp.statusText);
+
+                return -1;
+            }
+
+            const text = await resp.text();
+            const res = parseInt(text);
+            return res;
+        } catch(e) {
+            console.error(e);
+            console.error('Error while count all libs req');
+            return -1;
+        }
     }
 }
 

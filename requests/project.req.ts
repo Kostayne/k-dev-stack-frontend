@@ -30,7 +30,7 @@ export class ProjectReq {
         if (!resp.ok) {
             console.error('Error while get many project req');
             console.error(resp.statusText);
-            return;
+            return [];
         }
 
         const data = await resp.json() as ProjectModel[];

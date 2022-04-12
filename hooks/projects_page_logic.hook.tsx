@@ -3,7 +3,6 @@ import { ProjectModel } from "../models/project.model";
 import { ProjectsPageProps } from "../pages/projects";
 import { projReq } from "../requests/project.req";
 import { transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
-import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { inputValToArr } from "../utils/input_val_to_arr";
 import { useSyntheticInput } from "./input_synthetic.hook";
 
@@ -11,8 +10,8 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
     const nameInp = useSyntheticInput();
 	const libsInp = useSyntheticInput();
 	const tagsInp = useSyntheticInput();
-	const [previews, setPreviews] = useState<ProjectModel[]>(props.projects);
-    const [previewsCount, setPreviewsCount] = useState(props.projectsCount);
+	const [projects, setProjects] = useState<ProjectModel[]>(props.projects);
+    const [projectsCount, setProjectsCount] = useState(props.projectsCount);
 
     const tagsVal = tagsInp.binding.value;
     const libsVal = libsInp.binding.value;
@@ -33,10 +32,11 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
         if (qName) {
             nameInp.setValue(qName);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const getProjectPreviewsToR = () => {
-		return previews.map((p, i) => {
+		return projects.map(p => {
 			const previewProps = transformProjectToTaggedItemPreview(p);
 			return previewProps;
 		});
@@ -53,7 +53,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
             return;
         }
 
-        setPreviews(previewsFromServer);
+        setProjects(previewsFromServer);
 
         const countRes = await projReq.countWithFilter({
             libs: libsArr,
@@ -61,7 +61,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
             tags: tagsArr
         });
 
-        setPreviewsCount(countRes);
+        setProjectsCount(countRes);
     };
 
     const loadMorePreviews = async (offset: number) => {
@@ -80,7 +80,7 @@ export function useProjectPageLogic(props: ProjectsPageProps) {
         libsInp,
         tagsInp,
         previews: getProjectPreviewsToR(),
-        previewsCount,
+        previewsCount: projectsCount,
 		onFilterClick,
         loadMorePreviews
     };

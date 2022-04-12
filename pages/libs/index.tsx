@@ -7,17 +7,19 @@ import StyledBtn from '../../components/styled_btn';
 import { libReq } from '../../requests/lib.req';
 import { LibModel } from '../../models/lib.model';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
-import { dehydrate, QueryClient } from 'react-query';
 import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 import { parseArrQuery } from '../../utils/parse_next_arr_query';
 
 export interface LibsPageProps {
 	errorOccured?: boolean;
+	libsCount: number;
+	libs: LibModel[];
 }
 
 const Libs: NextPage<LibsPageProps> = (props) => {
 	const {
-		libPreviews, tagsInp, nameInp, 
+		libPreviews, tagsInp, nameInp,
+		libsCount,
 		onFilterClick, loadMorePreviews
 	} = useLibsPageLogic(props);
 
@@ -64,8 +66,8 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				{/* Lib previews */}
 				{!props.errorOccured && (
 					<TaggedItemPreviewsInfiniteList initialPreviews={libPreviews} 
-					headMod={RM.createMod('mt-8')} hasMoreItemsLeft={false}
-					canLoad={false} loadMore={loadMorePreviews}
+					headMod={RM.createMod('mt-8')} allPreviewsCount={libsCount}
+					loadMore={loadMorePreviews}
 					tagHrefPrefix={'/libs?tags='} />
 				)}
 
@@ -80,26 +82,23 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 export default Libs;
 
 export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx) => {
-	const queryClient = new QueryClient();
-
 	let tagsQuery = ctx.query.tags;
 	const nameQuery = ctx.query.name as string || '';
 	const tags = parseArrQuery(tagsQuery);
 
-	await queryClient.prefetchQuery<LibModel[], Error>('getLibPreviews', async () => {
-		const resp = await libReq.getByFilter({
-			count: 15,
-			desc: true,
-			offset: 0
-		}, tags, nameQuery);
+	const libs = await libReq.getByFilter({
+		count: 20,
+		desc: true,
+		offset: 0
+	}, tags, nameQuery);
 
-		return await resp.json() as LibModel[];
-	});
+	const libsCount = await libReq.countAll();
 
 	return {
 		props: {
-			dehydratedState: dehydrate(queryClient),
-			errorOccured: false
+			errorOccured: false,
+			libsCount,
+			libs
 		}
 	};
 };
