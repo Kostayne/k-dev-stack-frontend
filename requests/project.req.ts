@@ -64,9 +64,9 @@ export class ProjectReq {
         } catch(e) {
             console.error('Error at get many projects req!');
             console.error(e);
+            
+            return [];
         }
-
-        return;
     }
 
     getFullBySlug(slug: string) {

@@ -24,6 +24,10 @@ const TaggedItemPreviewsInfiniteList= (props: TaggedItemsPreviewInfiniteListProp
     };
 
     useEffect(() => {
+        setPreviews(props.initialPreviews);
+    }, [props.initialPreviews]);
+
+    useEffect(() => {
         prevPreviewsCount.current = -1;
     }, [props.allPreviewsCount]);
 

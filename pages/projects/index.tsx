@@ -2,12 +2,11 @@ import type { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } fro
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import StyledTextInput from '../../components/styled-text-input';
 import { projReq } from '../../requests/project.req';
 import { ProjectModel } from '../../models/project.model';
 import { useProjectPageLogic } from '../../hooks/projects_page_logic.hook';
-import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 import { parseArrQuery } from '../../utils/parse_next_arr_query';
+import ProjectsWithFilterPreviewsList from '../../components/projects_with_filter_previews_list';
 
 export interface ProjectsPageProps {
 	projectsCount: number;
@@ -16,9 +15,8 @@ export interface ProjectsPageProps {
 }
 
 const Projects: NextPage<ProjectsPageProps> = (props) => {
-	const { 
-		libsInp, nameInp, tagsInp, previewsCount,
-		previews, onFilterClick, loadMorePreviews
+	const {
+		previews,
 	} = useProjectPageLogic(props);
 
 	return (
@@ -34,38 +32,8 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 				goBack />
 
 				{/* filter */}
-				<div className='mt-6'>
-					<div className='blue-splitter' />
-
-					{/* centered content */}
-					<div className={['w-fit mx-auto mt-5 flex flex-col gap-4',
-					'md:flex-row md:mx-0 md:items-end'].join(' ')}>
-						{/* inputs */}
-						<div className={['flex flex-col gap-2',
-						'md:flex-row md:gap-3'].join(' ')}>
-							<StyledTextInput {...nameInp.binding} label='Имя' 
-							placeholder='linux' />
-
-							<StyledTextInput {...libsInp.binding} label='Библиотеки' 
-							placeholder='react, angular' />
-
-							<StyledTextInput {...tagsInp.binding} label='Теги' 
-							placeholder='tag1, tag2' />
-						</div>
-
-						<button className={['primary-btn w-[110px] mx-auto',
-						'md:mb-[2px]'].join(' ')}
-						onClick={onFilterClick}>применить</button>
-					</div>
-
-					<div className='blue-splitter mt-5' />
-				</div>
-
-				{!props.errorOccured && (
-					<TaggedItemPreviewsInfiniteList initialPreviews={previews}
-					headMod={RM.createMod('mt-8')} allPreviewsCount={previewsCount}
-					loadMore={loadMorePreviews} tagHrefPrefix={'/projects?tags='} />
-				)}
+				<ProjectsWithFilterPreviewsList headMod={RM.createMod('mt-6')}
+				allPreviewsCount={props.projectsCount} initialPreviews={previews} />
 
 				{props.errorOccured && (
 					<p className='mt-4'>Не удалось загрузить список проектов.</p>

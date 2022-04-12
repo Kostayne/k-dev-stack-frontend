@@ -1,6 +1,6 @@
 import { LibModel } from "../models/lib.model";
 import { transformBackendNamedLink } from "./named_link.transform";
-import { transformBackendProject } from "./project.transform";
+import { unwrapProjectFromData } from "./project.transform";
 import clone from 'clone';
 
 export function transformBackendFullLib(data: LibModel) {
@@ -11,7 +11,7 @@ export function transformBackendFullLib(data: LibModel) {
     });
 
     lib.projects = lib.projects.map(p => {
-        return transformBackendProject(p);
+        return unwrapProjectFromData(p);
     });
 
     return lib;

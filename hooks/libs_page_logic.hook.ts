@@ -15,7 +15,9 @@ export function useLibsPageLogic(props: LibsPageProps) {
     useEffect(() => {
         const qBuilder = new URLSearchParams(window.location.search);
         const qTags = qBuilder.getAll('tags');
+        const qName = qBuilder.get('name') || '';
         tagsInp.setValue(qTags.join(', '));
+        nameInp.setValue(qName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

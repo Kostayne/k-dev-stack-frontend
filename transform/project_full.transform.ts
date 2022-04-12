@@ -1,12 +1,12 @@
 import { ProjectModel } from "../models/project.model";
-import { transformBackendLib } from "./lib.transform";
+import { unwrapLibFromData } from "./lib.transform";
 import { transformBackendNamedLink } from "./named_link.transform";
 
 export function transformBackendFullProject(data: any) {
     const transformed = {...data} as ProjectModel;
 
     transformed.libs = transformed.libs.map(l => {
-        return transformBackendLib(l);
+        return unwrapLibFromData(l);
     });
 
     transformed.sources = transformed.sources.map(s => {
