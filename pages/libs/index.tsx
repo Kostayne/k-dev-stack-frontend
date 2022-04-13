@@ -1,13 +1,10 @@
-import type { GetServerSideProps, GetStaticProps, NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import StyledTextInput from '../../components/styled-text-input';
-import StyledBtn from '../../components/styled_btn';
 import { libReq } from '../../requests/lib.req';
 import { LibModel } from '../../models/lib.model';
 import { useLibsPageLogic } from '../../hooks/libs_page_logic.hook';
-import TaggedItemPreviewsInfiniteList from '../../components/tagged_item_previews_infinite_list';
 import { parseArrQuery } from '../../utils/parse_next_arr_query';
 import LibsFilterWithPreviews from '../../components/libs_filter_with_previews';
 import { transformLibToTaggedItemPreview } from '../../transform/tagged_item_preview.transform';
@@ -20,9 +17,7 @@ export interface LibsPageProps {
 
 const Libs: NextPage<LibsPageProps> = (props) => {
 	const {
-		libPreviews, tagsInp, nameInp,
-		libsCount,
-		onFilterClick, loadMorePreviews
+		
 	} = useLibsPageLogic(props);
 
 	return (

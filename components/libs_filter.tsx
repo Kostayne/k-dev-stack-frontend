@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as RM from 'react-modifier';
 import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import { LibFilterData } from '../interfaces/lib_filter_data';
+import { appendArrToQuery } from '../utils/append_arr_to_query';
 import { inputValToArr } from '../utils/input_val_to_arr';
 import StyledTextInput from './styled-text-input';
 import StyledBtn from './styled_btn';
@@ -21,11 +22,36 @@ const LibsFilter = (props: LibsFilterProps) => {
     const tagsVal = tagsInp.binding.value;
     const tagsArr = inputValToArr(tagsVal);
 
+    useEffect(() => {
+        const qBuilder = new URLSearchParams(window.location.search);
+        const qTags = qBuilder.getAll('tags');
+        const qName = qBuilder.get('name') || '';
+        tagsInp.setValue(qTags.join(', '));
+        nameInp.setValue(qName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const onFilterClick = () => {
         props.onFilterClick({
             name: nameVal,
             tags: tagsArr
         });
+
+        saveStateToUrl();
+    };
+
+    const saveStateToUrl = () => {
+        const qBuilder = new URLSearchParams();
+        appendArrToQuery(qBuilder, 'tags', tagsArr);
+        
+        if (nameVal) {
+            qBuilder.append('name', nameVal);
+        }
+
+        const curUrl = window.location.href.split('?')[0];
+        const newUrl = new URL(curUrl);
+        newUrl.search = qBuilder.toString();
+        window.history.replaceState('', '', newUrl.toString());
     };
 
     return (

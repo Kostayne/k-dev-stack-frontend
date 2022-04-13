@@ -53,7 +53,7 @@ export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (
 	const libs = parseArrQuery(libsQuery);
 
 	const projects = await projReq.getByFilter({
-		count: 1,
+		count: 20,
 		desc: true,
 		offset: 0
 	}, tags, libs, nameQuery);
