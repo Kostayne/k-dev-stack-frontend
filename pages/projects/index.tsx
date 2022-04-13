@@ -48,7 +48,7 @@ export default Projects;
 export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (ctx) => {
 	const tagsQuery = ctx.query.tags;
 	const libsQuery = ctx.query.libs;
-	const nameQuery = ctx.query.name as string || '';
+	const name = ctx.query.name as string || '';
 	const tags = parseArrQuery(tagsQuery);
 	const libs = parseArrQuery(libsQuery);
 
@@ -56,7 +56,7 @@ export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (
 		count: 20,
 		desc: true,
 		offset: 0
-	}, tags, libs, nameQuery);
+	}, tags, libs, name);
 
 	const errProps = {
 		projects: [],
@@ -72,7 +72,11 @@ export const getServerSideProps: GetServerSideProps<ProjectsPageProps> = async (
 		};
 	}
 
-	const projectsCount = await projReq.countAll();
+	const projectsCount = await projReq.countWithFilter({
+		libs,
+		name,
+		tags
+	});
 	
 	// error throwen
 	if (projectsCount < 0) {

@@ -48,16 +48,19 @@ export default Libs;
 
 export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx) => {
 	let tagsQuery = ctx.query.tags;
-	const nameQuery = ctx.query.name as string || '';
+	const name = ctx.query.name as string || '';
 	const tags = parseArrQuery(tagsQuery);
 
 	const libs = await libReq.getByFilter({
 		count: 20,
 		desc: true,
 		offset: 0
-	}, tags, nameQuery);
+	}, tags, name);
 
-	const libsCount = await libReq.countAll();
+	const libsCount = await libReq.countWithFilter({
+		name,
+		tags
+	});
 
 	return {
 		props: {
