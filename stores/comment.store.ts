@@ -1,10 +1,10 @@
-import { action, computed, makeAutoObservable, observable, runInAction } from "mobx";
+import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { CommentOwnerHocsCount } from "../interfaces/hoc_count";
 import { CommentCreateModel, CommentModel, CommentReadyToDisplay } from "../models/comment.model";
 import { CommentOwner, commentReq } from "../requests/comment.req";
 import { flatCommentsArrToNested } from "../utils/comments_to_nested";
 import { flatMapCommentsArr } from "../utils/flatmap_comments";
-import { deepEqual, shallowEqual } from "fast-equals";
+import { shallowEqual } from "fast-equals";
 import { PaginationParams } from "../interfaces/get_many_params";
 import { PaginationRecursiveParams } from "../interfaces/pagintation_recursive";
 import { transformCommentToBeDisplayReady, transformCommentToPersonalized } from "../transform/comment.transform";

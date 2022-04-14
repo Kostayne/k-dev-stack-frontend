@@ -62,11 +62,12 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<p className='mt-3'>{description}</p>
 
 				{/* alternatives */}
-				<h2 className='mt-4'>Альтернативы</h2>
-
 				{alternativePreviews.length > 0 && (
-					<TaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
-					headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
+					<>
+						<h2 className='mt-4'>Альтернативы</h2>
+						<TaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
+						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
+					</>
 				)}
 
 				{alternativePreviews.length == 0 && (
@@ -76,11 +77,13 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				)}
 
 				{/* projects */}
-				<h2 className='mt-4'>Проекты</h2>
-
 				{projectPreviews.length > 0 && (
-					<TaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
-					headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
+					<>
+						<h2 className='mt-4'>Проекты</h2>
+
+						<TaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
+						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
+					</>
 				)}
 
 				{projectPreviews.length == 0 && (

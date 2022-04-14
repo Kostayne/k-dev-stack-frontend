@@ -16,12 +16,13 @@ export interface ProjectPageProps {
 }
 
 const Project: NextPage<ProjectPageProps> = (props) => {
-	const { description, name, sources, libs, tags } = props.project;
-	const { 
+	const { description, name, sources, tags } = props.project;
+	const {
 		libPreviews
 	} = useConcreteProjectLogic(props);
 
 	const commentsId = `proj_${props.project.id}`;
+	const stackHeadline = libPreviews.length == 0? 'Стек не заполнен' : 'Стек';
 
 	return (
 		<div className='page-content'>
@@ -42,17 +43,25 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				{/* description */}
 				<p className='mt-3'>{description}</p>
 
-				{/* stack (libs) */}
-				<h2 className='mt-4'>Стек</h2>
+				{/* stack */}
+				{libPreviews.length > 0 && (
+					<>
+						<h2 className='mt-4'>{stackHeadline}</h2>
 
-				<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
-				tagHrefPrefix={`/projects?tags=`} />
+						<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
+						tagHrefPrefix={`/projects?tags=`} />
+					</>
+				)}
 
 				{/* sources */}
-				<h2 className='mt-4'>Исходники</h2>
+				{sources.length > 0 && (
+					<>
+						<h2 className='mt-4'>Исходники</h2>
 
-				<NamedLinksList links={sources} 
-				headMod={RM.createMod('mt-1')} />
+						<NamedLinksList links={sources} 
+						headMod={RM.createMod('mt-1')} />
+					</>
+				)}
 
 				<h2 className='mt-5'>Комментарии</h2>
 				<CommentsBlock owner={{ projectId: props.project.id }} 
