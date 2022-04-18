@@ -19,7 +19,7 @@ const HeaderDesktopLinksList= (props: HeaderDesktopLinksListProps) => {
                 <Link href={l.href} passHref key={l.name}>
                     <div className={['relative flex items-center',
                     'w-[156px] justify-center cursor-pointer',
-                    'group'].join(' ')}>
+                    'group text-link'].join(' ')}>
                         <a href={l.href} className='link'>{l.name}</a>
 
                         {/* bottom line */}

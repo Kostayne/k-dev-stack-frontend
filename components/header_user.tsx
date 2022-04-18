@@ -20,7 +20,7 @@ const HeaderUser= (props: HeaderUserProps) => {
                 <div>
                     {/* left */}
                     <Link href={'/profile'} passHref>
-                        <a className='link'>{firstName}</a>
+                        <a className='text-link'>{firstName}</a>
                     </Link>
 
                     <button className={[

@@ -18,7 +18,7 @@ const HeaderDesktopActions = (props: HeaderDekstopActionsProps) => {
             <Link href="/login" passHref>
                 {
                     RM.modElement((
-                        <a className='link'>ВОЙТИ</a>
+                        <a className='text-link'>ВОЙТИ</a>
                     ), headMod)
                 }
             </Link>

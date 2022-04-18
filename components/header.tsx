@@ -1,4 +1,5 @@
 import React from 'react';
+import * as RM from 'react-modifier';
 import styles from './header.module.scss';
 import { createModuleStylesConverter } from 'get-module-style';
 import Link from 'next/link';
@@ -7,8 +8,6 @@ import { observer } from 'mobx-react-lite';
 import { useHeaderLogic } from '../hooks/header_logic.hook';
 import HeaderMobileLinksList from './header_mobile_links_list';
 import HeaderDesktopLinksList from './header_desktop_links_list';
-import * as RM from 'react-modifier';
-import HeaderUser from './header_user';
 import HeaderDesktopActions from './header_desktop_actions';
 
 export interface HeaderLink {
