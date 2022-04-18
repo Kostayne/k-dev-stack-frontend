@@ -31,10 +31,6 @@
         @apply h-[1px] bg-lowBlue
     }
 
-    .link {
-        @apply text-base text-contrast
-    }
-
     .btn {
         @apply cursor-pointer text-contrast text-base
     }
@@ -87,6 +83,10 @@
 
     .rm-ico-btn__btn:hover {
         background: #EE5A87;
+    }
+
+    .tool-info-field {
+        @apply text-info-field text-base
     }
 }
 

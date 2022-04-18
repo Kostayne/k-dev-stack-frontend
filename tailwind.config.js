@@ -33,7 +33,10 @@ module.exports = {
             'customGray': '#BFBFBF',
             'lowBlue': '#EAF2FF',
             'errorSubdued': 'rgba(238, 90, 135, 0.42)',
-            'contrastDark': '#397EE4'
+            'contrastDark': '#397EE4',
+            'low-blue': '#F7FAFF',
+            'info-field': '#6CA7FF',
+            'link': '#5D9BF8'
         }
     },
 
