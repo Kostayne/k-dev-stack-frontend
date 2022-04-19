@@ -30,14 +30,14 @@ const LibInfo= (props: LibInfoProps) => {
 
                 {/* second row */}
                 <div className='flex gap-x-[15px]'>
-                    <div className=''>
+                    <div className='flex flex-col'>
                         <span className='tool-info-field block'>Вид</span>
-                        <span className='mt-[5px]'>{getToolTypeName(props.toolType)}</span>
+                        <span className='mt-[auto]'>{getToolTypeName(props.toolType)}</span>
                     </div>
 
                     <div className=''>
                         <span className='tool-info-field'>Issues</span>
-                        <span className='mt-[5px] font-medium block'>{props.issuesCount}</span>
+                        <span className='mt-[5px] block'>{props.issuesCount}</span>
                     </div>
                 </div>
 
