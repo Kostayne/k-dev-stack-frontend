@@ -3,7 +3,6 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
 import { ProjectModel } from '../../models/project.model';
-import NamedLinksList from '../../components/named_links_list';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
 import { transformBackendFullProject } from '../../transform/project_full.transform';
@@ -43,28 +42,13 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 					{/* LEFT */}
 					<div className='flex-grow'>
 						<TagRoundedList tags={tags}
-						headMod={RM.createMod('mt-2')}
 						hrefPrefix={`/projects?tags=`} />
 
 						{/* stack */}
-						{libPreviews.length > 0 && (
-							<>
-								<h2 className='mt-4'>{stackHeadline}</h2>
+						<h2 className='mt-4'>{stackHeadline}</h2>
 
-								<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
-								tagHrefPrefix={`/projects?tags=`} />
-							</>
-						)}
-
-						{/* sources */}
-						{sources.length > 0 && (
-							<>
-								<h2 className='mt-4'>Исходники</h2>
-
-								<NamedLinksList links={sources} 
-								headMod={RM.createMod('mt-1')} />
-							</>
-						)}
+						<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
+						tagHrefPrefix={`/projects?tags=`} />
 
 						<h2 className='mt-5'>Комментарии</h2>
 						<CommentsBlock owner={{ projectId: props.project.id }} 
