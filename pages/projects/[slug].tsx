@@ -10,6 +10,8 @@ import { transformBackendFullProject } from '../../transform/project_full.transf
 import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook';
 import CommentsBlock from '../../components/comments_block';
+import ProjectInfo from '../../components/project_info';
+import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
 
 export interface ProjectPageProps {
 	project: ProjectModel;
@@ -36,36 +38,51 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 				<Goto href='/projects/' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
-				<TagRoundedList tags={tags}
-				headMod={RM.createMod('mt-2')}
-				hrefPrefix={`/projects?tags=`} />
+				{/* columns */}
+				<div className='md:flex gap-x-5 mt-2'>
+					{/* LEFT */}
+					<div className='flex-grow'>
+						<TagRoundedList tags={tags}
+						headMod={RM.createMod('mt-2')}
+						hrefPrefix={`/projects?tags=`} />
 
-				{/* description */}
-				<p className='mt-3'>{description}</p>
+						{/* stack */}
+						{libPreviews.length > 0 && (
+							<>
+								<h2 className='mt-4'>{stackHeadline}</h2>
 
-				{/* stack */}
-				{libPreviews.length > 0 && (
-					<>
-						<h2 className='mt-4'>{stackHeadline}</h2>
+								<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
+								tagHrefPrefix={`/projects?tags=`} />
+							</>
+						)}
 
-						<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
-						tagHrefPrefix={`/projects?tags=`} />
-					</>
-				)}
+						{/* sources */}
+						{sources.length > 0 && (
+							<>
+								<h2 className='mt-4'>Исходники</h2>
 
-				{/* sources */}
-				{sources.length > 0 && (
-					<>
-						<h2 className='mt-4'>Исходники</h2>
+								<NamedLinksList links={sources} 
+								headMod={RM.createMod('mt-1')} />
+							</>
+						)}
 
-						<NamedLinksList links={sources} 
-						headMod={RM.createMod('mt-1')} />
-					</>
-				)}
+						<h2 className='mt-5'>Комментарии</h2>
+						<CommentsBlock owner={{ projectId: props.project.id }} 
+						uid={commentsId} />
+					</div>
 
-				<h2 className='mt-5'>Комментарии</h2>
-				<CommentsBlock owner={{ projectId: props.project.id }} 
-				uid={commentsId} />
+					{/* RIGHT */}
+					<div className='ml-auto hidden md:block w-[300px]'>
+						{/* description */}
+						<h2 className='text-base font-medium'>Описание</h2>
+						<span className='mt-[5px] text-sm'>{props.project.description}</span>
+
+						{/* TODO replace values with real ones */}
+						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
+						issuesCount={15} license={'MIT'} lastUpdate={'8 месяцев назад'}
+						links={libInfoLinksPlaceholder} forksCount={200} starsCount={816} />
+					</div>
+				</div>
 			</main>
 		</div>
 	);

@@ -110,7 +110,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						<LibInfo headMod={RM.createMod('h-fit flex mt-4')} 
 						downloads={'80m / month'} weight={weight}
 						issuesCount={15} toolType={ToolType.framework}
-						licence={'MIT'} lastUpdate={'8 месяцев назад'}
+						license={'MIT'} lastUpdate={'8 месяцев назад'}
 						links={libInfoLinksPlaceholder} version={"1.0.0"} />
 					</div>
 				</div>
