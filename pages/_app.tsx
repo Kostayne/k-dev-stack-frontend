@@ -10,7 +10,7 @@ import { BannerData, defaultBannerData } from '../interfaces/banner_data';
 import { useAppLogicHook } from '../hooks/_app_logic.hook';
 import { BannerTypes } from '../enums/banner_types.enum';
 import Banner from '../components/banner';
-import { logAuthors } from '../shared/site_info_logger';
+import { logSiteInfo } from '../utils/site_info_logger';
 import { configure } from 'mobx';
 // import { enableStaticRendering } from 'mobx-react-lite';
 
@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     useState(() => {
         if (typeof window != 'undefined') {
-            logAuthors();
+            logSiteInfo();
         }
 
         configure({
