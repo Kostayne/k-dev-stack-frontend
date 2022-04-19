@@ -44,7 +44,7 @@ const Footer= (props: FooterProps) => {
                 <div className={["flex flex-col max-w-[1200px] mx-auto w-full",
                 ""].join(' ')}>
                     {getLinksToR()}
-                    <a href="mailto:kostayne-dev@yandex.ru" className='link w-fit'>kostayne-dev@yandex.ru</a>
+                    <a href="mailto:kostayne-dev@yandex.ru" className='text-link w-fit'>kostayne-dev@yandex.ru</a>
                 </div>
             </div>
         ), headMod)
