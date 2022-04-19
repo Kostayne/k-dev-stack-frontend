@@ -64,7 +64,7 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
     
     return (
         <CarouselProvider
-        naturalSlideHeight={60} naturalSlideWidth={125}
+        naturalSlideHeight={60} naturalSlideWidth={431}
         totalSlides={itemsCount} 
         visibleSlides={showCount}
         step={showCount}

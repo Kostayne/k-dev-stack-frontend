@@ -3,15 +3,18 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
 import { LibModel } from '../../models/lib.model';
-import NamedLinksList from '../../components/named_links_list';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendFullLib } from '../../transform/lib_full.transform';
 import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
-import CodeViewer from '../../components/code_viewer';
+// import CodeViewer from '../../components/code_viewer';
 import CommentsBlock from '../../components/comments_block';
+import LibInfo from '../../components/lib_info';
+import { ToolType } from '../../enums/tool_type.enum';
+import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
+import ReactMarkdown from 'react-markdown';
 
 export interface LibPageProps {
 	lib: LibModel;
@@ -26,7 +29,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 	const { 
 		weight, 
 		name, 
-		downloads, 
+		downloads,
 		tags, 
 		description, 
 		codeExample, 
@@ -48,58 +51,69 @@ const Lib: NextPage<LibPageProps> = (props) => {
 				<Goto href='/libs' title={name} isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
-				<TagRoundedList tags={tags}
-				headMod={RM.createMod('mt-2')}
-				hrefPrefix={`/libs?tags=`} />
+				{/* columns */}
+				<div className='md:flex gap-x-5 mt-2'>
+					{/* left */}
+					<div className='flex-grow'>
+						<TagRoundedList tags={tags}
+						hrefPrefix={`/libs?tags=`} />
 
-				<NamedLinksList links={downloads} 
-				headMod={RM.createMod('mt-1')} />
+						{/* README */}
+						<ReactMarkdown className='mt-[15px]'>
+							{props.lib.readme || 'HEHE'}
+						</ReactMarkdown>
 
-				{/* weight */}
-				<p className='mt-2 text-customGray'>{weight}</p>
+						{/* alternatives */}
+						{alternativePreviews.length > 0 && (
+							<>
+								<h2 className='mt-4'>Альтернативы</h2>
+								<TaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
+								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
+							</>
+						)}
 
-				{/* description */}
-				<p className='mt-3'>{description}</p>
+						{alternativePreviews.length == 0 && (
+							<span className='mt-2 block'>
+								У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`/suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
+							</span>
+						)}
 
-				{/* alternatives */}
-				{alternativePreviews.length > 0 && (
-					<>
-						<h2 className='mt-4'>Альтернативы</h2>
-						<TaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
-						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
-					</>
-				)}
+						{/* projects */}
+						{projectPreviews.length > 0 && (
+							<>
+								<h2 className='mt-4'>Проекты</h2>
 
-				{alternativePreviews.length == 0 && (
-					<span className='mt-2 block'>
-						У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`/suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
-					</span>
-				)}
+								<TaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
+								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
+							</>
+						)}
 
-				{/* projects */}
-				{projectPreviews.length > 0 && (
-					<>
-						<h2 className='mt-4'>Проекты</h2>
+						{projectPreviews.length == 0 && (
+							<span className='mt-2 block'>
+								Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`/suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
+							</span>
+						)}
 
-						<TaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
-						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
-					</>
-				)}
+						{/* comments */}
+						<h2 className='mt-5'>Комментарии</h2>
+						<CommentsBlock headMod={RM.createMod('mt-2')}
+						owner={{ libId: id }} uid={commentsId} />
+					</div>
 
-				{projectPreviews.length == 0 && (
-					<span className='mt-2 block'>
-						Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`/suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
-					</span>
-				)}
+					{/* right */}
+					<div className='ml-auto hidden md:block w-[300px]'>
+						{/* description */}
+						<h2 className='text-base font-medium'>Описание</h2>
+						<span className='mt-[5px] text-sm'>{props.lib.description}</span>
 
-				{/* code example */}
-				<h2 className='mt-4'>Пример кода</h2>
-				<CodeViewer code={codeExample} codeLang={codeLang} />
-
-				{/* comments */}
-				<h2 className='mt-5'>Комментарии</h2>
-				<CommentsBlock headMod={RM.createMod('mt-2')}
-				owner={{ libId: id }} uid={commentsId} />
+						{/* TODO replace values with real ones */}
+						<LibInfo headMod={RM.createMod('h-fit flex mt-4')} 
+						downloads={'80m / month'} weight={weight}
+						issuesCount={15} toolType={ToolType.framework}
+						licence={'MIT'} lastUpdate={'8 месяцев назад'}
+						links={libInfoLinksPlaceholder} version={"1.0.0"} />
+					</div>
+				</div>
 			</main>
 		</div>
 	);
@@ -119,7 +133,7 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 			props: {
 				lib: libTransformed
 			}
-		}
+		};
 	} catch(e) {
 		console.error(e);
 

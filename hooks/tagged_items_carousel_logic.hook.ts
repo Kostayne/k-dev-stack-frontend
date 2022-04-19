@@ -7,12 +7,8 @@ const getShowSlidesCount = (isMobile: boolean, isTablet: boolean, isDesktop: boo
 		carouselShowCount = 1;
 	}
 
-	if (isTablet) {
+	if (isTablet || isDesktop) {
 		carouselShowCount = 2;
-	}
-
-	if (isDesktop) {
-		carouselShowCount = 3;
 	}
 
     return carouselShowCount;

@@ -16,6 +16,7 @@ export interface LibModel {
     alternativeFor: LibModel[];
     alternativeBy: LibModel[];
     comments: CommentPersonalizedModel[];
+    readme?: string;
 }
 
 export interface LibNamedLinkModel {

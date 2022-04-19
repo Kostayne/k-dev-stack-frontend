@@ -29,6 +29,7 @@ const Home: NextPage<HomePageProps> = (props) => {
 			<main>
 				<h1>Главная</h1>
 				
+				{/* TODO rework site description */}
 				<p className="mt-3">
 					На этом сайте можно найти библиотеки, фреймворки, cli утилиты для создания приложений и сайтов, также как и их альтернативы.
 					<br /> <br />
