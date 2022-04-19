@@ -14,6 +14,7 @@ interface LibInfoProps {
     downloads: string;
     lastUpdate: string;
     weight: string;
+    version: string;
 }
 
 const LibInfo= (props: LibInfoProps) => {
@@ -61,9 +62,16 @@ const LibInfo= (props: LibInfoProps) => {
                 </div>
 
                 {/* fiveth row */}
-                <div className=''>
-                    <span className='tool-info-field'>Вес</span>
-                    <span className='mt-[5px] block'>{props.weight}</span>
+                <div className='flex gap-x-[15px]'>
+                    <div>
+                        <span className='tool-info-field'>Вес</span>
+                        <span className='mt-[5px] block'>{props.weight}</span>
+                    </div>
+
+                    <div>
+                        <span className='tool-info-field'>Версия</span>
+                        <span className='mt-[5px] block'>{props.version}</span>
+                    </div>
                 </div>
             </div>
         ), headMod)
