@@ -122,13 +122,13 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const projects = await projReq.getMany({
+	const [projects, err] = await projReq.getMany({
 		count: 30,
 		desc: true,
 		offset: 0
 	});
 
-	if (!projects) {
+	if (err) {
 		console.log('Error in loading project paths');
 	}
 

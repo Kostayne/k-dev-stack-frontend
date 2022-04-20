@@ -15,7 +15,7 @@ export function useLibsFilterWithPreviews(props: LibsFilterWithPreviewsProps) {
         tags.current = data.tags;
         name.current = data.name;
 
-        const nLibs = await libReq.getByFilter({
+        const [nLibs] = await libReq.getByFilter({
             count: 20,
             desc: true,
             offset: 0
@@ -46,13 +46,13 @@ export function useLibsFilterWithPreviews(props: LibsFilterWithPreviewsProps) {
     };
 
     const loadMorePreviews = async (offset: number) => {
-        const resp = await libReq.getByFilter({
+        const [respData] = await libReq.getByFilter({
             count: 20,
             desc: true,
             offset
         }, tags.current, name.current);
 
-        const transformed = resp.map(p => transformLibToTaggedItemPreview(p));
+        const transformed = respData.map(p => transformLibToTaggedItemPreview(p));
         return transformed;
     };
 

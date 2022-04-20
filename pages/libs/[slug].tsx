@@ -173,11 +173,15 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const libs = await libReq.getMany({
+	const [libs, err] = await libReq.getMany({
 		count: 5000,
 		desc: true,
 		offset: 0
 	});
+
+	if (err) {
+		console.log('Error in loading lib paths');
+	}
 
 	return (
 		{
