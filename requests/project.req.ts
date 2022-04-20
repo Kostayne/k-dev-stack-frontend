@@ -21,20 +21,27 @@ export class ProjectReq {
         });
     }
 
-    async getMany(params: PaginationParams) {
-        const queries = getGetManyQuery(params);
-        const resp = await fetch(`${apiUrl}/project/many?${queries}`, {
-            method: 'GET'
-        });
+    async getMany(params: PaginationParams): Promise<[ProjectModel[], boolean?]> {
+        try {
+            const queries = getGetManyQuery(params);
+            const resp = await fetch(`${apiUrl}/project/many?${queries}`, {
+                method: 'GET'
+            });
 
-        if (!resp.ok) {
-            console.error('Error while get many project req');
-            console.error(resp.statusText);
-            return [];
+            if (!resp.ok) {
+                console.error('Error while get many project req');
+                console.error(resp.statusText);
+                return [[], true];
+            }
+
+            const data = await resp.json() as ProjectModel[];
+            return [data];
+        } catch(e) {
+            console.error('Error while getManyProjects request');
+            console.error(e);
+
+            return [[], true];
         }
-
-        const data = await resp.json() as ProjectModel[];
-        return data;
     }
 
     async getByFilter(params: PaginationParams, tags: string[], libs: string[], name: string) {

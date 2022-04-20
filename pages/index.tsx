@@ -67,19 +67,19 @@ const Home: NextPage<HomePageProps> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
-	let errorOccured = false;
-
-	const libsList = await libReq.getMany({
+	const [libsList, libsLoadErr] = await libReq.getMany({
 		count: 6,
 		desc: true,
 		offset: 0
 	});
 
-	const projectsList = await projReq.getMany({
+	const [projectsList, projectsLoadErr] = await projReq.getMany({
 		count: 6,
 		desc: true,
 		offset: 0
 	});
+
+	const errorOccured = Boolean(libsLoadErr || projectsLoadErr);
 
 	return {
 		props: {

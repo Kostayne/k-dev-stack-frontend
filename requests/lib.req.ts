@@ -28,7 +28,7 @@ class LibReq {
         });
     }
 
-    async getMany(params: PaginationParams) {
+    async getMany(params: PaginationParams): Promise<[LibModel[], boolean?]> {
         try {
             const queries = getGetManyQuery(params);
 
@@ -36,13 +36,20 @@ class LibReq {
                 method: 'GET'
             });
 
+            if (!resp.ok) {
+                console.error('Error when getMany libs req');
+                console.error(resp.statusText);
+
+                return [[], true];
+            }
+
             const res = await resp.json() as LibModel[];
-            return res;
+            return [res];
         } catch(e) {
             console.error(e);
             console.error('Error when load get many libs');
 
-            return [];
+            return [[], true];
         }
     }
 
