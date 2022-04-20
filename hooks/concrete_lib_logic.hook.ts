@@ -4,6 +4,7 @@ import { commentReq } from "../requests/comment.req";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
+	const lib = props.lib;
 
 	useEffect(() => {
 		const asyncWrapper = async () => {
@@ -13,17 +14,21 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 		asyncWrapper();
 	});
 
-	const alternativePreviews = props.lib.alternativeFor.map((a) => {
+	const alternativePreviews = lib? lib.alternativeFor.map((a) => {
 		return transformLibToTaggedItemPreview(a);
-	});
+	}) : [];
 
-    const projectPreviews = props.lib.projects.map((p) => {
+    const projectPreviews = lib? lib.projects.map((p) => {
         return transformProjectToTaggedItemPreview(p);
-    });
+    }) : [];
 
 	const fetchHocsCount = async () => {
+		if (!lib) {
+			return 0;
+		}
+
         return commentReq.countHocByOwnerId({
-            libId: props.lib.id
+            libId: lib.id
         });
     }
 

@@ -9,7 +9,7 @@ export function transformBackendFullProject(data: any) {
         return unwrapLibFromData(l);
     });
 
-    transformed.sources = transformed.sources.map(s => {
+    transformed.links = transformed.links.map(s => {
         return transformBackendNamedLink(s);
     });
 

@@ -15,9 +15,11 @@ import LibInfo from '../../components/lib_info';
 import { ToolType } from '../../enums/tool_type.enum';
 import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
 import ReactMarkdown from 'react-markdown';
+import Error from 'next/error';
 
 export interface LibPageProps {
-	lib: LibModel;
+	lib: LibModel | null;
+	errorCode?: number;
 }
 
 const Lib: NextPage<LibPageProps> = (props) => {
@@ -26,14 +28,25 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		projectPreviews, swiperMod
 	} = useConcreteLibPageLogic(props);
 
-	const { 
+	if (!props.lib) {
+		return (
+			<Error statusCode={props.errorCode as number} />
+		);
+	}
+
+	const {
 		weight, 
 		name, 
+		links,
 		downloads,
+		issuesCount,
+		license,
+		toolType,
+		version,
+		lastUpdate,
 		tags, 
-		description, 
-		codeExample, 
-		codeLang,	
+		description,
+		readme,
 		id
 	} = props.lib;
 
@@ -60,7 +73,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 
 						{/* README */}
 						<ReactMarkdown className='mt-[15px]'>
-							{props.lib.readme || 'HEHE'}
+							{readme}
 						</ReactMarkdown>
 
 						{/* alternatives */}
@@ -106,12 +119,11 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						<h2 className='text-base font-medium'>Описание</h2>
 						<span className='mt-[5px] text-sm'>{props.lib.description}</span>
 
-						{/* TODO replace values with real ones */}
 						<LibInfo headMod={RM.createMod('h-fit flex mt-4')} 
-						downloads={'80m / month'} weight={weight}
-						issuesCount={15} toolType={ToolType.framework}
-						license={'MIT'} lastUpdate={'8 месяцев назад'}
-						links={libInfoLinksPlaceholder} version={"1.0.0"} />
+						downloads={downloads} weight={weight}
+						issuesCount={issuesCount} toolType={toolType}
+						license={license} lastUpdate={lastUpdate}
+						links={links} version={version} />
 					</div>
 				</div>
 			</main>
@@ -126,6 +138,19 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 
 	try {
 		const resp = await libReq.getFullBySlug(slug);
+
+		if (!resp.ok) {
+			console.log()
+			console.error(resp.statusText);
+
+			return {
+				props: {
+					errorCode: resp.status,
+					lib: null
+				}
+			};
+		}
+
 		const libJson = await resp.json();
 		const libTransformed = transformBackendFullLib(libJson);
 
@@ -140,21 +165,8 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 		// TODO send error, not props
 		return {
 			props: {
-				lib: {
-					id: 0,
-					slug,
-					alternativeFor: [],
-					alternativeBy: [],
-					codeExample: '',
-					comments: [],
-					description: 'Ошибка',
-					downloads: [],
-					name: 'Ошибка',
-					projects: [],
-					tags: [],
-					weight: '0b',
-					codeLang: 'text'
-				}
+				lib: null,
+				errorCode: 503,
 			}
 		};
 	}

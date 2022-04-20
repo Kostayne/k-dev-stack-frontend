@@ -6,7 +6,7 @@ import clone from 'clone';
 export function transformBackendFullLib(data: LibModel) {
     const lib = clone(data);
 
-    lib.downloads = lib.downloads.map(d => {
+    lib.links = lib.links.map(d => {
         return transformBackendNamedLink(d);
     });
 

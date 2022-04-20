@@ -32,8 +32,10 @@ const Projects: NextPage<ProjectsPageProps> = (props) => {
 				goBack />
 
 				{/* filter */}
-				<ProjectsWithFilterPreviewsList headMod={RM.createMod('mt-6')}
-				allPreviewsCount={props.projectsCount} initialPreviews={previews} />
+				{!props.errorOccured && (
+					<ProjectsWithFilterPreviewsList headMod={RM.createMod('mt-6')}
+					allPreviewsCount={props.projectsCount} initialPreviews={previews} />
+				)}
 
 				{props.errorOccured && (
 					<p className='mt-4'>Не удалось загрузить список проектов.</p>

@@ -9,7 +9,13 @@ export interface ProjectModel {
     tags: string[];
     description: string;
     libs: LibModel[];
-    sources: NamedLinkModel[];
+    links: NamedLinkModel[];
     comments: CommentPersonalizedModel[];
+
+    issuesCount: number;
+    starsCount: number;
+    forksCount: number;
+    lastUpdate: string;
+    license: string;
     // TODO remove commets, since they loading async
 };

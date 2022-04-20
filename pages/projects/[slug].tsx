@@ -11,19 +11,31 @@ import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook
 import CommentsBlock from '../../components/comments_block';
 import ProjectInfo from '../../components/project_info';
 import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
+import Error from 'next/error';
 
 export interface ProjectPageProps {
-	project: ProjectModel;
+	project: ProjectModel | null;
+	errorCode?: number;
 }
 
 const Project: NextPage<ProjectPageProps> = (props) => {
-	const { description, name, sources, tags } = props.project;
 	const {
 		libPreviews
 	} = useConcreteProjectLogic(props);
 
+	if (!props.project) {
+		return (
+			<Error statusCode={props.errorCode as number} />
+		);
+	}
+
+	const { 
+		description, name, links, tags,
+		issuesCount, lastUpdate, license,
+		starsCount, forksCount
+	} = props.project;
+
 	const commentsId = `proj_${props.project.id}`;
-	const stackHeadline = libPreviews.length == 0? 'Стек не заполнен' : 'Стек';
 
 	return (
 		<div className='page-content'>
@@ -45,7 +57,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						hrefPrefix={`/projects?tags=`} />
 
 						{/* stack */}
-						<h2 className='mt-4'>{stackHeadline}</h2>
+						<h2 className='mt-4'>Стек</h2>
 
 						<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
 						tagHrefPrefix={`/projects?tags=`} />
@@ -61,10 +73,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<h2 className='text-base font-medium'>Описание</h2>
 						<span className='mt-[5px] text-sm'>{props.project.description}</span>
 
-						{/* TODO replace values with real ones */}
 						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
-						issuesCount={15} license={'MIT'} lastUpdate={'8 месяцев назад'}
-						links={libInfoLinksPlaceholder} forksCount={200} starsCount={816} />
+						issuesCount={issuesCount} license={license} lastUpdate={lastUpdate}
+						links={libInfoLinksPlaceholder} forksCount={forksCount} starsCount={starsCount} />
 					</div>
 				</div>
 			</main>
@@ -80,9 +91,12 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 	try {
 		const resp = await projReq.getFullBySlug(slug);
 
-		if (resp.status == 404) {
+		if (!resp.ok) {
 			return {
-				notFound: true
+				props: {
+					project: null,
+					errorCode: resp.status
+				}
 			};
 		}
 
@@ -100,17 +114,8 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 
 		return {
 			props: {
-				project: {
-					libs: [],
-					comments: [],
-					commentsCount: 0,
-					name: 'Ошибка',
-					description: 'Ошибка',
-					sources: [],
-					tags: [],
-					slug,
-					id: 0
-				}
+				errorCode: 503,
+				project: null
 			}
 		};
 	}
