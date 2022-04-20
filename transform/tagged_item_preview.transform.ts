@@ -7,6 +7,7 @@ export function transformLibToTaggedItemPreview(lib: LibModel): TaggedItemPrevie
         name: lib.name,
         description: lib.description,
         href: `/libs/${lib.slug}`,
+        tagHrefPrefix: '/libs/?tags[]=',
         tags: lib.tags
     };
 }
@@ -16,6 +17,7 @@ export function transformProjectToTaggedItemPreview(proj: ProjectModel): TaggedI
         name: proj.name,
         description: proj.description,
         href: `/projects/${proj.slug}`,
+        tagHrefPrefix: '/projects/?tags[]=',
         tags: proj.tags
     };
 }

@@ -15,14 +15,18 @@ const UserRequired= (props: UserRequiredProps) => {
 
     let bannerText = '';
 
-    if (!userStore.isLoading && !userStore.userData) {
-        router.push('/login');
-        bannerText = 'Необходимо войти в учетную запись';
-    }
+    const isOnServer = typeof window == 'undefined';
 
-    if (props.adminNeeded && !userStore.userData?.isAdmin) {
-        router.push('/login');
-        bannerText = 'Необходимо войти в учетную запись';
+    if (!isOnServer) {
+        if (!userStore.isLoading && !userStore.userData) {
+            router.push('/login');
+            bannerText = 'Необходимо войти в учетную запись';
+        }
+
+        if (props.adminNeeded && !userStore.userData?.isAdmin) {
+            router.push('/login');
+            bannerText = 'Необходимо войти в учетную запись';
+        }
     }
 
     return null;
