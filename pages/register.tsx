@@ -70,11 +70,11 @@ const Register: NextPage = () => {
 
 				<div className='mt-2 flex flex-col w-fit mx-auto'>
 					<Link href="/recover_password" passHref>
-						<a className='mt-2 link block w-fit mx-auto'>восстановить пароль</a>
+						<a className='mt-2 text-link block w-fit mx-auto'>восстановить пароль</a>
 					</Link>
 
 					<Link href="/login" passHref>
-						<a className='mt-1 link block w-fit mx-auto'>вход</a>
+						<a className='mt-1 text-link block w-fit mx-auto'>вход</a>
 					</Link>
 				</div>
 			</main>

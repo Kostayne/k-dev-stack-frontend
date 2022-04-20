@@ -69,11 +69,11 @@ const InnerLogin: NextPage = () => {
 					<div className='splitter w-[165px]' />
 
 					<Link href="/recover_password" passHref>
-						<a className='mt-2 link block w-fit mx-auto'>восстановить пароль</a>
+						<a className='mt-2 text-link block w-fit mx-auto'>восстановить пароль</a>
 					</Link>
 
 					<Link href="/register" passHref>
-						<a className='mt-1 link block w-fit mx-auto'>регистрация</a>
+						<a className='mt-1 text-link block w-fit mx-auto'>регистрация</a>
 					</Link>
 				</div>
 			</main>
