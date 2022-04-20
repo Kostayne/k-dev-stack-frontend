@@ -46,7 +46,7 @@ class LibReq {
         }
     }
 
-    getByFilter = async (params: PaginationParams, tags: string[], name: string) => {
+    getByFilter = async (params: PaginationParams, tags: string[], name: string): Promise<[LibModel[], boolean?]> => {
         const manyQueries = getGetManyQuery(params);
         const queryBuilder = new URLSearchParams(manyQueries);
         
@@ -65,16 +65,16 @@ class LibReq {
 
             if (!resp.ok) {
                 console.error('Error when sending getByFilter libs req');
-                return [];
+                return [[], true];
             }
 
             const libs = await resp.json() as LibModel[];
-            return libs;
+            return [libs, false];
         } catch(e) {
             console.error(e);
             console.error('Error when sending getByFilter libs req');
 
-            return[];
+            return[[], true];
         }
     }
 

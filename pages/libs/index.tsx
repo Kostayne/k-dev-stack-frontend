@@ -32,9 +32,11 @@ const Libs: NextPage<LibsPageProps> = (props) => {
 				<Goto href='/' title='Библиотеки' isMainHeading={true} headMod={RM.createMod('')} 
 				goBack />
 
-				<LibsFilterWithPreviews initialCount={props.libsCount}
-				initialPreviews={props.libs.map(l => transformLibToTaggedItemPreview(l))}
-				headMod={RM.createMod('mt-6')} />
+				{!props.errorOccured && (
+					<LibsFilterWithPreviews initialCount={props.libsCount}
+					initialPreviews={props.libs.map(l => transformLibToTaggedItemPreview(l))}
+					headMod={RM.createMod('mt-6')} />
+				)}
 
 				{props.errorOccured && (
 					<p className='mt-4'>Не удалось загрузить список библиотек.</p>
@@ -51,20 +53,21 @@ export const getServerSideProps: GetServerSideProps<LibsPageProps> = async (ctx)
 	const name = ctx.query.name as string || '';
 	const tags = parseArrQuery(tagsQuery);
 
-	const libs = await libReq.getByFilter({
+	const [libs, libsError] = await libReq.getByFilter({
 		count: 20,
 		desc: true,
 		offset: 0
 	}, tags, name);
 
-	const libsCount = await libReq.countWithFilter({
+	const libsCount = libsError? 0 : await libReq.countWithFilter({
 		name,
 		tags
 	});
 
 	return {
 		props: {
-			errorOccured: false,
+			// TODO replace false with libsCountErrorIndicator
+			errorOccured: libsError || false,
 			libsCount,
 			libs
 		}
