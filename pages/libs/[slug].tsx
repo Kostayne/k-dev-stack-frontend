@@ -174,7 +174,6 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	} catch(e) {
 		console.error(e);
 
-		// TODO send error, not props
 		return {
 			props: {
 				lib: null,

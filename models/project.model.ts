@@ -18,5 +18,4 @@ export interface ProjectModel {
     lastUpdate: string;
     license: string;
     readme: string;
-    // TODO remove commets, since they loading async
 };
