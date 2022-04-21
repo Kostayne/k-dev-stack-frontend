@@ -5,21 +5,26 @@ import * as RM from 'react-modifier';
 import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
 import { RenderDotsProps } from 'pure-react-carousel/typings/carouselElements';
 import { useTaggedItemsCarouselLogic } from '../hooks/tagged_items_carousel_logic.hook';
+import EmptySlide from './empty_slide';
 
 interface TaggedItemsCarouselProps {
     headMod?: RM.IModifier;
     previews: TaggedItemPreviewProps[];
     innerMod?: string;
     tagHrefPrefix: string;
+    emptyDescription?: string;
 }
 
 const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
     const headMod = props.headMod || RM.createMod();
-    const itemsCount = props.previews.length;
     const { showCount } = useTaggedItemsCarouselLogic();
+    const itemsCount = props.previews.length > showCount? 
+    props.previews.length : showCount;
     
     const getSlidesToR = () => {
-        return props.previews.map((p, i) => {
+        const rendered = [];
+
+        const actualItems = props.previews.map((p, i) => {
             return (
                 <Slide index={i} key={i}
                 innerClassName="!pr-[15px]">
@@ -28,6 +33,24 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
                 </Slide>
             );
         });
+
+        rendered.push(...actualItems);
+
+        const diff = showCount - props.previews.length;
+        const emptyDescription = props.emptyDescription || 'Данной вещи пока нет на сайте.. возможно, скоро она появится.';
+
+        for (let i = 0; i < diff; i++) {
+            const curIndex = props.previews.length + i;
+
+            rendered.push((
+                <Slide index={curIndex} key={curIndex}
+                innerClassName="!pr-[15px]">
+                    <EmptySlide description={emptyDescription} />
+                </Slide>
+            ));
+        }
+
+        return rendered;
     };
 
     const getDotsToR = (ctx: RenderDotsProps) => {
