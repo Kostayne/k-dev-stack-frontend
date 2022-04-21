@@ -5,17 +5,29 @@ import Goto from '../../components/goto';
 import { LibModel } from '../../models/lib.model';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendFullLib } from '../../transform/lib_full.transform';
-import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
 // import CodeViewer from '../../components/code_viewer';
 import CommentsBlock from '../../components/comments_block';
 import LibInfo from '../../components/lib_info';
-import { ToolType } from '../../enums/tool_type.enum';
-import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
-import ReactMarkdown from 'react-markdown';
 import Error from 'next/error';
+import dynamic from 'next/dynamic';
+
+import type TaggedItemsCarouselType from '../../components/carousel';
+import type ReactMdViewerType from 'react-markdown';
+
+const LazyTaggedItemsCarousel = dynamic(() => 
+	import('../../components/carousel') as any
+, {
+	ssr: false
+}) as typeof TaggedItemsCarouselType;
+
+const LazyMarkDownViewer = dynamic(() => 
+	import('react-markdown') as any
+, {
+	ssr: false
+}) as typeof ReactMdViewerType;
 
 export interface LibPageProps {
 	lib: LibModel | null;
@@ -72,15 +84,15 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						hrefPrefix={`/libs?tags=`} />
 
 						{/* README */}
-						<ReactMarkdown className='mt-[15px]'>
+						<LazyMarkDownViewer className='mt-[15px]'>
 							{readme}
-						</ReactMarkdown>
+						</LazyMarkDownViewer>
 
 						{/* alternatives */}
 						{alternativePreviews.length > 0 && (
 							<>
 								<h2 className='mt-4'>Альтернативы</h2>
-								<TaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
+								<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
 								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
 							</>
 						)}
@@ -96,7 +108,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 							<>
 								<h2 className='mt-4'>Проекты</h2>
 
-								<TaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
+								<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
 								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
 							</>
 						)}

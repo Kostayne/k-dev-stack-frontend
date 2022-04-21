@@ -6,12 +6,26 @@ import { ProjectModel } from '../../models/project.model';
 import TagRoundedList from '../../components/tag_rounded_list';
 import { projReq } from '../../requests/project.req';
 import { transformBackendFullProject } from '../../transform/project_full.transform';
-import TaggedItemsCarousel from '../../components/carousel';
 import { useConcreteProjectLogic } from '../../hooks/concrete_project_logic.hook';
 import CommentsBlock from '../../components/comments_block';
 import ProjectInfo from '../../components/project_info';
-import { libInfoLinksPlaceholder } from '../../placeholders/lib.placeholder';
 import Error from 'next/error';
+import dynamic from 'next/dynamic';
+
+import type TaggedItemsCarouselType from '../../components/carousel';
+import type ReactMdViewerType from 'react-markdown';
+
+const LazyTaggedItemsCarousel = dynamic(() => 
+	import('../../components/carousel') as any
+, {
+	ssr: false
+}) as typeof TaggedItemsCarouselType;
+
+const LazyMarkDownViewer = dynamic(() => 
+	import('react-markdown') as any
+, {
+	ssr: false
+}) as typeof ReactMdViewerType;
 
 export interface ProjectPageProps {
 	project: ProjectModel | null;
@@ -32,7 +46,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 	const { 
 		description, name, links, tags,
 		issuesCount, lastUpdate, license,
-		starsCount, forksCount
+		starsCount, forksCount, readme
 	} = props.project;
 
 	const commentsId = `proj_${props.project.id}`;
@@ -56,10 +70,15 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<TagRoundedList tags={tags}
 						hrefPrefix={`/projects?tags=`} />
 
+						{/* README */}
+						<LazyMarkDownViewer className='mt-[15px]'>
+							{readme}
+						</LazyMarkDownViewer>
+
 						{/* stack */}
 						<h2 className='mt-4'>Стек</h2>
 
-						<TaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
+						<LazyTaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
 						tagHrefPrefix={`/projects?tags=`} />
 
 						<h2 className='mt-5'>Комментарии</h2>
@@ -75,7 +94,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 
 						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
 						issuesCount={issuesCount} license={license} lastUpdate={lastUpdate}
-						links={libInfoLinksPlaceholder} forksCount={forksCount} starsCount={starsCount} />
+						links={links} forksCount={forksCount} starsCount={starsCount} />
 					</div>
 				</div>
 			</main>

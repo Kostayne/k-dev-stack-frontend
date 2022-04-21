@@ -17,5 +17,6 @@ export interface ProjectModel {
     forksCount: number;
     lastUpdate: string;
     license: string;
+    readme: string;
     // TODO remove commets, since they loading async
 };
