@@ -14,7 +14,7 @@ const EmptySlide= (props: EmptySlideProps) => {
             <div className={[
                 'flex flex-col shadow-preview rounded-[4px] p-4 min-h-[180px]'
             ].join(' ')}>
-                <span className="text-roboto font-medium text-contrastAlt">
+                <span className="text-roboto font-medium text-customGray">
                     Не существеут
                 </span>
 
