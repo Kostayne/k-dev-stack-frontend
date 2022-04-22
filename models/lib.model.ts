@@ -21,7 +21,7 @@ export interface LibModel {
     toolType: ToolType;
     version: string;
     issuesCount: number;
-    downloads: string;
+    downloadsCount: string;
     lastUpdate: string;
     license: string;
 }

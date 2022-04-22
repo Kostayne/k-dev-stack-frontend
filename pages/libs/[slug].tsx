@@ -50,7 +50,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 		weight, 
 		name, 
 		links,
-		downloads,
+		downloadsCount: downloads,
 		issuesCount,
 		license,
 		toolType,
