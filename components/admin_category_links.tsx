@@ -17,17 +17,17 @@ const AdminCategoryLinks= (props: AdminCategoryLinksProps) => {
     const headMod = props.headMod || RM.createMod();
     const itemsData: AdminLinkItem[] = [
         {
-            name: 'создать',
+            name: 'Создать',
             postfix: 'create'
         },
 
         {
-            name: 'редактировать',
+            name: 'Редактировать',
             postfix: 'edit'
         },
 
         {
-            name: 'удалить',
+            name: 'Удалить',
             postfix: 'delete'
         }
     ];
@@ -35,17 +35,20 @@ const AdminCategoryLinks= (props: AdminCategoryLinksProps) => {
     const itemsToR = itemsData.map((item, index) => {
         return (
             <Link href={`/admin/${props.prefix}/${item.postfix}`} key={index}>
-                <a className='link'>{item.name}</a>
+                <a className='text-link'>{item.name}</a>
             </Link>
         );
     });
     
     return (
         RM.modElement((
-            <div className='shadow-preview py-3 px-2'>
-                <span># {props.categoryDisplayName}</span>
+            <div className={[
+                'shadow-preview py-4 px-4',
+                'rounded-md'
+                ].join(' ')}>
+                <span className='font-medium'># {props.categoryDisplayName}</span>
 
-                <div className='flex flex-col gap-y-1 mt-2'>
+                <div className='flex flex-col gap-y-2 mt-4'>
                     {itemsToR}
                 </div>
             </div>

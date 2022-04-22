@@ -2,18 +2,18 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../../components/goto';
-import UserRequired from '../../components/user_required';
 import AdminCategoryLinks from '../../components/admin_category_links';
+import { useUserRequired } from '../../hooks/user_required.hook';
 
 interface AdminMainPagePageProps {
 
 }
 
 const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
+	useUserRequired(true);
+
 	return (
 		<>
-			<UserRequired />
-
 			<div className='page-content'>
 				<Head>
 					<title>Админ-панель</title>
@@ -25,7 +25,7 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 					<Goto href='/todo' title='Админ-панель' isMainHeading={true} headMod={RM.createMod('')} 
 					goBack />
 
-					<div className='grid gap-5 mt-6'>
+					<div className='grid gap-5 mt-6 md:grid md:grid-cols-3'>
 						<AdminCategoryLinks categoryDisplayName='Либы'
 						prefix='libs' />
 

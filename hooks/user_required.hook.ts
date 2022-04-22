@@ -1,45 +1,23 @@
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { userStore } from "../stores/user.store";
-import { loadJwtFromLocalStore } from "../utils/auth";
 
-export enum UserRequiredStatus {
-    userNeeded,
-    adminNeeded,
-    ok
-}
-
-export interface UserRequiredResult {
-    userRequiredStatus: UserRequiredStatus;
-}
-
-export function useUserRequired(adminNeeded?: boolean): UserRequiredResult {
+export function useUserRequired(adminNeeded?: boolean) {
     const router = useRouter();
 
-    const onClient = typeof window !== 'undefined'
-
-    if (!onClient) {
-        return {
-            userRequiredStatus: UserRequiredStatus.ok
+    useEffect(() => {
+        const asyncWrapper = async () => {
+            const loadedUser = await userStore.getOrLoadUser();
+    
+            if (!loadedUser) {
+                router.push('/login');
+            }
+    
+            if (adminNeeded && !userStore.userData?.isAdmin) {
+                router.push('/login');
+            }
         };
-    }
 
-    if (!loadJwtFromLocalStore()) {
-        router.push('/login');
-
-        return {
-            userRequiredStatus: UserRequiredStatus.userNeeded
-        };
-    }
-
-    if (adminNeeded && !userStore.userData?.isAdmin) {
-        router.push('/login');
-
-        return {
-            userRequiredStatus: UserRequiredStatus.adminNeeded
-        };
-    }
-
-    return {
-        userRequiredStatus: UserRequiredStatus.ok
-    };
+        asyncWrapper();
+    });
 }
