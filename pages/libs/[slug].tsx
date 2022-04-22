@@ -89,35 +89,17 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						</LazyMarkDownViewer>
 
 						{/* alternatives */}
-						{alternativePreviews.length > 0 && (
-							<>
-								<h2 className='mt-4'>Альтернативы</h2>
-								<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
-								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />
-							</>
-						)}
-
-						{alternativePreviews.length == 0 && (
-							<span className='mt-2 block'>
-								У данной библиотеки / фреймворка еще нет альтернатив, но если это не так, вы можете <Link href={`/suggest_proj?libId=${id}`}><a className='link'>предложить</a></Link> свой вариант. 
-							</span>
-						)}
+						<h2 className='mt-4'>Альтернативы</h2>
+						<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
+						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
+						emptyDescription="На данный момент на сайте нет альтернативы данной библиотеке." />
 
 						{/* projects */}
-						{projectPreviews.length > 0 && (
-							<>
-								<h2 className='mt-4'>Проекты</h2>
+						<h2 className='mt-4'>Проекты</h2>
 
-								<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
-								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`} />	
-							</>
-						)}
-
-						{projectPreviews.length == 0 && (
-							<span className='mt-2 block'>
-								Знаете крутые open source проекты с использованием данной библиотеки / фреймворка? <Link href={`/suggest_proj?libId=${id}`}><a className='link'>Предложите</a></Link> свой вариант. 
-							</span>
-						)}
+						<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
+						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
+						emptyDescription="На сайте нет проектов, в которых используется данная библиотека" />
 
 						{/* comments */}
 						<h2 className='mt-5'>Комментарии</h2>
