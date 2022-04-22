@@ -6,7 +6,6 @@ import { LibModel } from '../../models/lib.model';
 import { libReq } from '../../requests/lib.req';
 import { transformBackendFullLib } from '../../transform/lib_full.transform';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
-import Link from 'next/link';
 import TagRoundedList from '../../components/tag_rounded_list';
 // import CodeViewer from '../../components/code_viewer';
 import CommentsBlock from '../../components/comments_block';
