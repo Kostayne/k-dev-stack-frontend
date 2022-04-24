@@ -4,6 +4,10 @@ import Head from 'next/head';
 import Goto from '../../components/goto';
 import AdminCategoryLinks from '../../components/admin_category_links';
 import { useUserRequired } from '../../hooks/user_required.hook';
+import { useState } from 'react';
+import Banner from '../../components/banner';
+import CreateLibForm from '../../components/create_lib_form';
+import AdminCategoryActions from '../../components/admin_category_actions';
 
 interface AdminMainPagePageProps {
 
@@ -11,6 +15,7 @@ interface AdminMainPagePageProps {
 
 const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 	useUserRequired(true);
+	const [curForm, setCurForm] = useState('');
 
 	return (
 		<>
@@ -26,8 +31,13 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 					goBack />
 
 					<div className='grid gap-5 mt-6 md:grid md:grid-cols-3'>
-						<AdminCategoryLinks categoryDisplayName='Либы'
-						prefix='libs' />
+						{/* <AdminCategoryLinks categoryDisplayName='Либы'
+						prefix='libs' /> */}
+
+						<AdminCategoryActions categoryDisplayName='Либы'
+						onCreate={() => {setCurForm('create_lib')}} 
+						onEdit={() => {setCurForm('edit_lib')}}
+						onDel={() => {setCurForm('delete_lib')}} />
 
 						<AdminCategoryLinks categoryDisplayName='Проекты'
 						prefix='projects' />
@@ -35,6 +45,12 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 						<AdminCategoryLinks categoryDisplayName='Cсылки'
 						prefix='named_links' />
 					</div>
+
+					{curForm == 'create_lib' && (
+						<Banner headMod={RM.createMod('bg-[transparent] flex items-center justify-center')}>
+							<CreateLibForm headMod={RM.createMod('w-100% bg-[white]')} />
+						</Banner>
+					)}
 				</main>
 			</div>
 		</>
