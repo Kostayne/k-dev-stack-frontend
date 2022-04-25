@@ -1,0 +1,24 @@
+.btn {
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    border: none;
+
+    background: var(--inactive-btn);
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: ease 300ms;
+
+    &:hover {
+        background: var(--active-btn);
+    }
+}
+
+.img {
+    margin-left: 1px;
+    object-fit: cover;
+}
