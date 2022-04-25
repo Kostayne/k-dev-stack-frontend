@@ -1,0 +1,1 @@
+export type UncontrolledInputCorrectFn = (newVal: string) => string | void;
