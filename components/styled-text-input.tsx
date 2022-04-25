@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as RM from 'react-modifier';
-import { useStyledTextInput } from '../hooks/styled_text_input.hook';
+import { useStyledTextInputLogic } from '../hooks/styled_text_input_logic.hook';
 import AutocompleteOptionsList from './autocomplete-options-list';
 
 export interface StyledTextInputProps {
@@ -35,7 +35,7 @@ const StyledTextInput = (props: StyledTextInputProps) => {
         selectedOption,
         inputWrapperRef,
         inputRef
-    } = useStyledTextInput(props);
+    } = useStyledTextInputLogic(props);
 
     return (
         RM.modElement((

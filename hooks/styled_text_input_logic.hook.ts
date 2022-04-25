@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { StyledTextInputProps } from "../components/styled-text-input";
 
-export function useStyledTextInput(props: StyledTextInputProps) {
+export function useStyledTextInputLogic(props: StyledTextInputProps) {
     const allAutocompleteOptions = props.autocompleteOptions || [];
     const [showAutoComplete, setShowAutoComplete] = useState(false);
     const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
@@ -21,16 +21,16 @@ export function useStyledTextInput(props: StyledTextInputProps) {
         }
 
         // hide autocomplete when change focus
-        window.addEventListener('focus', (e) => {
+        const focusHandler = (e: FocusEvent) => {
             if (e.target == inputRef.current) {
                 return;
             }
 
             setShowAutoComplete(false);
-        });
+        }
 
         // hide autocomplete when click outside
-        window.addEventListener('click', (e) => {
+        const clickHandler = (e: MouseEvent) => {
             const tg = e.target as HTMLElement;
 
             if (!tg) {
@@ -43,7 +43,16 @@ export function useStyledTextInput(props: StyledTextInputProps) {
             }
 
             setShowAutoComplete(false);
-        });
+        };
+
+        window.addEventListener('focus', focusHandler);
+        window.addEventListener('click', clickHandler);
+
+        // unsubscribe all events when component unmounts
+        return () => {
+            window.removeEventListener('focus', focusHandler);
+            window.removeEventListener('click', clickHandler);
+        };
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
