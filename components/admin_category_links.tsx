@@ -43,7 +43,7 @@ const AdminCategoryLinks= (props: AdminCategoryLinksProps) => {
     return (
         RM.modElement((
             <div className={[
-                'shadow-preview py-4 px-4',
+                'shadow-baseShadow py-4 px-4',
                 'rounded-md'
                 ].join(' ')}>
                 <span className='font-medium'># {props.categoryDisplayName}</span>
