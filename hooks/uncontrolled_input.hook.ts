@@ -1,22 +1,22 @@
+import { useRef } from "react";
 import { UncontrolledInputCorrectFn } from "../interfaces/uncontrolled_input_correct";
-import { useVar } from "./var.hook";
 
-export function useUncontrolledInput(val?: string, correctVal?: UncontrolledInputCorrectFn):
-[string, UncontrolledInputCorrectFn] {
-    let inp = useVar<string>(val || '') as string;
+export function useUncontrolledInput<T>(val: T, correctVal?: UncontrolledInputCorrectFn<T>):
+[() => T, UncontrolledInputCorrectFn<T>] {
+    let inp = useRef(val);
     
-    const innerOnChange = (nv: string): string | void => {
+    const innerOnChange = (nv: T): T | void => {
         if (correctVal) {
             const corrected = correctVal(nv);
 
             if (corrected) {
-                inp = corrected;
+                inp.current = corrected;
                 return corrected;
             }
         }
 
-        inp = nv;
+        inp.current = nv;
     };
 
-    return [inp, innerOnChange];
+    return [() => inp.current, innerOnChange];
 }
