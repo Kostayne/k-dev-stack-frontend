@@ -12,7 +12,7 @@ const EmptySlide= (props: EmptySlideProps) => {
     return (
         RM.modElement((
             <div className={[
-                'flex flex-col shadow-preview rounded-[4px] p-4 min-h-[180px]'
+                'flex flex-col shadow-baseShadow rounded-[4px] p-4 min-h-[180px]'
             ].join(' ')}>
                 <span className="text-roboto font-medium text-customGray">
                     Не существеут
