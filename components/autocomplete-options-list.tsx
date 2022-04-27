@@ -36,7 +36,7 @@ const AutocompleteOptionsList= (props: AutocompleteOptionsListProps) => {
 
     return (
         RM.modElement((
-            <div className='absolute rounded-b-[5px] overflow-hidden'>
+            <div className='absolute bg-[white] rounded-b-[5px] overflow-hidden z-[1]'>
                 {getOptionsToR()}
             </div>
         ), headMod)
