@@ -1,19 +1,47 @@
 import { apiUrl } from "../cfg";
 import { PaginationParams } from "../interfaces/get_many_params";
 import { LibFilterData } from "../interfaces/lib_filter_data";
+import { RespInfo } from "../interfaces/resp_info";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
+import { NamedLinkModel } from "../models/named_link.model";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { appendLibFilterToQuery } from "../utils/append_lib_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
 class LibReq {
-    create(data: LibModel) {
-        return fetch(`${apiUrl}/lib/`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: new HeaderBuilder().json().jwt().headers
-        });
+    async create(mainData: LibModel, links: NamedLinkModel[]): Promise<RespInfo<null>> {
+        const dataToSend = {
+            main: mainData,
+            links
+        };
+
+        try {
+            const resp = await fetch(`${apiUrl}/lib/`, {
+                method: 'POST',
+                body: JSON.stringify(dataToSend),
+                headers: new HeaderBuilder().json().jwt().headers
+            });
+
+            if (!resp.ok) {
+                return {
+                    error: resp.statusText,
+                    resp
+                };
+            }
+
+            return {
+                data: null
+            };
+        }
+
+        catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string,
+            };
+        }
     }
 
     get(id: number) {
@@ -183,6 +211,39 @@ class LibReq {
             console.error(e);
             console.error('Error while count all libs req');
             return -1;
+        }
+    }
+
+    // alternatives
+    connectAlternativeBySlug = async (tg: string, to: string): Promise<RespInfo<null>> => {
+        const qb = new URLSearchParams();
+        qb.append('target', tg);
+        qb.append('to', to);
+
+        try {
+            const resp = await fetch(`${apiUrl}/lib/connect_alternative_by_slug?` + qb.toString(), {
+                method: 'POST',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error(resp.statusText);
+
+                return {
+                    error: resp.statusText,
+                    resp
+                };
+            }
+
+            return {
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
         }
     }
 }
