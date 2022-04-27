@@ -15,7 +15,7 @@ interface AdminMainPagePageProps {
 
 const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 	useUserRequired(true);
-	const [curForm, setCurForm] = useState('');
+	const [curForm, setCurForm] = useState('none');
 
 	return (
 		<>
@@ -47,8 +47,13 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 					</div>
 
 					{curForm == 'create_lib' && (
-						<Banner headMod={RM.createMod('bg-[transparent] flex items-center justify-center')}>
-							<CreateLibForm headMod={RM.createMod('w-100% bg-[white]')} />
+						<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
+							<CreateLibForm headMod={RM.createMod([
+								'w-100% md:w-fit bg-[white]',
+								'px-[30px] py-[30px] max-h-[750px] overflow-auto',
+								'shadow-baseShadow rounded-[5px]'
+								].join(' '))}
+								onCloseClick={() => { setCurForm('none') }} />
 						</Banner>
 					)}
 				</main>

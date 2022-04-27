@@ -1,1 +1,1 @@
-export type UncontrolledInputCorrectFn = (newVal: string) => string | void;
+export type UncontrolledInputCorrectFn<T> = (newVal: T) => T | void;
