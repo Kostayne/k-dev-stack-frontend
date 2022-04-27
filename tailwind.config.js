@@ -23,6 +23,8 @@ module.exports = {
 
         colors: {
             'awhite': '#F5F5F5',
+            'btnActive': '#5D9BF8',
+            'btnInactive': '#96C0FF',
             'contrastAlt': '#4C8CEB',
             'contrast': '#5D9BF8',
             'subtitle': '#373737',
