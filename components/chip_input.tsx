@@ -6,13 +6,13 @@ import { createModuleStylesConverter } from 'get-module-style';
 
 interface ChipInputProps {
     headMod?: RM.IModifier;
-    label: string;
+    // label: string;
     placeholder?: string;
 
     inputMod?: RM.IModifier;
     style?: React.CSSProperties;
 
-    onChange?: UncontrolledInputCorrectFn;
+    onChange?: UncontrolledInputCorrectFn<string>;
     onDelete: () => void;
 }
 
@@ -48,11 +48,11 @@ const ChipInput= (props: ChipInputProps) => {
     return (
         RM.modElement((
             <div className=''>
-                {props.label && (
+                {/* {props.label && (
                     <span className='mb-[3px] text-contrast text-sm block'>
                         {props.label}
                     </span>
-                )}
+                )} */}
 
                 <div className={[
                     'flex items-center mt-[3px]',
