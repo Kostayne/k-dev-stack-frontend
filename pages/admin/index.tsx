@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Banner from '../../components/banner';
 import CreateLibForm from '../../components/create_lib_form';
 import AdminCategoryActions from '../../components/admin_category_actions';
+import CreateProjectForm from '../../components/create_project_form';
 
 interface AdminMainPagePageProps {
 
@@ -39,8 +40,10 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 						onEdit={() => {setCurForm('edit_lib')}}
 						onDel={() => {setCurForm('delete_lib')}} />
 
-						<AdminCategoryLinks categoryDisplayName='Проекты'
-						prefix='projects' />
+						<AdminCategoryActions categoryDisplayName='Проекты'
+						onCreate={() => {setCurForm('create_project')}} 
+						onEdit={() => {setCurForm('edit_project')}}
+						onDel={() => {setCurForm('delete_project')}} />
 
 						<AdminCategoryLinks categoryDisplayName='Cсылки'
 						prefix='named_links' />
@@ -49,6 +52,17 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 					{curForm == 'create_lib' && (
 						<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
 							<CreateLibForm headMod={RM.createMod([
+								'w-100% md:w-fit bg-[white]',
+								'px-[30px] py-[30px] max-h-[750px] overflow-auto',
+								'shadow-baseShadow rounded-[5px]'
+								].join(' '))}
+								onCloseClick={() => { setCurForm('none') }} />
+						</Banner>
+					)}
+
+					{curForm == 'create_project' && (
+						<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
+							<CreateProjectForm headMod={RM.createMod([
 								'w-100% md:w-fit bg-[white]',
 								'px-[30px] py-[30px] max-h-[750px] overflow-auto',
 								'shadow-baseShadow rounded-[5px]'

@@ -1,18 +1,47 @@
 import { apiUrl } from "../cfg";
 import { PaginationParams } from "../interfaces/get_many_params";
 import { ProjectFilterData } from "../interfaces/project_filter_data";
+import { RespInfo } from "../interfaces/resp_info";
+import { NamedLinkModel } from "../models/named_link.model";
 import { ProjectModel } from "../models/project.model";
 import { appendProjectFilterToQuery } from "../utils/append_project_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
 export class ProjectReq {
-    create(data: ProjectModel) {
-        return fetch(`${apiUrl}/project`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: new HeaderBuilder().json().jwt().headers
-        });
+    create = async (mainData: ProjectModel, links: NamedLinkModel[]): Promise<RespInfo<ProjectModel>> => {
+        try {
+            const resp = await fetch(`${apiUrl}/project`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    main: mainData,
+                    links
+                }),
+                headers: new HeaderBuilder().json().jwt().headers
+            });
+
+            if (!resp.ok) {
+                console.error(resp.statusText);
+
+                return {
+                    resp,
+                    error: resp.statusText
+                };
+            }
+
+            const rawProj = await resp.json() as ProjectModel;
+
+            return {
+                data: rawProj,
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
     }
 
     get(id: number) {

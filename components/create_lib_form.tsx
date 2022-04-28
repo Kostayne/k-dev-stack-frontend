@@ -8,6 +8,7 @@ import { LibModel } from '../models/lib.model';
 import { NamedLinkModel } from '../models/named_link.model';
 import { libReq } from '../requests/lib.req';
 import { projectLibReq } from '../requests/project_lib.req';
+import { inputToNamedLink } from '../utils/input_to_named_link';
 
 interface CreateLibFormProps {
     headMod?: RM.IModifier;
@@ -47,12 +48,7 @@ const CreateLibForm= (props: CreateLibFormProps) => {
         };
 
         const links = getLinks().map(v => {
-            const splitted = v.split(' ');
-
-            return {
-                href: splitted[1],
-                name: splitted[0]
-            } as NamedLinkModel;
+            return inputToNamedLink(v);
         });
 
         const libSlug = getNameInp().replaceAll(' ', '_');
