@@ -1,4 +1,4 @@
-export interface ValueWithUID {
-    value: string;
+export interface ValueWithUID<T=string> {
+    value: T;
     uid: number | string;
 }
