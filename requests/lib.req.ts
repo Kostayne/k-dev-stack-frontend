@@ -144,11 +144,32 @@ class LibReq {
         }
     }
 
-    delete(id: number) {
-        return fetch(`${apiUrl}/lib/?id=${id}`, {
-            method: 'DELETE',
-            headers: new HeaderBuilder().json().jwt().headers,
-        });
+    async delete(id: number): Promise<RespInfo<null>> {
+        try {
+            const resp = await fetch(`${apiUrl}/lib/?id=${id}`, {
+                method: 'DELETE',
+                headers: new HeaderBuilder().json().jwt().headers,
+            });
+
+            if (!resp.ok) {
+                console.error(resp.statusText);
+
+                return {
+                    resp,
+                    error: resp.statusText
+                };
+            }
+
+            return {
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
     }
 
     // link

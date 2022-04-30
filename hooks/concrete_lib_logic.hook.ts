@@ -1,11 +1,14 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
+import { libReq } from "../requests/lib.req";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
 	const lib = props.lib;
 	const [isEditFormOpened, setEditFormOpened] = useState(false);
+	const router = useRouter();
 
 	useEffect(() => {
 		const asyncWrapper = async () => {
@@ -35,12 +38,27 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 
 	const swiperMod = '';
 
+	const onDelete = async () => {
+		if (!lib) {
+			return;
+		}
+
+		const respInfo = await libReq.delete(lib.id);
+		if (respInfo.error) {
+			alert('Ошибка');
+			return;
+		}
+
+		router.push('/libs');
+	};
+
     return {
         alternativePreviews,
         projectPreviews,
 		swiperMod,
 		isEditFormOpened,
 		fetchHocsCount,
-		setEditFormOpened
+		setEditFormOpened,
+		onDelete
     };
 }

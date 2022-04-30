@@ -18,6 +18,9 @@ import type ReactMdViewerType from 'react-markdown';
 import OutlineBtn from '../../components/outline_btn';
 import Banner from '../../components/banner';
 import EditLibForm from '../../components/edit_lib_form';
+import { useUserRequired } from '../../hooks/user_required.hook';
+import { userStore } from '../../stores/user.store';
+import { observer } from 'mobx-react-lite';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -36,13 +39,16 @@ export interface LibPageProps {
 	errorCode?: number;
 }
 
-const Lib: NextPage<LibPageProps> = (props) => {
+const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 	const {
 		alternativePreviews, 
 		projectPreviews, swiperMod,
 		isEditFormOpened,
-		setEditFormOpened
+		setEditFormOpened,
+		onDelete
 	} = useConcreteLibPageLogic(props);
+
+	useUserRequired();
 
 	if (!props.lib) {
 		return (
@@ -124,15 +130,17 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						links={links} version={version} />
 
 						{/* admin actions */}
-						<div className='mt-[20px] flex flex-col gap-y-[15px]'>
-							<OutlineBtn text='РЕДАКТИРОВАТЬ'
-							headMod={RM.createMod('w-full')}
-							onClick={() => setEditFormOpened(true)} />
+						{userStore.userData && userStore.userData.isAdmin && (
+							<div className='mt-[20px] flex flex-col gap-y-[15px]'>
+								<OutlineBtn text='РЕДАКТИРОВАТЬ'
+								headMod={RM.createMod('w-full')}
+								onClick={() => setEditFormOpened(true)} />
 
-							<OutlineBtn text='УДАЛИТЬ'
-							headMod={RM.createMod('w-full')}
-							onClick={() => alert('YO')} />
-						</div>
+								<OutlineBtn text='УДАЛИТЬ'
+								headMod={RM.createMod('w-full')}
+								onClick={onDelete} />
+							</div>
+						)}
 					</div>
 				</div>
 
@@ -152,7 +160,7 @@ const Lib: NextPage<LibPageProps> = (props) => {
 	);
 };
 
-export default Lib;
+export default observer(ConcreteLibPage);
 
 export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 	const slug = ctx.params?.slug as string;
