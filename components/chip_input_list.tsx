@@ -1,63 +1,48 @@
-import React, { useState } from 'react';
-import nextId from 'react-id-generator';
+import React from 'react';
 import * as RM from 'react-modifier';
+import { ValueWithUID } from '../interfaces/value_with_uid';
 import ChipInput from './chip_input';
 import CreateBtnRounded from './create_btn_rounded';
 
 interface ChipInputListProps {
     headMod?: RM.IModifier;
+    value: ValueWithUID[];
+    autocompleteOptions?: string[];
     label: string;
-    onChange?: (v: string[]) => string[] | void;
+
+    onCreate?: () => void;
+    onDelete?: (uid: string) => void;
+    onChange?: (val: ValueWithUID[]) => void;
 }
 
 const ChipInputList= (props: ChipInputListProps) => {
     const headMod = props.headMod || RM.createMod();
-    const [inputValues, setInputValues] = useState<string[]>([]);
-    const [inputIDs, setInputIDs] = useState<string[]>([]);
 
     const onCreateClick = () => {
-        const nIDs = [...inputIDs];
-        const nValues = [...inputValues];
-        const uid = nextId();
-
-        nIDs.push(uid);
-        nValues.push('');
-
-        setInputIDs(nIDs);
-        setInputValues(nValues);
-    };
-
-    const handleOnChange = (_nv: string[]) => {
-        if (props.onChange) {
-            const correctedValues = props.onChange(_nv);
-
-            if (correctedValues) {
-                setInputValues(correctedValues);
-                return;
-            }
-        }
-
-        setInputValues(_nv);
+        props.onCreate?.call(this);
     };
 
     const getInputsToR = () => {
-        return inputValues.map((v, i) => {
+        return props.value.map((v) => {
             const onDelete = () => {
-                const nVal = [...inputValues];
-                nVal.splice(i, 1);
-                setInputValues(nVal);
+                props.onDelete?.call(this, v.uid as string);
             };
 
-            const _onChange = (nv: string) => {
-                const nVal = [...inputValues];
-                nVal[i] = nv;
-                handleOnChange(nVal);
+            const _onChange = (newVal: string) => {
+                const newState = [...props.value];
+                const changedV = newState.find(v => v.uid == v.uid);
+
+                if (changedV) {
+                    changedV.value = newVal;
+
+                    props.onChange?.call(this, newState);
+                }
             };
 
             return (
-                <ChipInput onDelete={onDelete}
-                key={inputIDs[i]} onChange={_onChange} 
-                inputMod={RM.createMod('max-w-[100px]')} />
+                <ChipInput onChange={_onChange}
+                value={v.value} key={v.uid}
+                onDelete={onDelete} />
             );
         });
     };

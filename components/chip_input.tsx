@@ -1,40 +1,28 @@
 import React, { useState } from 'react';
 import * as RM from 'react-modifier';
-import { UncontrolledInputCorrectFn } from '../interfaces/uncontrolled_input_correct';
 import * as styles from './chip_input.module.scss';
 import { createModuleStylesConverter } from 'get-module-style';
 
 interface ChipInputProps {
     headMod?: RM.IModifier;
-    // label: string;
     placeholder?: string;
-
+    value: string;
+    
     inputMod?: RM.IModifier;
     style?: React.CSSProperties;
 
-    onChange?: UncontrolledInputCorrectFn<string>;
+    onChange?: (val: string) => void;
     onDelete: () => void;
 }
 
 const ChipInput= (props: ChipInputProps) => {
     const headMod = props.headMod || RM.createMod();
-    const [val, setVal] = useState('');
     const [focused, setFocused] = useState(false);
     const gs = createModuleStylesConverter(styles);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newVal = e.currentTarget.value;
-        
-        if (props.onChange) {
-            const correctedVal = props.onChange(newVal);
-
-            if (correctedVal) {
-                setVal(correctedVal);
-                return;
-            }
-        }
-
-        setVal(newVal);
+        props.onChange?.call(null, newVal);
     };
 
     const onFocus = () => {
@@ -48,12 +36,6 @@ const ChipInput= (props: ChipInputProps) => {
     return (
         RM.modElement((
             <div className=''>
-                {/* {props.label && (
-                    <span className='mb-[3px] text-contrast text-sm block'>
-                        {props.label}
-                    </span>
-                )} */}
-
                 <div className={[
                     'flex items-center mt-[3px]',
                     'border-inputInactive border-[2px] rounded-md min-h-[25px]',
@@ -66,7 +48,7 @@ const ChipInput= (props: ChipInputProps) => {
                             'outline-none',
                             'z-[1] w-full',
                             ``].join(' ')} 
-                            value={val} onChange={handleChange} placeholder={props.placeholder}
+                            value={props.value} onChange={handleChange} placeholder={props.placeholder}
                             onFocus={onFocus} onBlur={onBlur} />
                         ), props.inputMod || RM.createMod())}
 
