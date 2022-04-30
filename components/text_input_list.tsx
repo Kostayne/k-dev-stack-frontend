@@ -1,64 +1,54 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import nextId from 'react-id-generator';
 import * as RM from 'react-modifier';
+import { ValueWithUID } from '../interfaces/value_with_uid';
 import CreateBtnRounded from './create_btn_rounded';
 import DeleteBtnRounded from './delete_btn_rounded';
-import UncontrolledStyledTextInput from './uncontrolled_styled_text_input';
+import StyledTextInput from './styled-text-input';
 
 interface TextInputListProps {
     headMod?: RM.IModifier;
     label: string;
     placeholder?: string;
-    onChange: (v: string[]) => string[] | void;
+    value: ValueWithUID[];
+    onChange: (v: ValueWithUID[]) => void;
 }
 
 const TextInputList= (props: TextInputListProps) => {
     const headMod = props.headMod || RM.createMod();
-    const [inputIDs, setInputIDs] = useState<(string | number)[]>([]);
-    const inputValues = useRef<string[]>([]);
-
-    const callOnChange = () => {
-        const corrected = props.onChange(inputValues.current);
-
-        if (corrected) {
-            if (corrected.length != inputIDs.length) {
-                throw 'Corrected result lenght must be the same as initial lenght';
-            }
-
-            inputValues.current = corrected;
-        }
-    };
 
     const onAddClick = () => {
-        const newIDs = [...inputIDs];
-        newIDs.push(nextId());
-        setInputIDs(newIDs);
+        const newValue = [...props.value];
+        newValue.push({
+            value: '',
+            uid: nextId(),
+        });
 
-        inputValues.current.push('');
-        callOnChange();
+        props.onChange(newValue);
     };
 
     const getInputsToR = () => {
-        return inputIDs.map((v, i) => {
+        return props.value.map((v, i) => {
             const onChange = (nv: string) => {
-                inputValues.current[i] = nv;
-                callOnChange();
+                const newValue = [...props.value];
+                newValue[i].value = nv;
+                props.onChange(newValue);
             };
 
             const onDelete = () => {
-                const newIDs = [...inputIDs];
-                newIDs.splice(i, 1);
-                setInputIDs(newIDs);
-                inputValues.current.splice(i, 1);
-                callOnChange();
+                const newValue = [...props.value];
+                newValue.splice(i, 1);
+                props.onChange(newValue);
             };
 
             return (
-                <div className='flex gap-x-[8px] items-center' key={v}>
+                <div className='flex gap-x-[8px] items-center' key={v.uid}>
                     <DeleteBtnRounded onClick={onDelete} />
-                    <UncontrolledStyledTextInput onChange={onChange}
+                    
+                    <StyledTextInput onChange={onChange}
                     inputMod={RM.createMod('!text-[14px] h-[35px]')}
-                    placeholder={props.placeholder} />
+                    placeholder={props.placeholder}
+                    value={v.value} />
                 </div>
             );
         });

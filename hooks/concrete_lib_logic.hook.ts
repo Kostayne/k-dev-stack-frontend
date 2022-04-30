@@ -5,6 +5,7 @@ import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } 
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
 	const lib = props.lib;
+	const [isEditFormOpened, setEditFormOpened] = useState(false);
 
 	useEffect(() => {
 		const asyncWrapper = async () => {
@@ -38,6 +39,8 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
         alternativePreviews,
         projectPreviews,
 		swiperMod,
-		fetchHocsCount	
+		isEditFormOpened,
+		fetchHocsCount,
+		setEditFormOpened
     };
 }

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 
-export interface SyntheticInputData {
+export interface SyntheticInputData<T=string> {
     binding: {
-        value: string;
-        onChange: (val: string) => void;
-    }
+        value: T;
+        onChange: (val: T) => void;
+    },
 
-    setValue: (val: string) => void;
+    value: T,
+    setValue: (val: T) => void;
 }
 
-export function useSyntheticInput(initialValue = ''): SyntheticInputData {
+export function useSyntheticInput<T=string>(initialValue: T): SyntheticInputData<T> {
     const [value, setValue] = useState(initialValue);
 
-    const onChange = (val: string) => {
+    const onChange = (val: T) => {
         setValue(val);
     };
 
@@ -22,6 +23,7 @@ export function useSyntheticInput(initialValue = ''): SyntheticInputData {
             onChange
         },
 
+        value,
         setValue
     };
 }

@@ -5,9 +5,9 @@ import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { inputValToArr } from '../utils/input_val_to_arr';
 
 export function useProjectFilter(props: ProjectsFilterProps) {
-    const nameInp = useSyntheticInput();
-	const libsInp = useSyntheticInput();
-	const tagsInp = useSyntheticInput();
+    const nameInp = useSyntheticInput('');
+	const libsInp = useSyntheticInput('');
+	const tagsInp = useSyntheticInput('');
 
     const tagsVal = tagsInp.binding.value;
     const libsVal = libsInp.binding.value;

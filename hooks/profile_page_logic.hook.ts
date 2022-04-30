@@ -7,7 +7,7 @@ import { validateEditPassword } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
 import { userFetch } from "../requests/user.req";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { ActionStatusInfo } from "../interfaces/base_action_status";
 import { UserModel } from "../models/user.model";
 
@@ -16,11 +16,11 @@ const prevUserData = {
 };
 
 export function useProfilePageLogic() {
-    const nameInp = useSyntheticInput();
-	const lastNameInp = useSyntheticInput();
-	const emailInp = useSyntheticInput();
-	const passwordInp = useSyntheticInput();
-	const newPasswordInp = useSyntheticInput();
+    const nameInp = useSyntheticInput('');
+	const lastNameInp = useSyntheticInput('');
+	const emailInp = useSyntheticInput('');
+	const passwordInp = useSyntheticInput('');
+	const newPasswordInp = useSyntheticInput('');
 	const imgInpRef = useRef<HTMLInputElement>(null);
 	const [selectedFile, setSelectedFile] = useState('');
 	const [status, setStatus] = useState<ActionStatusInfo>({ type: 'none', text: '' });

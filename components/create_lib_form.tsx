@@ -2,8 +2,8 @@ import React from 'react';
 import * as RM from 'react-modifier';
 import UncontrolledStyledTextInput from './uncontrolled_styled_text_input';
 import { useUncontrolledInput } from '../hooks/uncontrolled_input.hook';
-import ChipInputList from './chip_input_list';
-import TextInputList from './text_input_list';
+import UncontrolledChipInputList from './uncontrolled_chip_input_list';
+import UncontrolledTextInputList from './uncontrolled_text_input_list';
 import { LibModel } from '../models/lib.model';
 import { NamedLinkModel } from '../models/named_link.model';
 import { libReq } from '../requests/lib.req';
@@ -145,7 +145,7 @@ const CreateLibForm= (props: CreateLibFormProps) => {
                     inputMod={RM.createMod('max-w-[110px]')} />
                 </div>
 
-                <ChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
+                <UncontrolledChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
                 onChange={tagsOnChange} />
 
                 <UncontrolledStyledTextInput label='Описание' placeholder='Lorem ipsum dolor set amet'
@@ -157,13 +157,13 @@ const CreateLibForm= (props: CreateLibFormProps) => {
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
                 <div className='mt-[20px] flex flex-col md:flex-row gap-[25px]'>
-                    <TextInputList onChange={projectsOnChange} label="Связанные проекты"
+                    <UncontrolledTextInputList onChange={projectsOnChange} label="Связанные проекты"
                     headMod={RM.createMod('min-w-[200px]')} />
 
-                    <TextInputList onChange={alternativesOnChange} label="Альтернативы" />
+                    <UncontrolledTextInputList onChange={alternativesOnChange} label="Альтернативы" />
                 </div>
 
-                <TextInputList onChange={linksOnChange} label="Ссылки"
+                <UncontrolledTextInputList onChange={linksOnChange} label="Ссылки"
                 headMod={RM.createMod('mt-[25px]')} placeholder="npm, https://npjs.com" />
 
                 {/* btns */}

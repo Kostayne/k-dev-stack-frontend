@@ -13,7 +13,7 @@ interface RemovableInputProps {
 }
 
 const RemovableInput= (props: RemovableInputProps) => {
-    const input = useSyntheticInput();
+    const input = useSyntheticInput('');
     const headMod = props.headMod || RM.createMod(props.initialVal);
 
     const onChange = (val: string) => {

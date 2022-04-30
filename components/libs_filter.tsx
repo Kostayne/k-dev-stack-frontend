@@ -15,8 +15,8 @@ interface LibsFilterProps {
 const LibsFilter = (props: LibsFilterProps) => {
     const headMod = props.headMod || RM.createMod();
 
-    const nameInp = useSyntheticInput();
-	const tagsInp = useSyntheticInput();
+    const nameInp = useSyntheticInput('');
+	const tagsInp = useSyntheticInput('');
 
     const nameVal = nameInp.binding.value;
     const tagsVal = tagsInp.binding.value;

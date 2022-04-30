@@ -5,8 +5,8 @@ import { ProjectModel } from '../models/project.model';
 import { projReq } from '../requests/project.req';
 import { projectLibReq } from '../requests/project_lib.req';
 import { inputToNamedLink } from '../utils/input_to_named_link';
-import ChipInputList from './chip_input_list';
-import TextInputList from './text_input_list';
+import UncontrolledChipInputList from './uncontrolled_chip_input_list';
+import UncontrolledTextInputList from './uncontrolled_text_input_list';
 import UncontrolledStyledTextInput from './uncontrolled_styled_text_input';
 
 interface CreateProjectFormProps {
@@ -134,13 +134,13 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
                 <div className='mt-[20px] flex flex-col md:flex-row gap-[25px]'>
-                    <TextInputList onChange={linksOnChange} label="Ссылки" 
+                    <UncontrolledTextInputList onChange={linksOnChange} label="Ссылки" 
                     placeholder="npm, https://npjs.com" />
 
-                    <TextInputList onChange={libsOnChange} label="Либы" />
+                    <UncontrolledTextInputList onChange={libsOnChange} label="Либы" />
                 </div>
 
-                <ChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
+                <UncontrolledChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
                 onChange={tagsOnChange} />
 
                 {/* btns */}

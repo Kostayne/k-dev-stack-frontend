@@ -15,6 +15,9 @@ import dynamic from 'next/dynamic';
 
 import type TaggedItemsCarouselType from '../../components/carousel';
 import type ReactMdViewerType from 'react-markdown';
+import OutlineBtn from '../../components/outline_btn';
+import Banner from '../../components/banner';
+import EditLibForm from '../../components/edit_lib_form';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -36,7 +39,9 @@ export interface LibPageProps {
 const Lib: NextPage<LibPageProps> = (props) => {
 	const {
 		alternativePreviews, 
-		projectPreviews, swiperMod
+		projectPreviews, swiperMod,
+		isEditFormOpened,
+		setEditFormOpened
 	} = useConcreteLibPageLogic(props);
 
 	if (!props.lib) {
@@ -117,8 +122,31 @@ const Lib: NextPage<LibPageProps> = (props) => {
 						issuesCount={issuesCount} toolType={toolType}
 						license={license} lastUpdate={lastUpdate}
 						links={links} version={version} />
+
+						{/* admin actions */}
+						<div className='mt-[20px] flex flex-col gap-y-[15px]'>
+							<OutlineBtn text='РЕДАКТИРОВАТЬ'
+							headMod={RM.createMod('w-full')}
+							onClick={() => setEditFormOpened(true)} />
+
+							<OutlineBtn text='УДАЛИТЬ'
+							headMod={RM.createMod('w-full')}
+							onClick={() => alert('YO')} />
+						</div>
 					</div>
 				</div>
+
+				{isEditFormOpened && (
+					<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
+						<EditLibForm headMod={RM.createMod([
+							'w-100% md:w-fit bg-[white]',
+							'px-[30px] py-[30px] max-h-[750px] overflow-auto',
+							'shadow-baseShadow rounded-[5px]'
+							].join(' '))}
+							onCloseClick={() => { setEditFormOpened(false) }}
+							lib={props.lib} />
+					</Banner>
+				)}
 			</main>
 		</div>
 	);

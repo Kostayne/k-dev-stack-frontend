@@ -4,7 +4,7 @@ import { TextMsgColor } from "../components/text_msg_block";
 import { userStore } from "../stores/user.store";
 import { validateEmail } from "../validators/email.validator";
 import { validatePassword } from "../validators/password.validator";
-import { SyntheticInputData, useSyntheticInput } from "./input_synthetic.hook";
+import { useSyntheticInput } from "./input_synthetic.hook";
 
 interface LoginStatus {
     color: TextMsgColor;
@@ -18,8 +18,8 @@ export function useLoginPageLogic() {
         text: ''
     });
 
-    const emailInp = useSyntheticInput();
-	const passwordInp = useSyntheticInput();
+    const emailInp = useSyntheticInput('');
+	const passwordInp = useSyntheticInput('');
 
 	const emailVal = emailInp.binding.value;
 	const passVal = passwordInp.binding.value;

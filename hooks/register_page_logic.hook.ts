@@ -8,10 +8,10 @@ import { validatePassword } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 
 export function useRegisterPageLogic() {
-    const nameInp = useSyntheticInput();
-	const lastNameInp = useSyntheticInput();
-	const emailInp = useSyntheticInput();
-	const passwordInp = useSyntheticInput();
+    const nameInp = useSyntheticInput('');
+	const lastNameInp = useSyntheticInput('');
+	const emailInp = useSyntheticInput('');
+	const passwordInp = useSyntheticInput('');
     const [errorStatus, setErrorStatus] = useState('');
     const router = useRouter();
 

@@ -12,7 +12,7 @@ import { BaseActionStatusType } from '../interfaces/base_action_status';
 import BaseActionStatus from '../components/base_action_status';
 
 const PassRecover: NextPage = () => {
-	const emailInp = useSyntheticInput();
+	const emailInp = useSyntheticInput('');
 	const [timer, setTimer] = useState(5);
 	const [status, setStatus] = useState<BaseActionStatusType>('none');
 

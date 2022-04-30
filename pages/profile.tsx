@@ -9,7 +9,7 @@ import StyledBtn from '../components/styled_btn';
 import { useProfilePageLogic } from '../hooks/profile_page_logic.hook';
 import { observer } from 'mobx-react-lite';
 import TextMsgBlock from '../components/text_msg_block';
-import { UserRequiredStatus, useUserRequired } from '../hooks/user_required.hook';
+import { useUserRequired } from '../hooks/user_required.hook';
 import { userStore } from '../stores/user.store';
 
 const Profile: NextPage = () => {
@@ -31,11 +31,7 @@ const Profile: NextPage = () => {
 		onSend
 	} = useProfilePageLogic();
 
-	const { userRequiredStatus } = useUserRequired();
-
-	if (userRequiredStatus != UserRequiredStatus.ok) {
-		return null;
-	}
+	useUserRequired();
 
 	let statusColor = 'success';
 

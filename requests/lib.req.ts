@@ -4,6 +4,7 @@ import { LibFilterData } from "../interfaces/lib_filter_data";
 import { RespInfo } from "../interfaces/resp_info";
 import { LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { NamedLinkModel } from "../models/named_link.model";
+import { transformBackendFullLib } from "../transform/lib_full.transform";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { appendLibFilterToQuery } from "../utils/append_lib_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
@@ -113,12 +114,34 @@ class LibReq {
         }
     }
 
-    edit(data: LibModel) {
-        return fetch(`${apiUrl}/lib`, {
-            method: 'PUT',
-            headers: new HeaderBuilder().json().jwt().headers,
-            body: JSON.stringify(data)
-        });
+    edit = async (editData: LibModel, links: NamedLinkModel[]): Promise<RespInfo<LibModel>> => {
+        try {
+            const resp = await fetch(`${apiUrl}/lib`, {
+                method: 'PUT',
+                headers: new HeaderBuilder().json().jwt().headers,
+                body: JSON.stringify(editData)
+            });
+
+            if (!resp.ok) {
+                return {
+                    resp,
+                    error: resp.statusText
+                };
+            }
+
+            const respData = await resp.json() as LibModel;
+
+            return {
+                resp,
+                data: respData
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
     }
 
     delete(id: number) {
