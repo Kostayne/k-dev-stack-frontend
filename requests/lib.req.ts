@@ -2,7 +2,7 @@ import { apiUrl } from "../cfg";
 import { PaginationParams } from "../interfaces/get_many_params";
 import { LibFilterData } from "../interfaces/lib_filter_data";
 import { RespInfo } from "../interfaces/resp_info";
-import { LibModel, LibNamedLinkModel } from "../models/lib.model";
+import { LibEditModel, LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { NamedLinkModel } from "../models/named_link.model";
 import { transformBackendFullLib } from "../transform/lib_full.transform";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
@@ -114,12 +114,12 @@ class LibReq {
         }
     }
 
-    edit = async (editData: LibModel, links: NamedLinkModel[]): Promise<RespInfo<LibModel>> => {
+    edit = async (data: LibEditModel): Promise<RespInfo<LibModel>> => {
         try {
             const resp = await fetch(`${apiUrl}/lib`, {
                 method: 'PUT',
                 headers: new HeaderBuilder().json().jwt().headers,
-                body: JSON.stringify(editData)
+                body: JSON.stringify(data)
             });
 
             if (!resp.ok) {
