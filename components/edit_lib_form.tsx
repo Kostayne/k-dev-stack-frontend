@@ -3,7 +3,6 @@ import * as RM from 'react-modifier';
 import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import { LibModel } from '../models/lib.model';
 import { libReq } from '../requests/lib.req';
-import { projectLibReq } from '../requests/project_lib.req';
 import { inputToNamedLink } from '../utils/input_to_named_link';
 import StyledTextInput from './styled-text-input';
 import ChipInputList from './chip_input_list';
@@ -31,7 +30,7 @@ const EditLibForm = (props: EditLibFormProps) => {
     const initialLinks: ValueWithUID[] = lib.links.map(l => {
         return {
             uid: nextId(),
-            value: l.name
+            value: l.name + ' ' + l.href,
         };
     });
 
@@ -88,7 +87,7 @@ const EditLibForm = (props: EditLibFormProps) => {
 
         const tags = tagsInp.value.map(v => v.value);
 
-        const editData = {
+        const main = {
             name,
             description: descriptionInp.value,
             downloadsCount: downloadsInp.value,
@@ -101,36 +100,28 @@ const EditLibForm = (props: EditLibFormProps) => {
             slug: libSlug,
             issuesCount,
             toolType,
+            id: props.lib.id
         } as LibModel;
 
+        const projects = projectsInp.value.map(p => {
+            return p.value;
+        });
+
+        const alternatives = alternativesInp.value.map(a => {
+            return a.value;
+        });
+
         try {
-            const libRespInfo = await libReq.edit(editData, links);
+            const libRespInfo = await libReq.edit({
+                main,
+                links,
+                alternatives,
+                projects
+            });
 
             if (libRespInfo.error) {
-                alert('Error when editing base lib');
+                alert('Error!');
                 return;
-            }
-
-            const projectSlug = projectsInp.value;
-
-            for await (const p of projectSlug) {
-                const connectProjRespInfo = await projectLibReq.connnectBySlug(libSlug, p.value);
-
-                if (connectProjRespInfo.error) {
-                    alert(`Failed to connect ${p} project`);
-                    continue;
-                }
-            }
-
-            const alternatives = alternativesInp.value;
-
-            for await (const a of alternatives) {
-                const connectAltRespInfo = await libReq.connectAlternativeBySlug(libSlug, a.value);
-
-                if (connectAltRespInfo.error) {
-                    alert('Failed to connect alternative ' + a);
-                    continue;
-                }
             }
 
             alert('Done');
@@ -205,7 +196,7 @@ const EditLibForm = (props: EditLibFormProps) => {
 
                 {/* btns */}
                 <div className='mt-[25px] flex gap-x-[20px]'>
-                    <button className='primary-btn w-[80px]' onClick={onEditClick}>создать</button>
+                    <button className='primary-btn w-[130px]' onClick={onEditClick}>редактировать</button>
                     <button className='text-btn' onClick={props.onCloseClick}>ЗАКРЫТЬ</button>
                 </div>
             </div>
