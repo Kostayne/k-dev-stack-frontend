@@ -26,6 +26,13 @@ export interface LibModel {
     license: string;
 }
 
+export interface LibEditModel {
+    main: LibModel;
+    links: NamedLinkModel[];
+    projects: string[];
+    alternatives: string[];
+};
+
 export interface LibNamedLinkModel {
     libId: number;
     namedLinkId: number;
