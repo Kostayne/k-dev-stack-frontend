@@ -1,4 +1,5 @@
 import React from 'react';
+import nextId from 'react-id-generator';
 import * as RM from 'react-modifier';
 import { ValueWithUID } from '../interfaces/value_with_uid';
 import ChipInput from './chip_input';
@@ -10,8 +11,6 @@ interface ChipInputListProps {
     autocompleteOptions?: string[];
     label: string;
 
-    onCreate?: () => void;
-    onDelete?: (uid: string) => void;
     onChange?: (val: ValueWithUID[]) => void;
 }
 
@@ -19,13 +18,21 @@ const ChipInputList= (props: ChipInputListProps) => {
     const headMod = props.headMod || RM.createMod();
 
     const onCreateClick = () => {
-        props.onCreate?.call(this);
+        const newVal = [...props.value];
+        newVal.push({
+            uid: nextId(),
+            value: ''
+        });
+
+        props.onChange?.call(this, newVal);
     };
 
     const getInputsToR = () => {
         return props.value.map((v) => {
             const onDelete = () => {
-                props.onDelete?.call(this, v.uid as string);
+                const newVal = [...props.value];
+                const sortedNewVal = newVal.filter(_v => _v.uid != v.uid);
+                props.onChange?.call(this, sortedNewVal);
             };
 
             const _onChange = (newVal: string) => {
