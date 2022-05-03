@@ -17,7 +17,7 @@ const ProjectsFilter= (props: ProjectsFilterProps) => {
         RM.modElement((
             <div>
                 {/* centered content */}
-                <div className={['w-fit mx-auto mt-5 flex flex-col gap-4',
+                <div className={['w-fit mx-auto flex flex-col gap-4',
                 'md:flex-row md:mx-0 md:items-end'].join(' ')}>
                     {/* inputs */}
                     <div className={['flex flex-col gap-2',

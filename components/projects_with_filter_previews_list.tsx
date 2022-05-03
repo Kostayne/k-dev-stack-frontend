@@ -23,7 +23,8 @@ const ProjectsWithFilterPreviewsList= (props: ProjectsWithFilterPreviewsListProp
         RM.modElement((
             <div>
                 <div className='blue-splitter' />
-                <ProjectsFilter onFilterClick={onFilterClick}  />
+                <ProjectsFilter onFilterClick={onFilterClick} 
+                headMod={RM.createMod('mt-5')}  />
                 <div className='blue-splitter mt-5' />
 
                 <TaggedItemPreviewsInfiniteList initialPreviews={localInitialPreviews}

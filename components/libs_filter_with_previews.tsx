@@ -21,7 +21,10 @@ const LibsFilterWithPreviews= (props: LibsFilterWithPreviewsProps) => {
     return (
         RM.modElement((
             <div>
-                <LibsFilter onFilterClick={onFilterClick} />
+                <div className='blue-splitter' />
+                <LibsFilter headMod={RM.createMod('mt-5')}
+                onFilterClick={onFilterClick} />
+                <div className='blue-splitter mt-5' />
 
                 <TaggedItemPreviewsInfiniteList initialPreviews={previews} 
                 headMod={RM.createMod('mt-8')} allPreviewsCount={count}
