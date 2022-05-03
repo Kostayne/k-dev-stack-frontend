@@ -64,7 +64,6 @@ const Profile: NextPage = () => {
 				].join(' ')} onClick={onImgClick} />
 
 				{/* inputs */}
-				{/* TODO add horizontal v for desktop */}
 				<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
 					<StyledTextInput {...nameInp.binding} label='Имя' placeholder='ваше имя'  />
 
