@@ -11,9 +11,14 @@ import CommentsBlock from '../../components/comments_block';
 import ProjectInfo from '../../components/project_info';
 import Error from 'next/error';
 import dynamic from 'next/dynamic';
-
 import type TaggedItemsCarouselType from '../../components/carousel';
 import type ReactMdViewerType from 'react-markdown';
+import Banner from '../../components/banner';
+import EditProjectForm from '../../components/edit_project_form';
+import { userStore } from '../../stores/user.store';
+import OutlineBtn from '../../components/outline_btn';
+import { useUserRequired } from '../../hooks/user_required.hook';
+import { observer } from 'mobx-react-lite';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -34,8 +39,13 @@ export interface ProjectPageProps {
 
 const Project: NextPage<ProjectPageProps> = (props) => {
 	const {
-		libPreviews
+		libPreviews,
+		isEditFormOpened,
+		setEditFormOpened,
+		onDelete
 	} = useConcreteProjectLogic(props);
+
+	useUserRequired();
 
 	if (!props.project) {
 		return (
@@ -95,14 +105,39 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
 						issuesCount={issuesCount} license={license} lastUpdate={lastUpdate}
 						links={links} forksCount={forksCount} starsCount={starsCount} />
+
+						{/* admin actions */}
+						{userStore.userData && userStore.userData.isAdmin && (
+							<div className='mt-[20px] flex flex-col gap-y-[15px]'>
+								<OutlineBtn text='РЕДАКТИРОВАТЬ'
+								headMod={RM.createMod('w-full')}
+								onClick={() => setEditFormOpened(true)} />
+
+								<OutlineBtn text='УДАЛИТЬ'
+								headMod={RM.createMod('w-full')}
+								onClick={onDelete} />
+							</div>
+						)}
 					</div>
 				</div>
+
+				{isEditFormOpened && (
+					<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
+						<EditProjectForm headMod={RM.createMod([
+							'w-100% md:w-fit bg-[white]',
+							'px-[30px] py-[30px] max-h-[750px] overflow-auto',
+							'shadow-baseShadow rounded-[5px]'
+							].join(' '))}
+							onCloseClick={() => { setEditFormOpened(false) }}
+							project={props.project} />
+					</Banner>
+				)}
 			</main>
 		</div>
 	);
 };
 
-export default Project;
+export default observer(Project);
 
 export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 	const slug = ctx.params?.slug as string;

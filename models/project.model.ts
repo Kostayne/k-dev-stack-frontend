@@ -19,3 +19,9 @@ export interface ProjectModel {
     license: string;
     readme: string;
 };
+
+export interface ProjectEditModel {
+    main: ProjectModel,
+    links: NamedLinkModel[],
+    libs: string[];
+}

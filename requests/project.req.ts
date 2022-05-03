@@ -3,7 +3,7 @@ import { PaginationParams } from "../interfaces/get_many_params";
 import { ProjectFilterData } from "../interfaces/project_filter_data";
 import { RespInfo } from "../interfaces/resp_info";
 import { NamedLinkModel } from "../models/named_link.model";
-import { ProjectModel } from "../models/project.model";
+import { ProjectEditModel, ProjectModel } from "../models/project.model";
 import { appendProjectFilterToQuery } from "../utils/append_project_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
@@ -111,19 +111,65 @@ export class ProjectReq {
         });
     }
     
-    edit(data: ProjectModel) {
-        return fetch(`${apiUrl}/project`, {
-            method: 'PUT',
-            headers: new HeaderBuilder().json().jwt().headers,
-            body: JSON.stringify(data)
-        });
+    async edit(data: ProjectEditModel): Promise<RespInfo<ProjectModel>> {
+        try {
+            const resp = await fetch(`${apiUrl}/project`, {
+                method: 'PUT',
+                headers: new HeaderBuilder().json().jwt().headers,
+                body: JSON.stringify(data)
+            });
+
+            if (!resp.ok) {
+                return {
+                    resp,
+                    error: resp.statusText
+                };
+            }
+
+            const resData = await resp.json();
+
+            return {
+                data: resData,
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
     }
 
-    delete(id: number) {
-        return fetch(`${apiUrl}/project?id=${id}`, {
-            method: 'DELETE',
-            headers: new HeaderBuilder().json().jwt().headers,
-        });
+    async delete(id: number): Promise<RespInfo<ProjectModel>> {
+        try {
+            const resp = await fetch(`${apiUrl}/project?id=${id}`, {
+                method: 'DELETE',
+                headers: new HeaderBuilder().jwt().headers,
+            });
+
+            if (!resp.ok) {
+                console.error(resp.statusText);
+
+                return {
+                    error: resp.statusText,
+                    resp
+                };
+            }
+
+            const data = await resp.json();
+
+            return {
+                resp,
+                data
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
     }
 
     async countAll() {
