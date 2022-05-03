@@ -7,14 +7,10 @@ import { libReq } from '../../requests/lib.req';
 import { transformBackendFullLib } from '../../transform/lib_full.transform';
 import { useConcreteLibPageLogic } from '../../hooks/concrete_lib_logic.hook';
 import TagRoundedList from '../../components/tag_rounded_list';
-// import CodeViewer from '../../components/code_viewer';
 import CommentsBlock from '../../components/comments_block';
 import LibInfo from '../../components/lib_info';
 import Error from 'next/error';
 import dynamic from 'next/dynamic';
-
-import type TaggedItemsCarouselType from '../../components/carousel';
-import type ReactMdViewerType from 'react-markdown';
 import OutlineBtn from '../../components/outline_btn';
 import Banner from '../../components/banner';
 import EditLibForm from '../../components/edit_lib_form';
@@ -22,18 +18,14 @@ import { useUserRequired } from '../../hooks/user_required.hook';
 import { userStore } from '../../stores/user.store';
 import { observer } from 'mobx-react-lite';
 
+import type TaggedItemsCarouselType from '../../components/carousel';
+import MdViewer from '../../components/md_viewer';
+
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
 , {
 	ssr: false
 }) as typeof TaggedItemsCarouselType;
-
-const LazyMarkDownViewer = dynamic(() => 
-	import('react-markdown') as any
-, {
-	ssr: false
-}) as typeof ReactMdViewerType;
-
 export interface LibPageProps {
 	lib: LibModel | null;
 	errorCode?: number;
@@ -94,9 +86,9 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						hrefPrefix={`/libs?tags=`} />
 
 						{/* README */}
-						<LazyMarkDownViewer className='mt-[15px]'>
+						<MdViewer headMod={RM.createMod('mt-[15px]')}>
 							{readme}
-						</LazyMarkDownViewer>
+						</MdViewer>
 
 						{/* alternatives */}
 						<h2 className='mt-4'>Альтернативы</h2>

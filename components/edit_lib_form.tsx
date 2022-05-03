@@ -10,6 +10,7 @@ import { useListInputHook } from '../hooks/list_input.hook';
 import TextInputList from './text_input_list';
 import nextId from 'react-id-generator';
 import { ValueWithUID } from '../interfaces/value_with_uid';
+import StyledTextArea from './styled_text_area';
 
 interface EditLibFormProps {
     onCloseClick: () => void;
@@ -178,9 +179,9 @@ const EditLibForm = (props: EditLibFormProps) => {
                 autocompleteOptions={[]} {...descriptionInp.binding}
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
-                <StyledTextInput label='Readme' placeholder='Lorem ipsum dolor set amet'
-                autocompleteOptions={[]} {...readmeInp.binding}
-                inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
+                <StyledTextArea label='Readme' placeholder='Lorem ipsum dolor set amet'
+                {...readmeInp.binding} inputMod={RM.createMod('w-full max-w-[590px]')} 
+                headMod={RM.createMod('mt-[13px]')} />
 
                 <div className='mt-[20px] flex flex-col md:flex-row gap-[25px]'>
                     <TextInputList label="Связанные проекты"

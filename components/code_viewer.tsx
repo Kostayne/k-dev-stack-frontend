@@ -14,12 +14,10 @@ const CodeViewer= (props: CodeViewerProps) => {
 
     return (
         RM.modElement((
-            <>
                 <Prism language={props.codeLang} style={atomDark}
 				showLineNumbers>
 					{props.code}
 				</Prism>
-            </>
         ), headMod)
     );
 };
