@@ -8,6 +8,8 @@ interface AdminCategoryActionsProps {
     onDel: () => void;
     onEdit: () => void;
     onCreate: () => void;
+    onAutoCreate: () => void;
+    onAutoUpdate: () => void;
 }
 
 interface AdminLinkItem {
@@ -30,6 +32,16 @@ const AdminCategoryActions= (props: AdminCategoryActionsProps) => {
         },
 
         {
+            name: 'Добавить автоматически',
+            onClick: props.onAutoCreate
+        },
+
+        {
+            name: 'Обновить автоматически',
+            onClick: props.onAutoUpdate
+        },
+
+        {
             name: 'Удалить',
             onClick: props.onDel
         }
@@ -45,7 +57,7 @@ const AdminCategoryActions= (props: AdminCategoryActionsProps) => {
     return (
         RM.modElement((
             <div className={[
-                'shadow-baseShadow py-4 px-4',
+                'shadow-baseShadow py-5 px-5',
                 'rounded-md'
                 ].join(' ')}>
                 <span className='font-medium'># {props.categoryDisplayName}</span>

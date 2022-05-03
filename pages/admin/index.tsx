@@ -9,6 +9,9 @@ import Banner from '../../components/banner';
 import CreateLibForm from '../../components/create_lib_form';
 import AdminCategoryActions from '../../components/admin_category_actions';
 import CreateProjectForm from '../../components/create_project_form';
+import Card from '../../components/card';
+import AdminCategory from '../../components/admin-category';
+import AdminUserCategory from '../../components/admin_user_category';
 
 interface AdminMainPagePageProps {
 
@@ -38,15 +41,16 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 						<AdminCategoryActions categoryDisplayName='Либы'
 						onCreate={() => {setCurForm('create_lib')}} 
 						onEdit={() => {setCurForm('edit_lib')}}
-						onDel={() => {setCurForm('delete_lib')}} />
+						onDel={() => {setCurForm('delete_lib')}}
+						onAutoCreate={() => {}} onAutoUpdate={() => {}} />
 
 						<AdminCategoryActions categoryDisplayName='Проекты'
 						onCreate={() => {setCurForm('create_project')}} 
 						onEdit={() => {setCurForm('edit_project')}}
-						onDel={() => {setCurForm('delete_project')}} />
+						onDel={() => {setCurForm('delete_project')}}
+						onAutoCreate={() => {}} onAutoUpdate={() => {}} />
 
-						<AdminCategoryLinks categoryDisplayName='Cсылки'
-						prefix='named_links' />
+						<AdminUserCategory />
 					</div>
 
 					{curForm == 'create_lib' && (

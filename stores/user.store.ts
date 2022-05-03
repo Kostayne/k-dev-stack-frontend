@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { UserModel } from "../models/user.model";
 import { loadJwtFromLocalStore, saveJwtToLocalStore } from '../utils/auth';
-import { userFetch, UserReq } from '../requests/user.req';
+import { userReq, UserReq } from '../requests/user.req';
 
 export class UserStore {
     protected fetcher: UserReq;
@@ -92,4 +92,4 @@ export class UserStore {
     }
 }
 
-export const userStore = new UserStore(userFetch);
+export const userStore = new UserStore(userReq);

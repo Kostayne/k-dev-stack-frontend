@@ -1,4 +1,5 @@
 import { apiUrl } from "../cfg";
+import { RespInfo } from "../interfaces/resp_info";
 import { UserEditNameModel, UserEditPassModel, UserLoginModel, UserModel, UserRegisterModel } from "../models/user.model";
 import { HeaderBuilder } from "../utils/header_builder";
 
@@ -51,6 +52,33 @@ export class UserReq {
             body: fd
         });
     }
+
+    async setBanned(id: number, val: boolean): Promise<RespInfo> {
+        const qb = new URLSearchParams();
+        qb.append('id', id.toString());
+        qb.append('value', val? 'true' : 'false');
+
+        try {
+            const resp = await fetch(`${apiUrl}/user/setBanned?${qb.toString()}`);
+
+            if (!resp.ok) {
+                return {
+                    resp,
+                    error: resp.statusText
+                };
+            }
+
+            return {
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string
+            };
+        }
+    }
 };
 
-export const userFetch = new UserReq();
+export const userReq = new UserReq();

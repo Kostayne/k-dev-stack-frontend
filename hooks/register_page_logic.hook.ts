@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { userFetch } from "../requests/user.req";
+import { userReq } from "../requests/user.req";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
 import { validateLastName } from "../validators/lastname.validator";
@@ -36,7 +36,7 @@ export function useRegisterPageLogic() {
 
         const asyncWrapper = async () => {            
             try {
-                const resp = await userFetch.register({
+                const resp = await userReq.register({
                     email: emailVal,
                     firstName: nameVal,
                     lastName: lastNameVal,

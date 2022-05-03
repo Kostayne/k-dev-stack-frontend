@@ -88,6 +88,10 @@
     .tool-info-field {
         @apply text-info-field text-base
     }
+
+    .link {
+        @apply text-link cursor-pointer
+    }
 }
 
 @font-face {

@@ -6,7 +6,7 @@ import { validateLastName } from "../validators/lastname.validator";
 import { validateEditPassword } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
-import { userFetch } from "../requests/user.req";
+import { userReq } from "../requests/user.req";
 // import { useRouter } from "next/router";
 import { ActionStatusInfo } from "../interfaces/base_action_status";
 import { UserModel } from "../models/user.model";
@@ -89,7 +89,7 @@ export function useProfilePageLogic() {
 
 		try {
 			if (curPass) {
-				passRes = await userFetch.editPassword({
+				passRes = await userReq.editPassword({
 					curPass,
 					newPass
 				});
@@ -97,7 +97,7 @@ export function useProfilePageLogic() {
 
 			if (selectedFile) {
 				const img = selectedFile as unknown as File;
-				avatarRes = await userFetch.editAvatar(img);
+				avatarRes = await userReq.editAvatar(img);
 
 				if (avatarRes.ok) {
 					user.avatarName = user.id + '.jpg';
@@ -118,7 +118,7 @@ export function useProfilePageLogic() {
 					delete nameData.lastName;
 				}
 
-				nameRes = await userFetch.editName(nameData);
+				nameRes = await userReq.editName(nameData);
 
 				if (nameRes.ok) {
 					const resJson = await nameRes.json() as UserModel;
