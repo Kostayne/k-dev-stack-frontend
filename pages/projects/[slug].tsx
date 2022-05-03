@@ -40,8 +40,6 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 		onDelete
 	} = useConcreteProjectLogic(props);
 
-	useUserRequired();
-
 	if (!props.project) {
 		return (
 			<Error statusCode={props.errorCode as number} />

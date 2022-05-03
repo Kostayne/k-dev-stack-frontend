@@ -5,5 +5,9 @@ export function saveJwtToLocalStore(val: string) {
 }
 
 export function loadJwtFromLocalStore() {
+    if (typeof window == 'undefined') {
+        return undefined;
+    }
+    
     return localStorage.getItem(jwtStorageKey);
 }

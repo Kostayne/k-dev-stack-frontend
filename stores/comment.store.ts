@@ -105,8 +105,8 @@ class CommentsStore {
         const newComment = await commentReq.create(data);
 
         if (!newComment) {
-            console.log('no new comment getted, return');
-            return;
+            console.log('no new comment received, return');
+            return null;
         }
 
         const personalized = transformCommentToPersonalized(newComment);
@@ -128,6 +128,8 @@ class CommentsStore {
                 }
             }
         });
+
+        return newComment;
     }
 
     like = async (id: number) => {

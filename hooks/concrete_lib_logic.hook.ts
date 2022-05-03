@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { LibPageProps } from "../pages/libs/[slug]";
 import { commentReq } from "../requests/comment.req";
 import { libReq } from "../requests/lib.req";
+import { userStore } from "../stores/user.store";
 import { transformLibToTaggedItemPreview, transformProjectToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 export function useConcreteLibPageLogic(props: LibPageProps) {
@@ -12,7 +13,7 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 
 	useEffect(() => {
 		const asyncWrapper = async () => {
-			
+			userStore.getOrLoadUser();
 		};
 
 		asyncWrapper();

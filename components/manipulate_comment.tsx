@@ -27,7 +27,7 @@ const ManipulateComment= (props: ManipulateCommentProps) => {
         props.onCancel?.call(this);
     };
 
-    const inputHeadMod = RM.createMod('mt-3');
+    const inputHeadMod = RM.createMod('');
     const inputMod = RM.createMod('w-full');
 
     const saveBtnDisabled = text == '';

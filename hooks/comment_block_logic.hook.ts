@@ -1,10 +1,11 @@
-import { useEffect, } from "react";
+import { useEffect, useState, } from "react";
 import { CommentsBlockProps } from "../components/comments_block";
 import { commentsStore } from "../stores/comment.store";
 import { userStore } from "../stores/user.store";
 
 export function useCommentBlockLogic(props: CommentsBlockProps) {
     const { owner } = props;
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const asyncWrapper = async () => {
@@ -32,20 +33,29 @@ export function useCommentBlockLogic(props: CommentsBlockProps) {
         const user = await userStore.getOrLoadUser();
 
         if (!user) {
-            // TODO show auth needed banner
+            setError('Необходимо войти для отправки');
             return;
         }
         
-        commentsStore.create({
+        const newComment = await commentsStore.create({
             text,
             ...owner
         });
-    }; 
+
+        console.log(newComment);
+
+        if (!newComment) {
+            setError('Комментарий не был отправлен');
+        } else {
+            setError('');
+        }
+    };
 
     return { 
         hocs,
         hasMore,
         hocsCount,
+        error,
         onCommentCreate,
     };
 }

@@ -17,14 +17,18 @@ const CommentsBlock = (props: CommentsBlockProps) => {
     const { owner } = props;
 
     const {
-        onCommentCreate, hocs, hocsCount
+        onCommentCreate, hocs, hocsCount, error
     } = useCommentBlockLogic(props);
 
     return (
         RM.modElement((
             <div>
+                {error && (
+                    <span className='text-error'>{error}</span>
+                )}
+
                 <ManipulateComment onManipulate={onCommentCreate} 
-                manipulationName="СОЗДАТЬ" />
+                manipulationName="СОЗДАТЬ" headMod={RM.createMod(error? 'mt-1' : 'mt-3')} />
 
                 <CommentsInfiniteList comments={hocs} commentsCount={hocsCount || 0}
                 ownerToFetchHocs={owner} headMod={RM.createMod('mt-4')} />

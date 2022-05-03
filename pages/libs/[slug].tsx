@@ -14,7 +14,6 @@ import dynamic from 'next/dynamic';
 import OutlineBtn from '../../components/outline_btn';
 import Banner from '../../components/banner';
 import EditLibForm from '../../components/edit_lib_form';
-import { useUserRequired } from '../../hooks/user_required.hook';
 import { userStore } from '../../stores/user.store';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
@@ -39,8 +38,6 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 		setEditFormOpened,
 		onDelete
 	} = useConcreteLibPageLogic(props);
-
-	useUserRequired();
 
 	if (!props.lib) {
 		return (

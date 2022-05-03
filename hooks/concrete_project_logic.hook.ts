@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { ProjectPageProps } from "../pages/projects/[slug]";
 import { projReq } from "../requests/project.req";
+import { userStore } from "../stores/user.store";
 import { transformLibToTaggedItemPreview } from "../transform/tagged_item_preview.transform";
 
 export function useConcreteProjectLogic(props: ProjectPageProps) {
@@ -11,7 +12,7 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
 
 	useEffect(() => {
 		const asyncWrapper = async () => {
-			
+			userStore.getOrLoadUser();
 		};
 
 		asyncWrapper();

@@ -7,7 +7,6 @@ import { validateEditPassword } from "../validators/password.validator";
 import { useSyntheticInput } from "./input_synthetic.hook";
 import { userStore } from "../stores/user.store";
 import { userReq } from "../requests/user.req";
-// import { useRouter } from "next/router";
 import { ActionStatusInfo } from "../interfaces/base_action_status";
 import { UserModel } from "../models/user.model";
 
