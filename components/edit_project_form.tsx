@@ -9,6 +9,7 @@ import { projReq } from '../requests/project.req';
 import { inputToNamedLink } from '../utils/input_to_named_link';
 import ChipInputList from './chip_input_list';
 import StyledTextInput from './styled-text-input';
+import StyledTextArea from './styled_text_area';
 import TextInputList from './text_input_list';
 
 interface EditProjectFormProps {
@@ -156,9 +157,9 @@ const EditProjectForm= (props: EditProjectFormProps) => {
                 autocompleteOptions={[]} {...descriptionInp.binding}
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
-                <StyledTextInput label='Readme' placeholder='Lorem ipsum dolor set amet'
-                autocompleteOptions={[]} {...readmeInp.binding}
-                inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
+                <StyledTextArea label='Readme' placeholder='Lorem ipsum dolor set amet'
+                {...readmeInp.binding}
+                inputMod={RM.createMod('w-full')} headMod={RM.createMod('mt-[13px]')} />
 
                 <div className='mt-[20px] flex flex-col md:flex-row gap-[25px]'>
                     <TextInputList {...linksInp.binding} label="Ссылки"
