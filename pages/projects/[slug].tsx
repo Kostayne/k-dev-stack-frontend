@@ -19,18 +19,13 @@ import { userStore } from '../../stores/user.store';
 import OutlineBtn from '../../components/outline_btn';
 import { useUserRequired } from '../../hooks/user_required.hook';
 import { observer } from 'mobx-react-lite';
+import MdViewer from '../../components/md_viewer';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
 , {
 	ssr: false
 }) as typeof TaggedItemsCarouselType;
-
-const LazyMarkDownViewer = dynamic(() => 
-	import('react-markdown') as any
-, {
-	ssr: false
-}) as typeof ReactMdViewerType;
 
 export interface ProjectPageProps {
 	project: ProjectModel | null;
@@ -81,9 +76,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						hrefPrefix={`/projects?tags=`} />
 
 						{/* README */}
-						<LazyMarkDownViewer className='mt-[15px]'>
+						<MdViewer headMod={RM.createMod('mt-[15px]')}>
 							{readme}
-						</LazyMarkDownViewer>
+						</MdViewer>
 
 						{/* stack */}
 						<h2 className='mt-4'>Стек</h2>

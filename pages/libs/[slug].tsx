@@ -17,15 +17,15 @@ import EditLibForm from '../../components/edit_lib_form';
 import { useUserRequired } from '../../hooks/user_required.hook';
 import { userStore } from '../../stores/user.store';
 import { observer } from 'mobx-react-lite';
-
-import type TaggedItemsCarouselType from '../../components/carousel';
 import MdViewer from '../../components/md_viewer';
+import type TaggedItemsCarouselType from '../../components/carousel';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
 , {
 	ssr: false
 }) as typeof TaggedItemsCarouselType;
+
 export interface LibPageProps {
 	lib: LibModel | null;
 	errorCode?: number;
