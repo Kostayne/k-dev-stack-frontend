@@ -1,38 +1,60 @@
 import React from 'react';
 import * as RM from 'react-modifier';
-import { useUncontrolledInput } from '../hooks/uncontrolled_input.hook';
 import { ProjectModel } from '../models/project.model';
 import { projReq } from '../requests/project.req';
 import { projectLibReq } from '../requests/project_lib.req';
 import { inputToNamedLink } from '../utils/input_to_named_link';
 import UncontrolledChipInputList from './uncontrolled_chip_input_list';
-import UncontrolledTextInputList from './uncontrolled_text_input_list';
-import UncontrolledStyledTextInput from './uncontrolled_styled_text_input';
+import StyledTextInput from './styled-text-input';
+import { useSyntheticInput } from '../hooks/input_synthetic.hook';
+import { useListInputHook } from '../hooks/list_input.hook';
+import nextId from 'react-id-generator';
+import StyledTextArea from './styled_text_area';
+import TextInputList from './text_input_list';
+import { ValueWithUID } from '../interfaces/value_with_uid';
+import ChipInputList from './chip_input_list';
 
 interface CreateProjectFormProps {
     headMod?: RM.IModifier;
+    initialProject: ProjectModel | null;
     onCloseClick?: () => void;
 }
 
 const CreateProjectForm= (props: CreateProjectFormProps) => {
     const headMod = props.headMod || RM.createMod();
+    const initProj = props.initialProject;
 
-    const [getNameInp, nameOnChange] = useUncontrolledInput('');
-    const [getIssues, issuesOnChange] = useUncontrolledInput('');
-    const [getStars, starsOnChange] = useUncontrolledInput('');
-    const [getForks, forksOnChange] = useUncontrolledInput('');
-    const [getLastUpdate, lastUpdateOnChange] = useUncontrolledInput('');
-    const [getLicense, licenseOnChange] = useUncontrolledInput('');
-    const [getDescription, descriptionOnChange] = useUncontrolledInput('');
-    const [getReadme, readmeOnChange] = useUncontrolledInput('');
-    const [getLibs, libsOnChange] = useUncontrolledInput<string[]>([]);
-    const [getLinks, linksOnChange] = useUncontrolledInput<string[]>([]);
-    const [getTags, tagsOnChange] = useUncontrolledInput<string[]>([]);
+    const initLinks = initProj?.links.map(l => {
+        const val = `${l.name} ${l.href}`;
+        return {
+            uid: nextId(),
+            value: val
+        };
+    }) || [];
+
+    const initLibs: ValueWithUID[] = initProj?.libs.map(p => {
+        return {
+            uid: nextId(),
+            value: p.slug
+        };
+    }) || [];
+
+    const nameInp = useSyntheticInput(initProj?.name || '');
+    const issuesInp = useSyntheticInput(initProj?.issuesCount.toString() || '');
+    const starsInp = useSyntheticInput(initProj?.starsCount.toString() || '');
+    const forksInp = useSyntheticInput(initProj?.forksCount.toString() || '');
+    const lastUpdateInp = useSyntheticInput(initProj?.lastUpdate || '');
+    const licenseInp = useSyntheticInput(initProj?.license || '');
+    const descriptionInp = useSyntheticInput(initProj?.description || '');
+    const readmeInp = useSyntheticInput(initProj?.readme || '');
+    const libsInp = useListInputHook(initLibs);
+    const linksInp = useListInputHook(initLinks);
+    const tagsInp = useListInputHook([]);
 
     const onCreateClick = async () => {
-        const issuesCount = parseInt(getIssues());
-        const starsCount = parseInt(getStars());
-        const forksCount = parseInt(getForks());
+        const issuesCount = parseInt(issuesInp.value);
+        const starsCount = parseInt(starsInp.value);
+        const forksCount = parseInt(forksInp.value);
 
         if (isNaN(issuesCount)) {
             alert('Issues count must be int!');
@@ -49,19 +71,22 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
             return;
         }
 
-        const links = getLinks().map(v => {
-            return inputToNamedLink(v);
+        const links = linksInp.value.map(v => {
+            return inputToNamedLink(v.value);
         });
 
-        const slug = getNameInp().replaceAll(' ', '_');
+        const slug = nameInp.value.replaceAll(' ', '_');
+        const tags = tagsInp.value.map(t => {
+            return t.value;
+        });
 
         const createData = {
-            name: getNameInp(),
-            description: getDescription(),
-            lastUpdate: getLastUpdate(),
-            readme: getReadme(),
-            tags: getTags(),
-            license: getLicense(),
+            name: nameInp.value,
+            description: descriptionInp.value,
+            lastUpdate: lastUpdateInp.value,
+            readme: readmeInp.value,
+            tags,
+            license: licenseInp.value,
             slug,
             issuesCount,
             starsCount,
@@ -76,8 +101,8 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
         }
 
         let connectErrThrowen = false;
-        for await (const lib of getLibs()) {
-            const connectRespInfo = await projectLibReq.connnectBySlug(lib, slug);
+        for await (const lib of libsInp.value) {
+            const connectRespInfo = await projectLibReq.connnectBySlug(lib.value, slug);
 
             if (connectRespInfo.error) {
                 connectErrThrowen = true;
@@ -99,49 +124,49 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
                 <h2 className='text-large'>Создать проект</h2>
 
                 <div className='flex flex-col md:flex-row gap-[15px] mt-[30px]'>
-                    <UncontrolledStyledTextInput label='Название' placeholder='New lib name'
-                    autocompleteOptions={[]} onChange={nameOnChange} />
+                    <StyledTextInput label='Название' placeholder='New lib name'
+                    autocompleteOptions={[]} {...nameInp.binding} />
 
-                    <UncontrolledStyledTextInput label='Issues' placeholder='15'
-                    autocompleteOptions={[]} onChange={issuesOnChange}
+                    <StyledTextInput label='Issues' placeholder='15'
+                    autocompleteOptions={[]} {...issuesInp.binding}
                     inputMod={RM.createMod('max-w-[100px]')} />
 
-                    <UncontrolledStyledTextInput label='Звезд' placeholder='100'
-                    autocompleteOptions={[]} onChange={starsOnChange}
+                    <StyledTextInput label='Звезд' placeholder='100'
+                    autocompleteOptions={[]} {...starsInp.binding} 
                     inputMod={RM.createMod('max-w-[110px]')} />
                 </div>
 
                 <div className='flex flex-col md:flex-row gap-[15px] mt-[13px]'>
-                    <UncontrolledStyledTextInput label='Последнее обновление' placeholder='6 месяцев назад'
-                    autocompleteOptions={[]} onChange={lastUpdateOnChange}
+                    <StyledTextInput label='Последнее обновление' placeholder='6 месяцев назад'
+                    autocompleteOptions={[]} {...lastUpdateInp.binding}
                     inputMod={RM.createMod('max-w-[230px]')} />
 
-                    <UncontrolledStyledTextInput label='Лицензия' placeholder='MIT'
-                    autocompleteOptions={[]} onChange={licenseOnChange}
+                    <StyledTextInput label='Лицензия' placeholder='MIT'
+                    autocompleteOptions={[]} {...licenseInp.binding} 
                     inputMod={RM.createMod('max-w-[110px]')} />
 
-                    <UncontrolledStyledTextInput label='Форков' placeholder='0'
-                    autocompleteOptions={[]} onChange={forksOnChange}
+                    <StyledTextInput label='Форков' placeholder='0'
+                    autocompleteOptions={[]} {...forksInp.binding}
                     inputMod={RM.createMod('max-w-[110px]')} />
                 </div>
 
-                <UncontrolledStyledTextInput label='Описание' placeholder='Lorem ipsum dolor set amet'
-                autocompleteOptions={[]} onChange={descriptionOnChange}
+                <StyledTextArea label='Описание' placeholder='Lorem ipsum dolor set amet'
+                {...descriptionInp.binding}
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
-                <UncontrolledStyledTextInput label='Readme' placeholder='Lorem ipsum dolor set amet'
-                autocompleteOptions={[]} onChange={readmeOnChange}
+                <StyledTextArea label='Readme' placeholder='Lorem ipsum dolor set amet'
+                {...readmeInp.binding}
                 inputMod={RM.createMod('w-full max-w-[590px]')} headMod={RM.createMod('mt-[13px]')} />
 
                 <div className='mt-[20px] flex flex-col md:flex-row gap-[25px]'>
-                    <UncontrolledTextInputList onChange={linksOnChange} label="Ссылки" 
+                    <TextInputList {...linksInp.binding} label="Ссылки" 
                     placeholder="npm, https://npjs.com" />
 
-                    <UncontrolledTextInputList onChange={libsOnChange} label="Либы" />
+                    <TextInputList {...libsInp.binding} label="Либы" />
                 </div>
 
-                <UncontrolledChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
-                onChange={tagsOnChange} />
+                <ChipInputList label='Теги' headMod={RM.createMod('mt-[15px]')}
+                {...tagsInp.binding} />
 
                 {/* btns */}
                 <div className='mt-[25px] flex gap-x-[20px]'>

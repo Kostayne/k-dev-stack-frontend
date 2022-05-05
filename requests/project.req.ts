@@ -224,6 +224,36 @@ export class ProjectReq {
             return -1;
         }
     }
+
+    async fetchGhProject(href: string): Promise<RespInfo<ProjectModel>> {
+        try {
+            const resp = await fetch(`${apiUrl}/project/fetch_gh`, {
+                method: 'POST',
+                headers: new HeaderBuilder().json().jwt().headers,
+                body: JSON.stringify({
+                    href
+                })
+            });
+
+            if (!resp.ok) {
+                return {
+                    error: resp.statusText,
+                    resp
+                };
+            }
+
+            const data = await resp.json();
+
+            return {
+                resp,
+                data
+            };
+        } catch(e) {
+            return {
+                error: e as string
+            };
+        }
+    }
 }
 
 export const projReq = new ProjectReq();

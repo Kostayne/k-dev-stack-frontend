@@ -123,7 +123,7 @@ const EditProjectForm= (props: EditProjectFormProps) => {
 
     return (
         RM.modElement((
-            <div className='max-w-[700px] '>
+            <div className='!w-full max-w-[1200px] '>
                 <h2 className='text-large'>Редактировать проект</h2>
 
                 <div className='flex flex-col md:flex-row gap-[15px] mt-[30px]'>
