@@ -6,14 +6,22 @@ interface MdCodeProps {
     node: ReactNode;
     inline: Boolean;
     className: string;
+    children: string[];
 };
 
 const MdCode: object =(props: MdCodeProps) => {
-    const match = /language-(\w+)/.exec(props.className)
+    const fixedChildren = [...props.children];
+    const languages = /language-(\w+)/.exec(props.className);
 
-    return !props.inline && match ? (
-        <Prism language={match[1]} style={atomDark}
-        showLineNumbers {...props} />
+    if (fixedChildren[0].endsWith('\n')) {
+        fixedChildren[0] = fixedChildren[0].slice(0, -1);
+    }
+
+    return !props.inline && languages ? (
+        <Prism language={languages[1]} style={atomDark}
+        showLineNumbers {...props}>
+            {fixedChildren}
+        </Prism>
     ) : (
         <code {...props} />
     )

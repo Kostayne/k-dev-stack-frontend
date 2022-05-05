@@ -1,0 +1,63 @@
+.wrapper {
+    p {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    ul li {
+        list-style-type: disc;
+    }
+
+    ol li {
+        list-style-type: decimal;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    h1 {
+        margin: .67em 0;
+    }
+
+    h2 {
+        margin: .75em 0;
+    }
+
+    h3 {
+        margin: .83em 0;
+    }
+
+    h4, ul, blockquote {
+        margin: 1.12em 0;
+    }
+
+    ul ul {
+        margin-left: 1em;
+
+        li {
+            list-style-type: circle;
+        }
+    }
+
+    li {
+        margin: 0.3em 0;
+    }
+
+    h5 {
+        margin: 1.5em 0;
+    }
+
+    h6 {
+        margin: 1.67em 0;
+    }
+
+    a {
+        color: var(--contrast);
+    }
+
+    b, strong {
+        font-weight: 500;
+    }
+}
