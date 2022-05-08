@@ -27,7 +27,8 @@ const InfoLinks= (props: InfoLinksProps) => {
                 <span className='text-info-field'>Ссылки</span>
 
                 {/* links list */}
-                <div className='flex gap-[5px] text-[18px] mt-[5px]'>
+                <div className='flex gap-[5px] text-[18px] mt-[5px]
+                flex-wrap'>
                     {getLinksListToR()}
                 </div>
             </div>
