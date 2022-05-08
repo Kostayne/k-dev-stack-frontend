@@ -18,6 +18,7 @@ import { userStore } from '../../stores/user.store';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
 import type TaggedItemsCarouselType from '../../components/carousel';
+import lib from 'react-id-generator';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -83,18 +84,26 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						hrefPrefix={`/libs?tags=`} />
 
 						{/* alternatives */}
-						<h2 className='mt-4'>Альтернативы</h2>
-						<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
-						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
-						emptyDescription="На данный момент на сайте нет альтернативы данной библиотеке." />
+						{alternativePreviews.length > 0 && (
+							<>
+								<h2 className='mt-4'>Альтернативы</h2>
+
+								<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
+								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
+								emptyDescription="На данный момент на сайте нет альтернативы данной библиотеке." />
+							</>
+						)}
 
 						{/* projects */}
-						<h2 className='mt-4'>Проекты</h2>
+						{projectPreviews.length > 0 && (
+							<>
+								<h2 className='mt-4'>Проекты</h2>
 
-						<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
-						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
-						emptyDescription="На сайте нет проектов, в которых используется данная библиотека" />
-
+								<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
+								headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
+								emptyDescription="На сайте нет проектов, в которых используется данная библиотека" />
+							</>
+						)}
 
 						{/* README */}
 						<MdViewer headMod={RM.createMod('mt-[15px]')}>
