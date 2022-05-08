@@ -36,18 +36,23 @@
         padding-left: 0;
     }
 
+    h1, h2, h3, h4 {
+        font-weight: 500;
+    }
+
     h1 {
         margin: .67em 0;
+        font-size: 2em;
     }
 
     h2 {
         margin: .75em 0;
+        font-size: 1.5em;
     }
 
     h3 {
         margin: .83em 0;
         font-size: 1.25em;
-        font-weight: 500;
     }
 
     h4, ul, blockquote {
