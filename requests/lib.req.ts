@@ -4,13 +4,41 @@ import { LibFilterData } from "../interfaces/lib_filter_data";
 import { RespInfo } from "../interfaces/resp_info";
 import { LibEditModel, LibModel, LibNamedLinkModel } from "../models/lib.model";
 import { NamedLinkModel } from "../models/named_link.model";
-import { transformBackendFullLib } from "../transform/lib_full.transform";
 import { appendArrToQuery } from "../utils/append_arr_to_query";
 import { appendLibFilterToQuery } from "../utils/append_lib_filter_to_query";
 import { getGetManyQuery } from "../utils/get_many_query";
 import { HeaderBuilder } from "../utils/header_builder";
 
 class LibReq {
+    async fetchInfo(packageName: string): Promise<RespInfo<LibModel>> {
+        try {
+            const resp = await fetch(`${apiUrl}/lib/fetch_info?packageName=${packageName}`, {
+                method: 'GET',
+                headers: new HeaderBuilder().jwt().headers
+            });
+
+            if (!resp.ok) {
+                return {
+                    error: resp.statusText,
+                    resp
+                };
+            }
+
+            const data = await resp.json() as LibModel;
+
+            return {
+                data,
+                resp
+            };
+        } catch(e) {
+            console.error(e);
+
+            return {
+                error: e as string,
+            };
+        }
+    }
+
     async create(mainData: LibModel, links: NamedLinkModel[]): Promise<RespInfo<null>> {
         const dataToSend = {
             main: mainData,
