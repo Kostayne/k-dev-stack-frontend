@@ -1,10 +1,21 @@
 .wrapper {
     a {
         display: inline-block;
+        color: var(--contrast);
+
+        img {
+            margin-right: 5px;
+        }
+
+        h1, h2, h3, h4, h5 {
+            color: var(--contrastDark);
+        }
     }
 
-    a img {
-        margin-right: 5px;
+    h1, h2, h3, h4, h5 {
+        a {
+            color: var(--contrastDark);
+        }
     }
 
     p {
@@ -35,6 +46,8 @@
 
     h3 {
         margin: .83em 0;
+        font-size: 1.25em;
+        font-weight: 500;
     }
 
     h4, ul, blockquote {
@@ -59,10 +72,6 @@
 
     h6 {
         margin: 1.67em 0;
-    }
-
-    a {
-        color: var(--contrast);
     }
 
     b, strong {
