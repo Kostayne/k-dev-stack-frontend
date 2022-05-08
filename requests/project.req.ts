@@ -157,11 +157,8 @@ export class ProjectReq {
                 };
             }
 
-            const data = await resp.json();
-
             return {
-                resp,
-                data
+                resp
             };
         } catch(e) {
             console.error(e);
