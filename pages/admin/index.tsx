@@ -6,12 +6,12 @@ import { useUserRequired } from '../../hooks/user_required.hook';
 import { useState } from 'react';
 import Banner from '../../components/banner';
 import CreateLibForm from '../../components/create_lib_form';
-import AdminCategoryActions from '../../components/admin_category_actions';
 import CreateProjectForm from '../../components/create_project_form';
 import AdminUserCategory from '../../components/admin_user_category';
 import { ProjectModel } from '../../models/project.model';
-import { projReq } from '../../requests/project.req';
 import AdminProjectCategory from '../../components/admin_project_category';
+import { LibModel } from '../../models/lib.model';
+import AdminLibCategory from '../../components/admin_lib_category';
 
 interface AdminMainPagePageProps {
 
@@ -21,6 +21,7 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 	useUserRequired(true);
 	const [curForm, setCurForm] = useState('none');
 	const [initialProj, setInitialProj] = useState<ProjectModel | null>(null);
+	const [initiallLib, setInitialLib] = useState<LibModel | null>(null);
 
 	return (
 		<>
@@ -36,12 +37,8 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 					goBack />
 
 					<div className='grid gap-5 mt-6 md:grid md:grid-cols-3'>
-						{/* <AdminCategoryLinks categoryDisplayName='Либы'
-						prefix='libs' /> */}
-
-						{/* <AdminCategoryActions categoryDisplayName='Либы' 
-						setCurForm={setCurForm}
-						setInitialProject={setInitialProj} /> */}
+						<AdminLibCategory setCurForm={setCurForm}
+						setInitialLib={setInitialLib} />
 
 						<AdminProjectCategory setCurForm={setCurForm}
 						setInitialProject={setInitialProj} />
@@ -49,14 +46,15 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 						<AdminUserCategory />
 					</div>
 
-					{curForm == 'create_lib' && (
+					{curForm == 'lib_create' && (
 						<Banner headMod={RM.createMod('!bg-[transparent] flex items-center justify-center')}>
 							<CreateLibForm headMod={RM.createMod([
 								'w-100% md:w-fit bg-[white]',
 								'px-[30px] py-[30px] max-h-[750px] overflow-auto',
 								'shadow-baseShadow rounded-[5px]'
 								].join(' '))}
-								onCloseClick={() => { setCurForm('none') }} />
+								onCloseClick={() => { setCurForm('none') }}
+								initialLib={initiallLib} />
 						</Banner>
 					)}
 

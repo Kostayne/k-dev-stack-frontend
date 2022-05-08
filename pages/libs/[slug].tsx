@@ -82,11 +82,6 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						<TagRoundedList tags={tags}
 						hrefPrefix={`/libs?tags=`} />
 
-						{/* README */}
-						<MdViewer headMod={RM.createMod('mt-[15px]')}>
-							{readme}
-						</MdViewer>
-
 						{/* alternatives */}
 						<h2 className='mt-4'>Альтернативы</h2>
 						<LazyTaggedItemsCarousel previews={alternativePreviews} innerMod={swiperMod} 
@@ -99,6 +94,12 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						<LazyTaggedItemsCarousel previews={projectPreviews} innerMod={swiperMod}
 						headMod={RM.createMod('mt-2')} tagHrefPrefix={`/libs?tags=`}
 						emptyDescription="На сайте нет проектов, в которых используется данная библиотека" />
+
+
+						{/* README */}
+						<MdViewer headMod={RM.createMod('mt-[15px]')}>
+							{readme}
+						</MdViewer>
 
 						{/* comments */}
 						<h2 className='mt-5'>Комментарии</h2>

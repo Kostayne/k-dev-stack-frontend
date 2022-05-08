@@ -73,16 +73,22 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<TagRoundedList tags={tags}
 						hrefPrefix={`/projects?tags=`} />
 
-						{/* README */}
-						<MdViewer headMod={RM.createMod('mt-[15px]')}>
-							{readme}
-						</MdViewer>
-
 						{/* stack */}
 						<h2 className='mt-4'>Стек</h2>
 
 						<LazyTaggedItemsCarousel previews={libPreviews} headMod={RM.createMod('mt-2')} 
 						tagHrefPrefix={`/projects?tags=`} />
+
+						{/* README */}
+						<h2 className='mt-4'>Описание</h2>
+
+						<MdViewer headMod={RM.createMod([
+							'mt-[15px] max-w-[880px]', 
+							'pl-[2px] overflow-auto',
+							// 'bg-[]'
+							].join(' '))}>
+							{readme}
+						</MdViewer>
 
 						<h2 className='mt-5'>Комментарии</h2>
 						<CommentsBlock owner={{ projectId: props.project.id }} 
