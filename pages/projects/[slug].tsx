@@ -12,12 +12,10 @@ import ProjectInfo from '../../components/project_info';
 import Error from 'next/error';
 import dynamic from 'next/dynamic';
 import type TaggedItemsCarouselType from '../../components/carousel';
-import type ReactMdViewerType from 'react-markdown';
 import Banner from '../../components/banner';
 import EditProjectForm from '../../components/edit_project_form';
 import { userStore } from '../../stores/user.store';
 import OutlineBtn from '../../components/outline_btn';
-import { useUserRequired } from '../../hooks/user_required.hook';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
 

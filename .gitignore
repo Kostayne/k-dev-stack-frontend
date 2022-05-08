@@ -38,3 +38,6 @@ yarn-error.log*
 
 # project concrete
 realizations
+/public/sitemap.xml
+/public/sitemap-0.xml
+/public/robots.txt
