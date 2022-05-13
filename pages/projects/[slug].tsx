@@ -18,6 +18,7 @@ import { userStore } from '../../stores/user.store';
 import OutlineBtn from '../../components/outline_btn';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
+import StyledBtn from '../../components/styled_btn';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -34,6 +35,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 	const {
 		libPreviews,
 		isEditFormOpened,
+		onGoToCommentsClick,
 		setEditFormOpened,
 		onDelete
 	} = useConcreteProjectLogic(props);
@@ -88,7 +90,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 							{readme}
 						</MdViewer>
 
-						<h2 className='mt-5'>Комментарии</h2>
+						<h2 id="comments" className='mt-5'>Комментарии</h2>
 						<CommentsBlock owner={{ projectId: props.project.id }} 
 						uid={commentsId} />
 					</div>
@@ -102,6 +104,9 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
 						issuesCount={issuesCount} license={license} lastUpdate={lastUpdate}
 						links={links} forksCount={forksCount} starsCount={starsCount} />
+
+						<StyledBtn value='КОММЕНТАРИИ' onClick={onGoToCommentsClick}
+						headMod={RM.createMod('w-full mt-[20px] h-[45px]')} />
 
 						{/* admin actions */}
 						{userStore.userData && userStore.userData.isAdmin && (

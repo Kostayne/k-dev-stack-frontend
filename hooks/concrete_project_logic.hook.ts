@@ -32,6 +32,13 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
 		router.push('/projects');
 	};
 
+	const onGoToCommentsClick = () => {
+		const commentsDiv = document.getElementById('comments');
+
+		commentsDiv?.scrollIntoView({
+			behavior: "smooth"
+		});
+	};
 
     const libPreviews = project? project.libs.map(l => {
         return transformLibToTaggedItemPreview(l);
@@ -40,6 +47,7 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
     return {
         libPreviews,
         isEditFormOpened,
+		onGoToCommentsClick,
         setEditFormOpened,
         onDelete
     };

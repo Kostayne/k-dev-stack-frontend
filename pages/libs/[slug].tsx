@@ -18,7 +18,7 @@ import { userStore } from '../../stores/user.store';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
 import type TaggedItemsCarouselType from '../../components/carousel';
-import lib from 'react-id-generator';
+import StyledBtn from '../../components/styled_btn';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -36,6 +36,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 		alternativePreviews, 
 		projectPreviews, swiperMod,
 		isEditFormOpened,
+		onGoToCommentsClick,
 		setEditFormOpened,
 		onDelete
 	} = useConcreteLibPageLogic(props);
@@ -111,7 +112,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						</MdViewer>
 
 						{/* comments */}
-						<h2 className='mt-5'>Комментарии</h2>
+						<h2 className='mt-5' id="comments">Комментарии</h2>
 						<CommentsBlock headMod={RM.createMod('mt-2')}
 						owner={{ libId: id }} uid={commentsId} />
 					</div>
@@ -127,6 +128,9 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						issuesCount={issuesCount} toolType={toolType}
 						license={license} lastUpdate={lastUpdate}
 						links={links} version={version} />
+
+						<StyledBtn value='КОММЕНТАРИИ' onClick={onGoToCommentsClick}
+						headMod={RM.createMod('w-full mt-[20px] h-[45px]')} />
 
 						{/* admin actions */}
 						{userStore.userData && userStore.userData.isAdmin && (

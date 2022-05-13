@@ -53,11 +53,20 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 		router.push('/libs');
 	};
 
+	const onGoToCommentsClick = () => {
+		const commentsDiv = document.getElementById('comments');
+
+		commentsDiv?.scrollIntoView({
+			behavior: "smooth"
+		});
+	};
+
     return {
         alternativePreviews,
         projectPreviews,
 		swiperMod,
 		isEditFormOpened,
+		onGoToCommentsClick,
 		fetchHocsCount,
 		setEditFormOpened,
 		onDelete
