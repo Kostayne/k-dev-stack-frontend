@@ -24,11 +24,11 @@ const CommentsBlock = (props: CommentsBlockProps) => {
         RM.modElement((
             <div>
                 {error && (
-                    <span className='text-error'>{error}</span>
+                    <span className='text-error block mt-[10px]'>{error}</span>
                 )}
 
                 <ManipulateComment onManipulate={onCommentCreate} 
-                manipulationName="СОЗДАТЬ" headMod={RM.createMod(error? 'mt-1' : 'mt-3')} />
+                manipulationName="СОЗДАТЬ" headMod={RM.createMod(error? 'mt-2' : 'mt-3')} />
 
                 <CommentsInfiniteList comments={hocs} commentsCount={hocsCount || 0}
                 ownerToFetchHocs={owner} headMod={RM.createMod('mt-4')} />
