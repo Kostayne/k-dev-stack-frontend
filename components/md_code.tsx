@@ -17,13 +17,16 @@ const MdCode: object =(props: MdCodeProps) => {
         fixedChildren[0] = fixedChildren[0].slice(0, -1);
     }
 
+    const inlineProps = {...props} as any;
+    delete inlineProps.inline;
+
     return !props.inline && languages ? (
         <Prism language={languages[1]} style={atomDark}
         showLineNumbers {...props}>
             {fixedChildren}
         </Prism>
     ) : (
-        <code {...props} />
+        <code {...inlineProps} />
     )
 };
 
