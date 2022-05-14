@@ -17,7 +17,7 @@ const Footer= (props: FooterProps) => {
     const links:LinkModel[]  = [
         {
             name: 'пользовательское соглашение',
-            href: '/terms'
+            href: '/terms_of_use'
         },
 
         {
