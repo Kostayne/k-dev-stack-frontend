@@ -24,7 +24,8 @@ const Comment = (props: CommentProps) => {
 
     const { 
         likedByUser, likesCount, replyOpened, 
-        showActions, showEdit, onCommentLike, onOpenReplyBtn, 
+        showActions, showEdit, replyError,
+        onCommentLike, onOpenReplyBtn, 
         onSendReply, onCloseReply, onDelete,
         onCancelEdit, onEditClick, onSaveEdit,
 
@@ -61,7 +62,8 @@ const Comment = (props: CommentProps) => {
                         {showEdit && (
                             <ManipulateComment manipulationName='ИЗМЕНИТЬ' 
                             onManipulate={onSaveEdit} onCancel={onCancelEdit}
-                            initialValue={props.data.text} placeholder="Измененный комментарий" />
+                            initialValue={props.data.text} placeholder="Измененный комментарий"
+                            headMod={RM.createMod('mt-1')} />
                         )}
 
                         {/* {!showEdit && ( */}
@@ -74,9 +76,18 @@ const Comment = (props: CommentProps) => {
                         {/* )} */}
 
                         {replyOpened && (
-                            <ManipulateComment onCancel={onCloseReply}
-                            onManipulate={onSendReply} initialValue={props.data.author.firstName + ', '} 
-                            isFocused manipulationName="ОТВЕТИТЬ" />
+                            <>
+                                {replyError && (
+                                    <span className='text-error mt-2 mb-1'>
+                                        {replyError}
+                                    </span>
+                                )}
+
+                                <ManipulateComment onCancel={onCloseReply}
+                                onManipulate={onSendReply} initialValue={props.data.author.firstName + ', '} 
+                                isFocused manipulationName="ОТВЕТИТЬ"
+                                headMod={RM.createMod('mt-2')} />
+                            </>
                         )}
                     </div>
                 </div>

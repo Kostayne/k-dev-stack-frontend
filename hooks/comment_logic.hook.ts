@@ -10,6 +10,7 @@ export function useCommentLogic(props: CommentProps) {
     const [replyOpened, setReplyOpened] = useState(false);
     const [showActions, setShowActions] = useState(false);
     const [showEdit, setShowEdit] = useState(false);
+    const [replyError, setReplyError] = useState('');
 
     useEffect(() => {
         const asyncWrapper = async () => {
@@ -48,8 +49,20 @@ export function useCommentLogic(props: CommentProps) {
         setReplyOpened(false);
     }
 
-    const onSendReply = (text: string) => {
-        commentsStore.reply(props.data, text);
+    const onSendReply = async (text: string) => {
+        const usr = await userStore.getOrLoadUser();
+
+        if (!usr) {
+            setReplyError('Вы должны войти для отправки');
+            return;
+        }
+
+        const resp = await commentsStore.reply(props.data, text);
+
+        if (!resp) {
+            setReplyError('Произошла ошибка');
+        }
+
         setReplyOpened(false);
     };
 
@@ -76,6 +89,7 @@ export function useCommentLogic(props: CommentProps) {
         replyOpened,
         showActions,
         showEdit,
+        replyError,
         onCommentLike,
         onOpenReplyBtn,
         onSendReply,

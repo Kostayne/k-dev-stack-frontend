@@ -45,7 +45,9 @@ class CommentsStore {
                 const nComments = flatCommentsArrToNested(flatComments) as CommentReadyToDisplay[];
                 this.comments = nComments;
             }
-        }); 
+        });
+
+        return resp;
     }
 
     fetchHocsByOwner = async (owner: CommentOwner, params: PaginationParams) => {
