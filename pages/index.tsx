@@ -45,6 +45,10 @@ const Home: NextPage<HomePageProps> = (props) => {
 					<p className='mt-1'>Не удалось загрузить список библиотек.</p>
 				)}
 
+				{libPreviews.length == 0 && (
+					<p className='mt-1'>Пока здесь пусто.</p>
+				)}
+
 				{/* Projects section */}
 				<Goto href='/projects' title='Проекты' headMod={RM.createMod('mt-7')} />
 
@@ -52,6 +56,10 @@ const Home: NextPage<HomePageProps> = (props) => {
 					<TaggedItemsList items={projectPreviews}
 					headMod={RM.createMod('mt-5')}
 					tagHrefPrefix={`/projects?tags=`} />
+				)}
+
+				{projectPreviews.length == 0 && (
+					<p className='mt-1'>Пока здесь пусто.</p>
 				)}
 
 				{props.errorOccured && (
