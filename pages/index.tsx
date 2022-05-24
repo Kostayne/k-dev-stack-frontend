@@ -35,7 +35,7 @@ const Home: NextPage<HomePageProps> = (props) => {
 				{/* Libs section */}
 				<Goto href='/libs' title='Библиотеки / фреймворки' headMod={RM.createMod('mt-5')} />
 
-				{!props.errorOccured && (
+				{!props.errorOccured && libPreviews.length > 0 && (
 					<TaggedItemsList items={libPreviews}
 					headMod={RM.createMod('mt-5')} 
 					tagHrefPrefix={`/libs?tags=`} />
@@ -52,7 +52,7 @@ const Home: NextPage<HomePageProps> = (props) => {
 				{/* Projects section */}
 				<Goto href='/projects' title='Проекты' headMod={RM.createMod('mt-7')} />
 
-				{!props.errorOccured && (
+				{!props.errorOccured && projectPreviews.length > 0 && (
 					<TaggedItemsList items={projectPreviews}
 					headMod={RM.createMod('mt-5')}
 					tagHrefPrefix={`/projects?tags=`} />
