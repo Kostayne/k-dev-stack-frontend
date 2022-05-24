@@ -80,7 +80,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 				{/* columns */}
 				<div className='md:flex gap-x-5 mt-2'>
 					{/* left */}
-					<div className='flex-grow'>
+					<div className='flex-grow max-w-[883px]'>
 						<TagRoundedList tags={tags}
 						hrefPrefix={`/libs?tags=`} />
 
