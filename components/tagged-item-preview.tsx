@@ -15,7 +15,9 @@ const TaggedItemPreview= (props: TaggedItemPreviewProps) => {
     const headMod = props.headMod || RM.createMod();
 
     const getTagsToR = () => {
-        return props.tags.map((t, i) => {
+        const limitedTags = props.tags.slice(0, 5);
+
+        return limitedTags.map((t, i) => {
             return (
                 <Link href={`${props.tagHrefPrefix}${t}`} key={i}>
                     <a className="text-robotoCond text-contrast"># {t}</a>
