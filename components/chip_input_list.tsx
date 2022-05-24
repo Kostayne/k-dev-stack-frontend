@@ -37,11 +37,10 @@ const ChipInputList= (props: ChipInputListProps) => {
 
             const _onChange = (newVal: string) => {
                 const newState = [...props.value];
-                const changedV = newState.find(v => v.uid == v.uid);
+                const changedV = newState.find(iterV => v.uid == iterV.uid);
 
                 if (changedV) {
                     changedV.value = newVal;
-
                     props.onChange?.call(this, newState);
                 }
             };
