@@ -2,11 +2,13 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from 'next';
 import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
-import * as styles from './standard_styles.module.scss';
+import * as _styles from './standard_styles.module.scss';
 
 interface PrivacyPageProps {
 
 }
+
+const styles = _styles as any;
 
 const Privacy: NextPage<PrivacyPageProps> = (props) => {
 	return (
