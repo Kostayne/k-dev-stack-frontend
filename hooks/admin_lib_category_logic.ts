@@ -21,6 +21,15 @@ export function useAdminLibCategoryLogic(props: AdminLibCategoryProps) {
 			return;
 		}
 
+        if (!respInfo.data) {
+            alert('No data??');
+            return;
+        }
+
+        if (!respInfo.data.tags) {
+            respInfo.data.tags = [];
+        }
+
 		setInitialLib(respInfo.data as LibModel);
         setCurForm('lib_create');
     };
