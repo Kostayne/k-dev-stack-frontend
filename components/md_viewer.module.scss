@@ -1,4 +1,8 @@
 .wrapper {
+    img, video {
+        height: auto;
+    }
+
     a {
         display: inline-block;
         color: var(--contrast);
