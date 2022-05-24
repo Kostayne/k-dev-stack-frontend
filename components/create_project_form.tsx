@@ -43,7 +43,7 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
     const issuesInp = useSyntheticInput(initProj?.issuesCount.toString() || '');
     const starsInp = useSyntheticInput(initProj?.starsCount.toString() || '');
     const forksInp = useSyntheticInput(initProj?.forksCount.toString() || '');
-    const lastUpdateInp = useSyntheticInput(initProj?.lastUpdate || '');
+    const updatedAtInp = useSyntheticInput(initProj?.updatedAt || '');
     const licenseInp = useSyntheticInput(initProj?.license || '');
     const descriptionInp = useSyntheticInput(initProj?.description || '');
     const readmeInp = useSyntheticInput(initProj?.readme || '');
@@ -83,7 +83,7 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
         const createData = {
             name: nameInp.value,
             description: descriptionInp.value,
-            lastUpdate: lastUpdateInp.value,
+            updatedAt: updatedAtInp.value,
             readme: readmeInp.value,
             tags,
             license: licenseInp.value,
@@ -138,7 +138,7 @@ const CreateProjectForm= (props: CreateProjectFormProps) => {
 
                 <div className='flex flex-col md:flex-row gap-[15px] mt-[13px]'>
                     <StyledTextInput label='Последнее обновление' placeholder='6 месяцев назад'
-                    autocompleteOptions={[]} {...lastUpdateInp.binding}
+                    autocompleteOptions={[]} {...updatedAtInp.binding}
                     inputMod={RM.createMod('max-w-[230px]')} />
 
                     <StyledTextInput label='Лицензия' placeholder='MIT'

@@ -48,7 +48,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 
 	const { 
 		description, name, links, tags,
-		issuesCount, lastUpdate, license,
+		issuesCount, updatedAt, license,
 		starsCount, forksCount, readme
 	} = props.project;
 
@@ -102,7 +102,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 						<span className='mt-[5px] text-sm'>{props.project.description}</span>
 
 						<ProjectInfo headMod={RM.createMod('h-fit flex mt-4')}
-						issuesCount={issuesCount} license={license} lastUpdate={lastUpdate}
+						issuesCount={issuesCount} license={license} updatedAt={updatedAt}
 						links={links} forksCount={forksCount} starsCount={starsCount} />
 
 						<StyledBtn value='КОММЕНТАРИИ' onClick={onGoToCommentsClick}

@@ -22,7 +22,7 @@ export interface LibModel {
     version: string;
     issuesCount: number;
     downloadsCount: string;
-    lastUpdate: string;
+    updatedAt: string;
     license: string;
 }
 

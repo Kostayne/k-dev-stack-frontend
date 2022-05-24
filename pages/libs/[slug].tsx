@@ -56,7 +56,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 		license,
 		toolType,
 		version,
-		lastUpdate,
+		updatedAt,
 		tags, 
 		description,
 		readme,
@@ -126,7 +126,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						<LibInfo headMod={RM.createMod('h-fit flex mt-4')} 
 						downloads={downloads} weight={weight}
 						issuesCount={issuesCount} toolType={toolType}
-						license={license} lastUpdate={lastUpdate}
+						license={license} updatedAt={updatedAt}
 						links={links} version={version} />
 
 						<StyledBtn value='КОММЕНТАРИИ' onClick={onGoToCommentsClick}

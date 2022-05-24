@@ -60,7 +60,7 @@ const CreateLibForm= (props: CreateLibFormProps) => {
     const versionInp = useSyntheticInput(initLib?.version || '');
     const issuesInp = useSyntheticInput(initLib?.issuesCount.toString() || '');
     const downloadsInp = useSyntheticInput(initLib?.downloadsCount || '');
-    const lastUpdateInp = useSyntheticInput(initLib?.lastUpdate || '');
+    const updatedAtInp = useSyntheticInput(initLib?.updatedAt || '');
     const licenseInp = useSyntheticInput(initLib?.license || '');
     const descriptionInp = useSyntheticInput(initLib?.description || '');
     const readmeInp = useSyntheticInput(initLib?.readme || '');
@@ -97,7 +97,7 @@ const CreateLibForm= (props: CreateLibFormProps) => {
             name,
             description: descriptionInp.value,
             downloadsCount: downloadsInp.value,
-            lastUpdate: lastUpdateInp.value,
+            updatedAt: updatedAtInp.value,
             readme: readmeInp.value,
             tags,
             license: licenseInp.value,
@@ -177,7 +177,7 @@ const CreateLibForm= (props: CreateLibFormProps) => {
                     inputMod={RM.createMod('max-w-[110px]')} />
 
                     <StyledTextInput label='Последнее обновление' placeholder='6 месяцев назад'
-                    autocompleteOptions={[]} {...lastUpdateInp.binding}
+                    autocompleteOptions={[]} {...updatedAtInp.binding}
                     inputMod={RM.createMod('max-w-[160px]')} />
 
                     <StyledTextInput label='Лицензия' placeholder='MIT'

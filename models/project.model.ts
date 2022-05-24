@@ -15,7 +15,7 @@ export interface ProjectModel {
     issuesCount: number;
     starsCount: number;
     forksCount: number;
-    lastUpdate: string;
+    updatedAt: string;
     license: string;
     readme: string;
 };

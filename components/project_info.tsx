@@ -1,6 +1,7 @@
 import React from 'react';
 import * as RM from 'react-modifier';
 import { NamedLinkModel } from '../models/named_link.model';
+import { getRelativeTimeDiffStr } from '../utils/get_time_diff_str';
 import InfoLinks from './info_links';
 import LowContrastInfoField from './low_contrast_info_field';
 
@@ -9,13 +10,14 @@ interface ProjectInfoProps {
     links: NamedLinkModel[];
     issuesCount: number;
     license: string;
-    lastUpdate: string;
+    updatedAt: string;
     forksCount: number;
     starsCount: number;
 }
 
 const ProjectInfo= (props: ProjectInfoProps) => {
     const headMod = props.headMod || RM.createMod();
+    const updatedAt = getRelativeTimeDiffStr(props.updatedAt);
 
     return (
         RM.modElement((
@@ -39,7 +41,7 @@ const ProjectInfo= (props: ProjectInfoProps) => {
                 </div>
 
                 {/* fourth row */}
-                <LowContrastInfoField name='Последнее обновление' value={props.lastUpdate} />
+                <LowContrastInfoField name='Последнее обновление' value={updatedAt} />
             </div>
         ), headMod)
     );

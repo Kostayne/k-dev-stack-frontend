@@ -2,6 +2,7 @@ import React from 'react';
 import * as RM from 'react-modifier';
 import { ToolType } from '../enums/tool_type.enum';
 import { NamedLinkModel } from '../models/named_link.model';
+import { getRelativeTimeDiffStr } from '../utils/get_time_diff_str';
 import { getToolTypeName } from '../utils/get_tool_type_name';
 import InfoLinks from './info_links';
 import LowContrastInfoField from './low_contrast_info_field';
@@ -13,13 +14,14 @@ interface LibInfoProps {
     issuesCount: number;
     license: string;
     downloads: string;
-    lastUpdate: string;
+    updatedAt: string;
     weight: string;
     version: string;
 }
 
 const LibInfo= (props: LibInfoProps) => {
     const headMod = props.headMod || RM.createMod();
+    const updatedAt = getRelativeTimeDiffStr(props.updatedAt);
 
     return (
         RM.modElement((
@@ -43,7 +45,7 @@ const LibInfo= (props: LibInfoProps) => {
                 </div>
 
                 {/* fourth row */}
-                <LowContrastInfoField name='Последнее обновление' value={props.lastUpdate} />
+                <LowContrastInfoField name='Последнее обновление' value={updatedAt} />
 
                 {/* fiveth row */}
                 <div className='flex gap-x-[15px]'>

@@ -46,7 +46,7 @@ const EditProjectForm= (props: EditProjectFormProps) => {
     const nameInp = useSyntheticInput(proj.name);
     const issuesInp = useSyntheticInput(proj.issuesCount.toString());
     const forksInp = useSyntheticInput(proj.forksCount.toString());
-    const lastUpdateInp = useSyntheticInput(proj.lastUpdate);
+    const updatedAtInp = useSyntheticInput(proj.updatedAt);
     const licenseInp = useSyntheticInput(proj.license);
     const descriptionInp = useSyntheticInput(proj.description);
     const readmeInp = useSyntheticInput(proj.readme);
@@ -88,7 +88,7 @@ const EditProjectForm= (props: EditProjectFormProps) => {
             name,
             id: props.project.id,
             description: descriptionInp.value,
-            lastUpdate: lastUpdateInp.value,
+            updatedAt: updatedAtInp.value,
             readme: readmeInp.value,
             tags,
             license: licenseInp.value,
@@ -141,7 +141,7 @@ const EditProjectForm= (props: EditProjectFormProps) => {
 
                 <div className='flex flex-col md:flex-row gap-[15px] mt-[13px]'>
                     <StyledTextInput label='Последнее обновление' placeholder='6 месяцев назад'
-                    autocompleteOptions={[]} {...lastUpdateInp.binding}
+                    autocompleteOptions={[]} {...updatedAtInp.binding}
                     inputMod={RM.createMod('max-w-[160px]')} />
 
                     <StyledTextInput label='Лицензия' placeholder='MIT'
