@@ -45,7 +45,7 @@ const Home: NextPage<HomePageProps> = (props) => {
 					<p className='mt-1'>Не удалось загрузить список библиотек.</p>
 				)}
 
-				{libPreviews.length == 0 && (
+				{!props.errorOccured && libPreviews.length == 0 && (
 					<p className='mt-1'>Пока здесь пусто.</p>
 				)}
 
@@ -58,7 +58,7 @@ const Home: NextPage<HomePageProps> = (props) => {
 					tagHrefPrefix={`/projects?tags=`} />
 				)}
 
-				{projectPreviews.length == 0 && (
+				{!props.errorOccured && projectPreviews.length == 0 && (
 					<p className='mt-1'>Пока здесь пусто.</p>
 				)}
 
