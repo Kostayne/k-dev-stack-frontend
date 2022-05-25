@@ -19,6 +19,7 @@ import OutlineBtn from '../../components/outline_btn';
 import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
 import StyledBtn from '../../components/styled_btn';
+import { projectCfg } from '../../cfg';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -164,7 +165,9 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 		return {
 			props: {
 				project: transformedProject
-			}
+			},
+
+			revalidate: projectCfg.data.revalidate
 		};
 	} catch(e) {
 		console.error('Error when requesting project full data');
@@ -174,7 +177,9 @@ export const getStaticProps: GetStaticProps<ProjectPageProps> = async (ctx) => {
 			props: {
 				errorCode: 503,
 				project: null
-			}
+			},
+
+			revalidate: projectCfg.data.revalidate
 		};
 	}
 };

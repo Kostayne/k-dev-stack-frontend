@@ -3,6 +3,7 @@ interface ProjectCfgData {
     hostname: string; // kdev_stack.ru
     api: string; // api/v1
     static: string; // static
+    revalidate: number;
 
     // dev only!
     frontendHostname?: string;
@@ -30,14 +31,16 @@ const devCfg: ProjectCfgData = {
     hostname: '127.0.0.1:3030', // backend! 
     api: 'api/v1',
     static: 'static',
-    frontendHostname: '127.0.0.1:3000'
+    frontendHostname: '127.0.0.1:3000',
+    revalidate: 5 * 60
 };
 
 const prodCdf: ProjectCfgData = {
     protocol: 'https',
     api: 'api/v1',
     static: 'static',
-    hostname: "kdev_stack.ru"
+    hostname: "kdev_stack.ru",
+    revalidate: 5 * 60
 };
 
 const curCfg = devCfg;

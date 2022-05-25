@@ -19,6 +19,7 @@ import { observer } from 'mobx-react-lite';
 import MdViewer from '../../components/md_viewer';
 import type TaggedItemsCarouselType from '../../components/carousel';
 import StyledBtn from '../../components/styled_btn';
+import { projectCfg } from '../../cfg';
 
 const LazyTaggedItemsCarousel = dynamic(() => 
 	import('../../components/carousel') as any
@@ -191,7 +192,9 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 		return {
 			props: {
 				lib: libTransformed
-			}
+			},
+
+			revalidate: projectCfg.data.revalidate
 		};
 	} catch(e) {
 		console.error(e);
@@ -200,7 +203,9 @@ export const getStaticProps: GetStaticProps<LibPageProps> = async (ctx) => {
 			props: {
 				lib: null,
 				errorCode: 503,
-			}
+			},
+
+			revalidate: projectCfg.data.revalidate
 		};
 	}
 };
