@@ -1,6 +1,7 @@
 .wrapper {
     img, video {
         height: unset;
+        display: inline-block;
     }
 
     a {
