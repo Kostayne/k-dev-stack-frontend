@@ -42,11 +42,20 @@ export function useConcreteProjectLogic(props: ProjectPageProps) {
 
     const libPreviews = project? project.libs.map(l => {
         return transformLibToTaggedItemPreview(l);
-    }) : [];	
+    }) : [];
+
+	let relativeImgSrcPrefix = `https://raw.githubusercontent.com/__AUTHOR-REPO__/master`;
+	const githubLink = props.project?.links.find(l => l.name == 'github');
+
+	if (githubLink) {
+		const authorAndRepoStr = githubLink.href.replace('https://github.com/', '');
+		relativeImgSrcPrefix = relativeImgSrcPrefix.replace('__AUTHOR-REPO__', authorAndRepoStr);
+	}
 
     return {
         libPreviews,
         isEditFormOpened,
+		relativeImgSrcPrefix,
 		onGoToCommentsClick,
         setEditFormOpened,
         onDelete

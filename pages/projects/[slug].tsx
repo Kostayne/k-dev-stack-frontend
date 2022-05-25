@@ -35,6 +35,7 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 	const {
 		libPreviews,
 		isEditFormOpened,
+		relativeImgSrcPrefix,
 		onGoToCommentsClick,
 		setEditFormOpened,
 		onDelete
@@ -86,7 +87,8 @@ const Project: NextPage<ProjectPageProps> = (props) => {
 							'mt-[15px] max-w-[880px]', 
 							'pl-[2px] overflow-auto',
 							// 'bg-[]'
-							].join(' '))}>
+							].join(' '))} 
+							relativeImageSrcPrefix={relativeImgSrcPrefix}>
 							{readme}
 						</MdViewer>
 
