@@ -1,4 +1,5 @@
 import React from 'react';
+import * as styles from './md_viewer.module.scss';
 import * as RM from 'react-modifier';
 import type ReactMdViewerType from 'react-markdown';
 import type ReactMdCodeType from './md_code';
@@ -7,10 +8,11 @@ import { CodeComponent } from 'react-markdown/lib/ast-to-react';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { createModuleStylesConverter } from 'get-module-style';
-import * as styles from './md_viewer.module.scss';
+import rehypeAbsImage from 'rehype-abs-image';
 
 interface MdViewerProps {
     headMod?: RM.IModifier;
+    relativeImageSrcPrefix?: string;
     children: string;
 }
 
@@ -29,6 +31,7 @@ const LazyMdCodeViewer = dynamic(() =>
 
 const MdViewer= (props: MdViewerProps) => {
     const headMod = props.headMod || RM.createMod();
+    const relImgPrefix = props.relativeImageSrcPrefix || '';
     const gs = createModuleStylesConverter(styles);
 
     return (
@@ -38,7 +41,10 @@ const MdViewer= (props: MdViewerProps) => {
                 code: LazyMdCodeViewer as CodeComponent
             }} 
             remarkPlugins={[remarkGfm]} 
-            rehypePlugins={[rehypeRaw]}
+            rehypePlugins={[
+                rehypeRaw, 
+                [rehypeAbsImage, { prefix: relImgPrefix }]
+            ]}
             className={gs('wrapper')}
             >
                 {props.children}

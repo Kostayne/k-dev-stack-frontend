@@ -61,11 +61,20 @@ export function useConcreteLibPageLogic(props: LibPageProps) {
 		});
 	};
 
+	let relativeImgSrcPrefix = `https://raw.githubusercontent.com/__AUTHOR-REPO__/HEAD`;
+	const githubLink = props.lib?.links.find(l => l.name == 'repository');
+
+	if (githubLink) {
+		const authorAndRepoStr = githubLink.href.replace('https://github.com/', '');
+		relativeImgSrcPrefix = relativeImgSrcPrefix.replace('__AUTHOR-REPO__', authorAndRepoStr);
+	}
+
     return {
         alternativePreviews,
         projectPreviews,
 		swiperMod,
 		isEditFormOpened,
+		relativeImgSrcPrefix,
 		onGoToCommentsClick,
 		fetchHocsCount,
 		setEditFormOpened,

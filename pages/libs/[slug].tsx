@@ -36,6 +36,7 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 		alternativePreviews, 
 		projectPreviews, swiperMod,
 		isEditFormOpened,
+		relativeImgSrcPrefix,
 		onGoToCommentsClick,
 		setEditFormOpened,
 		onDelete
@@ -107,7 +108,8 @@ const ConcreteLibPage: NextPage<LibPageProps> = (props) => {
 						)}
 
 						{/* README */}
-						<MdViewer headMod={RM.createMod('mt-[15px]')}>
+						<MdViewer headMod={RM.createMod('mt-[15px]')}
+						relativeImageSrcPrefix={relativeImgSrcPrefix}>
 							{readme}
 						</MdViewer>
 
