@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { createModuleStylesConverter } from 'get-module-style';
 import rehypeAbsImage from 'rehype-abs-image';
+import rehypeImgSizeAttr from 'rehype-img-size-attr';
 
 interface MdViewerProps {
     headMod?: RM.IModifier;
@@ -43,7 +44,8 @@ const MdViewer= (props: MdViewerProps) => {
             remarkPlugins={[remarkGfm]} 
             rehypePlugins={[
                 rehypeRaw, 
-                [rehypeAbsImage, { prefix: relImgPrefix }]
+                [rehypeAbsImage, { prefix: relImgPrefix }],
+                rehypeImgSizeAttr
             ]}
             className={gs('wrapper')}
             >
