@@ -3,6 +3,7 @@ import * as RM from 'react-modifier';
 import Head from 'next/head';
 import Goto from '../components/goto';
 import * as _styles from './standard_styles.module.scss';
+import { projectCfg } from '../cfg';
 
 interface PrivacyPageProps {
 
@@ -15,7 +16,7 @@ const Privacy: NextPage<PrivacyPageProps> = (props) => {
 		<div className={`page-content ${styles['wrapper']}`}>
 			<Head>
 				<title>Политика конфиденциальности</title>
-				<meta name="description" content="Настоящая Политика определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных у владельца сайта kdev_stack.ru (далее kdev_stack или Оператор)." />
+				<meta name="description" content={`Настоящая Политика определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных у владельца сайта ${projectCfg.getBaseUrl()} (далее kdevstack или Оператор).`} />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 
@@ -31,7 +32,7 @@ const Privacy: NextPage<PrivacyPageProps> = (props) => {
 
 				<p>
 					Настоящая Политика определяет порядок обработки персональных данных и меры по 
-					обеспечению безопасности персональных данных у владельца сайта kdev_stack.ru (далее kdev_stack или Оператор).
+					обеспечению безопасности персональных данных у владельца сайта kdevstack.ru (далее kdevstack или Оператор).
 				</p>
 
 				<p>
@@ -42,7 +43,7 @@ const Privacy: NextPage<PrivacyPageProps> = (props) => {
 
 				<p>
 					Если Вы не согласны с условиями нашей Политики конфиденциальности, 
-					не используйте сайт kdev_stack.ru!
+					не используйте сайт ${projectCfg.data.hostname}!
 				</p>
 
 				<h2>
