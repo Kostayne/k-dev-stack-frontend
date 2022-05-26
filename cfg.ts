@@ -1,32 +1,6 @@
-interface ProjectCfgData {
-    protocol: string; //http
-    hostname: string; // kdev_stack.ru
-    api: string; // api/v1
-    static: string; // static
-    revalidate: number;
+import { ProjectCfg, ProjectCfgData } from "./utils/cfg_class";
 
-    // dev only!
-    frontendHostname?: string;
-};
-
-export class ProjectCfg {
-    protected _data: ProjectCfgData;
-
-    constructor(data: ProjectCfgData) {
-        this._data = data;
-    }
-
-    get data() {
-        return this._data;
-    }
-
-    getApiUrl() {
-        const { protocol, hostname, api } = this._data;
-        return `${protocol}://${hostname}/${api}`;
-    }
-}
-
-const devCfg: ProjectCfgData = {
+const devCfgData: ProjectCfgData = {
     protocol: 'http',
     hostname: '127.0.0.1:3030', // backend! 
     api: 'api/v1',
@@ -35,17 +9,21 @@ const devCfg: ProjectCfgData = {
     revalidate: 5 * 60
 };
 
-const prodCdf: ProjectCfgData = {
+const prodCfgData: ProjectCfgData = {
     protocol: 'https',
     api: 'api/v1',
     static: 'static',
-    hostname: "kdev_stack.ru",
+    hostname: "kdevstack.ru",
     revalidate: 5 * 60
 };
 
-const curCfg = devCfg;
+const devCfg = new ProjectCfg(devCfgData);
+const prodCfg = new ProjectCfg(prodCfgData);
 
-export const apiUrl = `${curCfg.protocol}://${curCfg.hostname}/${curCfg.api}`;
-export const staticUrl = `${curCfg.protocol}://${curCfg.hostname}/${curCfg.static}`;
-export const projectCfg = new ProjectCfg(curCfg);
-export const siteUrl = `${curCfg.protocol}://${curCfg.frontendHostname || curCfg.hostname}`;
+// set your cfg here
+const curCfgData = devCfg.data;
+export const projectCfg = new ProjectCfg(curCfgData);
+
+export const apiUrl = `${curCfgData.protocol}://${curCfgData.hostname}/${curCfgData.api}`;
+export const staticUrl = `${curCfgData.protocol}://${curCfgData.hostname}/${curCfgData.static}`;
+export const siteUrl = `${curCfgData.protocol}://${curCfgData.frontendHostname || curCfgData.hostname}`;
