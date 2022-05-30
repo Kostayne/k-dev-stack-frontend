@@ -33,7 +33,7 @@ const AdminMainPage: NextPage<AdminMainPagePageProps> = (props) => {
 				</Head>
 
 				<main>
-					<Goto href='/todo' title='Админ-панель' isMainHeading={true} headMod={RM.createMod('')} 
+					<Goto href='/' title='Админ-панель' isMainHeading={true} headMod={RM.createMod('')} 
 					goBack />
 
 					<div className='grid gap-5 mt-6 md:grid md:grid-cols-3'>
