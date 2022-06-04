@@ -3,9 +3,9 @@ import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup, Dot 
 import React from 'react';
 import * as RM from 'react-modifier';
 import TaggedItemPreview, { TaggedItemPreviewProps } from './tagged-item-preview';
-import { RenderDotsProps } from 'pure-react-carousel/typings/carouselElements';
 import { useTaggedItemsCarouselLogic } from '../hooks/tagged_items_carousel_logic.hook';
 import EmptySlide from './empty_slide';
+import { RenderDotsProps } from '../interfaces/carousel_dots';
 
 interface TaggedItemsCarouselProps {
     headMod?: RM.IModifier;
