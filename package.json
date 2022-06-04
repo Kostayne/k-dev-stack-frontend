@@ -7,7 +7,9 @@
     "start": "next start",
     "lint": "next lint",
     "postbuild": "next-sitemap",
-    "sitemap": "next-sitemap"
+    "sitemap": "next-sitemap",
+    "cypres": "cypress open",
+    "test": "jest"
   },
   "dependencies": {
     "clone": "^2.1.2",
@@ -39,15 +41,25 @@
     "sharp": "^0.30.4"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.2",
     "@types/clone": "^2.1.1",
+    "@types/jest": "^28.1.0",
     "@types/node": "17.0.8",
     "@types/react": "17.0.38",
     "@types/react-syntax-highlighter": "^13.5.2",
     "autoprefixer": "^10.4.2",
+    "babel-jest": "^28.1.0",
+    "cypress": "^10.0.2",
     "eslint": "8.6.0",
     "eslint-config-next": "12.0.8",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
     "postcss": "^8.4.5",
     "tailwindcss": "^3.0.13",
+    "ts-jest": "^28.0.4",
+    "ts-node": "^10.8.1",
     "typescript": "4.5.4"
   }
 }
