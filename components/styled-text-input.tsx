@@ -10,6 +10,7 @@ export interface StyledTextInputProps {
     placeholder?: string;
     type?: string;
     autocompleteOptions?: string[];
+    testId?: string;
 
     onChange: (val: string) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
@@ -53,7 +54,7 @@ const StyledTextInput = (props: StyledTextInputProps) => {
                         'px-1 py-[7px] z-[1]'].join(' ')} 
                         value={props.value} onChange={handleChange} placeholder={props.placeholder}
                         onBlur={onBlur} onFocus={onFocus} type={props.type} name={props.name}
-                        onKeyDown={onKeyDown} ref={inputRef} />
+                        onKeyDown={onKeyDown} ref={inputRef} data-testid={props.testId} />
                     ), inputMod)}
 
                     {autocompleteOptions.length > 0 && showAutoComplete && (

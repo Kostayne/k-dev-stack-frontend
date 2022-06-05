@@ -28,7 +28,6 @@ const Comment = (props: CommentProps) => {
         onCommentLike, onOpenReplyBtn, 
         onSendReply, onCloseReply, onDelete,
         onCancelEdit, onEditClick, onSaveEdit,
-
     } = useCommentLogic(props);
 
     return (

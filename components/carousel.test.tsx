@@ -133,7 +133,7 @@ describe("carousel compnent", () => {
         expect(fourthDot.dataset.dotactive).toBe('false');
 
         act(() => {
-            fireEvent(next, new MouseEvent('click'));
+            fireEvent.click(next);
             // fireEvent(fourthDot, new MouseEvent('click'));
         });
 

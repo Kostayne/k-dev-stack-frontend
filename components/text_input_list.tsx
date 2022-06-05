@@ -19,6 +19,7 @@ const TextInputList= (props: TextInputListProps) => {
 
     const onAddClick = () => {
         const newValue = [...props.value];
+
         newValue.push({
             value: '',
             uid: nextId(),
@@ -43,12 +44,12 @@ const TextInputList= (props: TextInputListProps) => {
 
             return (
                 <div className='flex gap-x-[8px] items-center' key={v.uid}>
-                    <DeleteBtnRounded onClick={onDelete} />
+                    <DeleteBtnRounded data-testid="delete" onClick={onDelete} />
                     
                     <StyledTextInput onChange={onChange}
                     inputMod={RM.createMod('!text-[14px] h-[35px]')}
                     placeholder={props.placeholder}
-                    value={v.value} />
+                    value={v.value} testId={`input-${i}`} />
                 </div>
             );
         });
@@ -64,7 +65,7 @@ const TextInputList= (props: TextInputListProps) => {
                 <div className='flex flex-col gap-y-[8px] mt-[3px]'>
                     {getInputsToR()}
 
-                    <CreateBtnRounded onClick={onAddClick} />
+                    <CreateBtnRounded testid="create" onClick={onAddClick} />
                 </div>
             </div>
         ), headMod)

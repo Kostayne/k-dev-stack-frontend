@@ -5,6 +5,7 @@ import * as styles from './create_btn_rounded.module.scss';
 
 interface CreateBtnRoundedProps {
     headMod?: RM.IModifier;
+    testid?: string; 
     onClick: () => void;
 }
 
@@ -19,7 +20,7 @@ const CreateBtnRounded= (props: CreateBtnRoundedProps) => {
                 'bg-btnInactive hover:bg-btnActive',
                 'cursor-pointer flex items-center justify-center',
                 'transition-[300ms] ease-in'
-            ].join(' ')} onClick={props.onClick}>
+            ].join(' ')} onClick={props.onClick} data-testid={props.testid}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img alt="create" src="/icons/plus.svg" className={[
                     'ml-[1px] object-cover'
