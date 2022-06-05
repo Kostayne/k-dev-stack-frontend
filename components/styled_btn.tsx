@@ -7,6 +7,8 @@ interface StyledBtnProps {
     value: string;
     disabled?: boolean;
     type?: 'button' | 'submit';
+    testId?: string;
+
     onClick?: (e?: React.MouseEvent) => void;
 }
 
@@ -31,7 +33,7 @@ const StyledBtn= (props: StyledBtnProps) => {
     return (
         RM.modElement((
             <button className={`primary-btn ${curCName}`} onClick={onClick}
-            type={props.type}>
+            type={props.type} data-testid={props.testId} disabled={props.disabled}>
                 {props.value}
             </button>
         ), headMod)

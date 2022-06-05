@@ -58,11 +58,16 @@ export function useLoginPageLogic() {
         });
     }
 
+    const isLoginDisabled = validationMessages.length > 0 ||
+        passVal == '' ||
+        emailVal == '';
+
     return {
         emailInp,
         passwordInp,
         status,
         validationMessages,
+        isLoginDisabled,
         handleLogin,
     };
 }

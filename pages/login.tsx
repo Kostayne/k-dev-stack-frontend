@@ -14,7 +14,8 @@ import React from 'react';
 const InnerLogin: NextPage = () => {
 	const {
 		emailInp, passwordInp, status,
-		validationMessages, handleLogin
+		validationMessages, isLoginDisabled, 
+		handleLogin
 	} = useLoginPageLogic();
 
 	return (
@@ -32,16 +33,18 @@ const InnerLogin: NextPage = () => {
 				<form>
 					<div className='mt-[25px] mx-auto w-fit'>
 						<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com' 
-						name='email' />
+						name='email' testId='email' />
 
 						<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
-						type='password' name='password' headMod={RM.createMod('mt-3')} />
+						type='password' name='password' headMod={RM.createMod('mt-3')}
+						testId='password' />
 					</div>
 
 					{/* status */}
 					{status.text && (
 						<TextMsgBlock color={status.color} title='статус'
-						headMod={RM.createMod('mx-auto mt-4')}>
+						headMod={RM.createMod('mx-auto mt-4')}
+						testId="status">
 							<p>{status.text}</p>
 						</TextMsgBlock>
 					)}
@@ -53,11 +56,12 @@ const InnerLogin: NextPage = () => {
 						</>
 					)}
 
-					<StyledBtn value='войти' disabled={validationMessages.length > 0}
+					<StyledBtn value='войти' disabled={isLoginDisabled}
 					headMod={RM.createMod([
 						'mt-[38px] w-[92px] mx-auto'
 					].join(' '))} 
-					onClick={(e) => handleLogin(e as React.MouseEvent)} />
+					onClick={(e) => handleLogin(e as React.MouseEvent)}
+					testId="login" />
 				</form>
 
 				{/* links */}

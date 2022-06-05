@@ -8,7 +8,7 @@
     "lint": "next lint",
     "postbuild": "next-sitemap",
     "sitemap": "next-sitemap",
-    "cypres": "cypress open",
+    "cypress": "cypress open",
     "test": "jest --silent=false"
   },
   "dependencies": {

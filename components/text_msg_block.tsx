@@ -8,6 +8,7 @@ interface TextMsgProps {
     color?: TextMsgColor;
     title: string;
     children: React.ReactElement | React.ReactElement[];
+    testId?: string;
 }
 
 const TextMsgBlock= (props: TextMsgProps) => {
@@ -28,7 +29,8 @@ const TextMsgBlock= (props: TextMsgProps) => {
 
     return (
         RM.modElement((
-            <div className={`flex flex-col items-center w-fit ${textColor}`}>
+            <div className={`flex flex-col items-center w-fit ${textColor}`}
+            data-testid={props.testId}>
                 <span className={`${textColor} text-center font-light`}>{props.title}</span>
 
                 <div className={`splitter w-[195px] ${splitterColor} mb-3 mt-2`} />
