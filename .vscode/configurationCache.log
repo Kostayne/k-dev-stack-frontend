@@ -1,1 +1,1 @@
-{"buildTargets":["build","rm","rmi","run","stop"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}
+{"buildTargets":["build","build_prod","log_prod","rm","rm_prod","rmi","rmi_prod","run","run_prod","stop","stop_prod"],"launchTargets":[],"customConfigurationProvider":{"workspaceBrowse":{"browsePath":[],"compilerArgs":[]},"fileIndex":[]}}

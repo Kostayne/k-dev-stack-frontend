@@ -74,8 +74,8 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
             }
 
             return (
-                <Dot slide={i} key={i}
-                className="">
+                <Dot slide={i} key={i} data-dotid={i}
+                data-dotactive={curActive} className="">
                     <div className={[
                     'w-[15px] h-[15px] rounded-[50%]',
                     `${!curActive? 'bg-[#BED8FF]' : 'bg-contrast'}`
@@ -105,15 +105,15 @@ const TaggedItemsCarousel= (props: TaggedItemsCarouselProps) => {
                         {props.previews.length > showCount && (
                             // bottom line (nav)
                             <div className='flex items-center mt-2'>
-                                <ButtonBack>
+                                <ButtonBack data-testid="back">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width={19} height={19} alt="back" src='/goto.svg' />
                                 </ButtonBack>
 
-                                <DotGroup className='ml-auto flex gap-1'
-                                renderDots={getDotsToR}  />
+                                <DotGroup data-testid="dots" className='ml-auto flex gap-1'
+                                renderDots={getDotsToR} />
 
-                                <ButtonNext className='ml-auto' >
+                                <ButtonNext data-testid="next" className='ml-auto' >
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img width={19} height={19} alt="back" src='/goto.svg' 
                                     className='rotate-180' />

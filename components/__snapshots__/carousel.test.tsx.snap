@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`carousel compnent matches snapshot 1`] = `
+<div>
+  <div
+    class="carousel"
+  >
+    <div
+      class=""
+    >
+      <div
+        aria-label="slider"
+        aria-live="polite"
+        class="horizontalSlider___281Ls carousel__slider carousel__slider--horizontal max-h-[200px] min-h-[200px] undefined"
+        role="listbox"
+        tabindex="0"
+      >
+        <div
+          class="carousel__slider-tray-wrapper carousel__slider-tray-wrap--horizontal"
+        >
+          <div
+            class="sliderTray___-vHFQ sliderAnimation___300FY carousel__slider-tray carousel__slider-tray--horizontal"
+            style="width: 100%; transform: translateX(0%) translateX(0px); flex-direction: row;"
+          >
+            <div
+              aria-label="slide"
+              aria-selected="true"
+              class="slide___3-Nqo slideHorizontal___1NzNV carousel__slide carousel__slide--visible"
+              role="option"
+              style="width: 33.333333333333336%; padding-bottom: 4.640371229698376%;"
+              tabindex="0"
+            >
+              <div
+                class="slideInner___2mfX9 carousel__inner-slide !pr-[15px]"
+              >
+                <div
+                  class="flex flex-col shadow-baseShadow rounded-[4px] p-4 min-h-[180px]"
+                >
+                  <a
+                    class="text-roboto font-medium text-contrastAlt"
+                    href="http://npmjs.com"
+                  >
+                    npm
+                  </a>
+                  <p
+                    class="mt-[11px] text-robotoCond"
+                  >
+                    description
+                  </p>
+                  <div
+                    class="flex flex-wrap gap-2 mt-[auto] pt-[10px]"
+                  >
+                    <a
+                      class="text-robotoCond text-contrast"
+                      href="/npm"
+                    >
+                      # 
+                      npm
+                    </a>
+                    <a
+                      class="text-robotoCond text-contrast"
+                      href="/microsoft"
+                    >
+                      # 
+                      microsoft
+                    </a>
+                    <a
+                      class="text-robotoCond text-contrast"
+                      href="/package-manager"
+                    >
+                      # 
+                      package-manager
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-label="slide"
+              aria-selected="true"
+              class="slide___3-Nqo slideHorizontal___1NzNV carousel__slide carousel__slide--visible"
+              role="option"
+              style="width: 33.333333333333336%; padding-bottom: 4.640371229698376%;"
+              tabindex="0"
+            >
+              <div
+                class="slideInner___2mfX9 carousel__inner-slide !pr-[15px]"
+              >
+                <div
+                  class="flex flex-col shadow-baseShadow rounded-[4px] p-4 min-h-[180px]"
+                >
+                  <span
+                    class="text-roboto font-medium text-customGray"
+                  >
+                    Не существеут
+                  </span>
+                  <p
+                    class="mt-[11px] text-robotoCond"
+                  >
+                    Данной вещи пока нет на сайте.. возможно, скоро она появится.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              aria-label="slide"
+              aria-selected="true"
+              class="slide___3-Nqo slideHorizontal___1NzNV carousel__slide carousel__slide--visible"
+              role="option"
+              style="width: 33.333333333333336%; padding-bottom: 4.640371229698376%;"
+              tabindex="0"
+            >
+              <div
+                class="slideInner___2mfX9 carousel__inner-slide !pr-[15px]"
+              >
+                <div
+                  class="flex flex-col shadow-baseShadow rounded-[4px] p-4 min-h-[180px]"
+                >
+                  <span
+                    class="text-roboto font-medium text-customGray"
+                  >
+                    Не существеут
+                  </span>
+                  <p
+                    class="mt-[11px] text-robotoCond"
+                  >
+                    Данной вещи пока нет на сайте.. возможно, скоро она появится.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

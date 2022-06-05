@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jun  4 15:40:03 2022
+# Make data base, printed on Sun Jun  5 10:12:54 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ PNPM_HOME = /home/kostayne/.local/share/pnpm
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-5a43e899-0c31-4963-a36e-3e9387c9a7ce.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-f6f3a060-a205-4431-ba9d-107610896fc7.sock
 # environment
 VSCODE_CWD = /home/kostayne
 # environment
@@ -79,7 +79,7 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXd2la8Y/agent.800
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXBAvwXq/agent.790
 # default
 .SHELLFLAGS := -c
 # environment
@@ -97,7 +97,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2106
+VSCODE_PID = 2301
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -105,7 +105,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/kostaynepc:@/tmp/.ICE-unix/749,unix/kostaynepc:/tmp/.ICE-unix/749
+SESSION_MANAGER = local/kostaynepc:@/tmp/.ICE-unix/739,unix/kostaynepc:/tmp/.ICE-unix/739
 # automatic
 *F = $(notdir $*)
 # environment
@@ -189,9 +189,9 @@ SNAP_DATA = /var/snap/code/97
 # environment
 SNAP_CONTEXT = lFcai3LAjkYGjqmUbtDdj--snyZ42RHocFYdVpgtgsrv24OxgvZG
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2066
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2263
 # environment
-SSH_AGENT_PID = 801
+SSH_AGENT_PID = 791
 # environment
 _ = /usr/bin/make
 # environment
@@ -249,9 +249,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2066, inode 2886509): 45 files, no impossibilities.
+# . (device 2066, inode 2886509): 44 files, no impossibilities.
 
-# 45 files, no impossibilities in 1 directories.
+# 44 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -259,10 +259,17 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Files
 
+rmi_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 29):
+	docker rmi kdevstack_front_prod
+
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-04 10:26:40.688299389
+#  Last modified 2022-06-04 19:30:17.374345502
 #  File has been updated.
 #  Successfully updated.
 
@@ -273,12 +280,34 @@ rm:
 #  recipe to execute (from 'Makefile', line 11):
 	docker rm kdevstack_front_c
 
+ 
+log_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 32):
+	docker container logs kdevstack_front_prod_c
+
 stop:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 8):
 	docker stop kdevstack_front_c
+
+build_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 17):
+	docker build -t kdevstack_front_prod -f Dockerfile.prod .
+
+run_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 20):
+	docker run -d -t --network host --name kdevstack_front_prod_c kdevstack_front_prod
 
 # Not a target:
 .DEFAULT:
@@ -298,7 +327,7 @@ run:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 5):
-	docker run -v /home/kostayne/Documents/projects/k_dev_stack_frontend:/app -d -t -P --name kdevstack_front_c kdevstack_front
+	docker run -v /home/kostayne/Documents/projects/k_dev_stack_frontend:/app -d -t -p 3000:3000 --name kdevstack_front_c kdevstack_front
 
 build:
 #  Implicit rule search has not been done.
@@ -307,6 +336,13 @@ build:
 #  recipe to execute (from 'Makefile', line 2):
 	docker build -t kdevstack_front .
 
+stop_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 23):
+	docker stop kdevstack_front_prod_c
+
 rmi:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -314,20 +350,27 @@ rmi:
 #  recipe to execute (from 'Makefile', line 14):
 	docker rmi kdevstack_front
 
+rm_prod:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 26):
+	docker rm kdevstack_front_prod_c
+
 # files hash-table stats:
-# Load=9/1024=1%, Rehash=0, Collisions=0/19=0%
+# Load=15/1024=1%, Rehash=0, Collisions=1/25=4%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 55 / storage = 600 B / avg = 10 B
-# current buf: size = 8162 B / used = 600 B / count = 55 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 60 / storage = 614 B / avg = 10 B
+# current buf: size = 8162 B / used = 614 B / count = 60 / avg = 10 B
 
-# strcache performance: lookups = 64 / hit rate = 14%
+# strcache performance: lookups = 75 / hit rate = 20%
 # hash-table stats:
-# Load=55/8192=1%, Rehash=0, Collisions=0/64=0%
-# Finished Make data base on Sat Jun  4 15:40:03 2022
+# Load=60/8192=1%, Rehash=0, Collisions=0/75=0%
+# Finished Make data base on Sun Jun  5 10:12:54 2022
 
  

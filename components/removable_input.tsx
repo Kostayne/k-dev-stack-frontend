@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as RM from 'react-modifier';
 import { useSyntheticInput } from '../hooks/input_synthetic.hook';
 import RmBtnRounded from './rm_btn_rounded';
