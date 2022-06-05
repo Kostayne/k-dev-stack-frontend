@@ -1,6 +1,7 @@
 import React from "react";
 import TagsList from "./tags_list";
 import { screen, render } from '@testing-library/react';
+import { expect } from '@jest/globals';
 
 describe('tags list', () => {
     it('renders no tags, if they are not provided', () => {

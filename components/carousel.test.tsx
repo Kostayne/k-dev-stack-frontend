@@ -1,6 +1,7 @@
 import { screen, render, cleanup, fireEvent, queryHelpers, Matcher, buildQueries, waitFor, act } from '@testing-library/react';
 import TaggedItemsCarousel from './carousel';
 import { TaggedItemPreviewProps } from './tagged-item-preview';
+import { expect } from '@jest/globals';
 
 describe("carousel compnent", () => {
     const queryByDotData = (...args: [HTMLElement, Matcher]) => {

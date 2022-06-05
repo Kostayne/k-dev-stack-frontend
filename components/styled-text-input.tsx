@@ -42,7 +42,8 @@ const StyledTextInput = (props: StyledTextInputProps) => {
         RM.modElement((
             <div className='' style={props.style} ref={inputWrapperRef}>
                 {props.label && (
-                    <span className='mb-[3px] text-contrast text-sm block'>
+                    <span className='mb-[3px] text-contrast text-sm block'
+                    data-testid="label">
                         {props.label}
                     </span>
                 )}

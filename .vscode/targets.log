@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun  5 10:12:54 2022
+# Make data base, printed on Sun Jun  5 23:55:33 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ PNPM_HOME = /home/kostayne/.local/share/pnpm
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-f6f3a060-a205-4431-ba9d-107610896fc7.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7bdfdbcd-29fc-480f-9a1f-9863fafd93e0.sock
 # environment
 VSCODE_CWD = /home/kostayne
 # environment
@@ -249,9 +249,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2066, inode 2886509): 44 files, no impossibilities.
+# . (device 2066, inode 2886509): 47 files, no impossibilities.
 
-# 44 files, no impossibilities in 1 directories.
+# 47 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -365,12 +365,12 @@ rm_prod:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 60 / storage = 614 B / avg = 10 B
-# current buf: size = 8162 B / used = 614 B / count = 60 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 63 / storage = 646 B / avg = 10 B
+# current buf: size = 8162 B / used = 646 B / count = 63 / avg = 10 B
 
-# strcache performance: lookups = 75 / hit rate = 20%
+# strcache performance: lookups = 78 / hit rate = 19%
 # hash-table stats:
-# Load=60/8192=1%, Rehash=0, Collisions=0/75=0%
-# Finished Make data base on Sun Jun  5 10:12:54 2022
+# Load=63/8192=1%, Rehash=0, Collisions=1/78=1%
+# Finished Make data base on Sun Jun  5 23:55:33 2022
 
  

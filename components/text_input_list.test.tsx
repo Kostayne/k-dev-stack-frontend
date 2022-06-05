@@ -2,6 +2,7 @@ import { screen, render, fireEvent, act } from '@testing-library/react';
 import { useState } from 'react';
 import { ValueWithUID } from '../interfaces/value_with_uid';
 import TextInputList from './text_input_list';
+import { expect } from '@jest/globals';
 
 interface propsInterface {
     cb?: (v: ValueWithUID<string>[]) => void
