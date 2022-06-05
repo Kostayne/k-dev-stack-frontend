@@ -17,3 +17,10 @@
 ## Libs / Projects page
 - Check filter
 - Check comments work
+
+# Unit tests
+## Styled text input
+- autocomplete navigation
+- autocomplete selection
+- autocomplete blur events
+- autocomplete suggestions
