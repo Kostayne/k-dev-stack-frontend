@@ -9,7 +9,9 @@
     "postbuild": "next-sitemap",
     "sitemap": "next-sitemap",
     "cypress": "cypress open",
-    "test": "jest --silent=false"
+    "e2e": "cypress run",
+    "test": "jest --silent=false",
+    "test:all": "npm run test && npm run e2e"
   },
   "dependencies": {
     "clone": "^2.1.2",
