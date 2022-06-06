@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Jun  6 09:01:05 2022
+# Make data base, printed on Mon Jun  6 12:45:49 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ PNPM_HOME = /home/kostayne/.local/share/pnpm
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-becbb406-886e-4099-b22a-c23d4f7ec13d.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-a967fde3-d015-4da7-b75b-43c6e4d8902a.sock
 # environment
 VSCODE_CWD = /home/kostayne
 # environment
@@ -371,6 +371,6 @@ rm_prod:
 # strcache performance: lookups = 78 / hit rate = 19%
 # hash-table stats:
 # Load=63/8192=1%, Rehash=0, Collisions=1/78=1%
-# Finished Make data base on Mon Jun  6 09:01:05 2022
+# Finished Make data base on Mon Jun  6 12:45:49 2022
 
  

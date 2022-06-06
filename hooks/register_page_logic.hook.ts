@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { userReq } from "../requests/user.req";
+import { userStore } from "../stores/user.store";
 import { validateEmail } from "../validators/email.validator";
 import { validateFirstName } from "../validators/firtsname.validator";
 import { validateLastName } from "../validators/lastname.validator";
@@ -27,40 +28,45 @@ export function useRegisterPageLogic() {
 		...(validatePassword(passwordVal))
 	];
 
-    const onSendClick = (e: React.MouseEvent) => {
+    const onSendClick = async (e: React.MouseEvent) => {
         e.preventDefault();
 
         if (validationMessages.length > 0) {
             return;
         }
 
-        const asyncWrapper = async () => {            
-            try {
-                const resp = await userReq.register({
-                    email: emailVal,
-                    firstName: nameVal,
-                    lastName: lastNameVal,
-                    password: passwordVal
-                });
-    
-                if (resp.ok) {
-                    router.push('/');
-                    return;
-                }
-    
-                if (resp.status == 409) {
-                    setErrorStatus('Пользователь с такой почтой уже существует!');
-                    return;
-                }
-    
-                setErrorStatus('Произошла ошибка, повторите позже!');
-            } catch(e) {
-                console.log('Register page req error');
-                console.error(e);
-            }
-        };
+        try {
+            const resp = await userReq.register({
+                email: emailVal,
+                firstName: nameVal,
+                lastName: lastNameVal,
+                password: passwordVal
+            });
 
-        asyncWrapper();
+            if (resp.status == 409) {
+                setErrorStatus('Пользователь с такой почтой уже существует!');
+                return;
+            }
+
+            if (!resp.ok) {
+                console.error(resp.statusText);
+                setErrorStatus('Произошла ошибка, повторите позже!');
+                return;
+            }
+
+            const loginRespStatus = await userStore.login(emailVal, passwordVal);
+            if (loginRespStatus != 200) {
+                console.error(resp.statusText);
+                setErrorStatus('Произошла ошибка, повторите позже!');
+                return;
+            }
+
+            router.push('/');
+        } catch(e) {
+            console.log('Register page req error');
+            setErrorStatus('Произошла ошибка, повторите позже!');
+            console.error(e);
+        }
 	};
 
     return {

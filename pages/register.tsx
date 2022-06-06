@@ -36,21 +36,22 @@ const Register: NextPage = () => {
 					{/* inputs */}
 					<div className='mt-6 flex flex-col row gap-y-3 mx-auto w-fit'>
 						<StyledTextInput {...nameInp.binding} label='Имя' placeholder='ваше имя' 
-						name='firstname' />
+						name='firstname' testId='firstname' />
 
 						<StyledTextInput {...lastNameInp.binding} label='Фамилия' placeholder='ваша фамилия' 
-						name='lastname' />
+						name='lastname' testId='lastname' />
 
 						<StyledTextInput {...emailInp.binding} label='Почта' placeholder='your@mail.com'
-						name='email' />
+						name='email' testId='email' />
 
 						<StyledTextInput {...passwordInp.binding} label='Пароль' placeholder='******' 
-						type='password' name='password' />
+						type='password' name='password' testId='password' />
 					</div>
 
 					{errorStatus && (
 						<TextMsgBlock color={'error'} title='статус'
-						headMod={RM.createMod('mx-auto mt-4')}>
+						headMod={RM.createMod('mx-auto mt-4')}
+						testId="error-status">
 							<p>{errorStatus}</p>
 						</TextMsgBlock>
 					)}
@@ -63,7 +64,7 @@ const Register: NextPage = () => {
 					<StyledBtn value='зарегистрировать' disabled={validationMessages.length > 0}
 					headMod={RM.createMod('mt-9 w-[150px] mx-auto')} 
 					onClick={(e) => onSendClick(e as React.MouseEvent)}
-					type="submit" />
+					type="submit" testId='reg' />
 				</form>
 
 				<div className='mt-9 w-[165px] mx-auto splitter' />

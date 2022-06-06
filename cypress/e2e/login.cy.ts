@@ -31,6 +31,16 @@ describe('login page', () => {
         // valid data
         cy.get('@email').clear().type('user@mail.com');
 
+        cy.fixture('me.json').then(data => {
+            cy.intercept({
+                method: 'get',
+                url: Cypress.env('apiUrl') + '/user/me'
+            }, {
+                statusCode: 200,
+                body: data
+            })
+        }).as('meReq');
+
         cy.fixture('login.txt').then(data => {
             cy.intercept({
                 method: 'POST',
