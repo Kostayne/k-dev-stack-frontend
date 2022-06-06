@@ -90,9 +90,18 @@ export function useStyledTextInputLogic(props: StyledTextInputProps) {
     };
 
     const onKeyDown = (e: React.KeyboardEvent) => {
+        if (props.onKeydown) {
+            props.onKeydown(e.key);
+        }
+
         // no need to process this event
         // if no autocomplete options
         if (autocompleteOptions.length == 0) {
+            return;
+        }
+
+        if (e.key == 'Escape') {
+            setShowAutoComplete(false);
             return;
         }
 
@@ -127,11 +136,16 @@ export function useStyledTextInputLogic(props: StyledTextInputProps) {
 
         setSelectedOption(autocompleteOptions[wantedIndex]);
     };
+    
+    const onClick = () => {
+        setShowAutoComplete(true);
+    };
 
     return {
         onFocus,
         onKeyDown,
         onBlur,
+        onClick,
         handleSelectedOption,
         handleChange,
         showAutoComplete,

@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun  5 23:55:33 2022
+# Make data base, printed on Mon Jun  6 09:01:05 2022
 
 # Variables
 
@@ -23,7 +23,7 @@ PNPM_HOME = /home/kostayne/.local/share/pnpm
 # environment
 SNAP_INSTANCE_KEY = 
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-7bdfdbcd-29fc-480f-9a1f-9863fafd93e0.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-becbb406-886e-4099-b22a-c23d4f7ec13d.sock
 # environment
 VSCODE_CWD = /home/kostayne
 # environment
@@ -79,7 +79,7 @@ APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXBAvwXq/agent.790
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXX2443e0/agent.874
 # default
 .SHELLFLAGS := -c
 # environment
@@ -97,7 +97,7 @@ SNAP_REEXEC =
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 2301
+VSCODE_PID = 2322
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -105,7 +105,7 @@ XDG_SESSION_TYPE = x11
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/kostaynepc:@/tmp/.ICE-unix/739,unix/kostaynepc:/tmp/.ICE-unix/739
+SESSION_MANAGER = local/kostaynepc:@/tmp/.ICE-unix/823,unix/kostaynepc:/tmp/.ICE-unix/823
 # automatic
 *F = $(notdir $*)
 # environment
@@ -189,9 +189,9 @@ SNAP_DATA = /var/snap/code/97
 # environment
 SNAP_CONTEXT = lFcai3LAjkYGjqmUbtDdj--snyZ42RHocFYdVpgtgsrv24OxgvZG
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2263
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2284
 # environment
-SSH_AGENT_PID = 791
+SSH_AGENT_PID = 875
 # environment
 _ = /usr/bin/make
 # environment
@@ -371,6 +371,6 @@ rm_prod:
 # strcache performance: lookups = 78 / hit rate = 19%
 # hash-table stats:
 # Load=63/8192=1%, Rehash=0, Collisions=1/78=1%
-# Finished Make data base on Sun Jun  5 23:55:33 2022
+# Finished Make data base on Mon Jun  6 09:01:05 2022
 
  

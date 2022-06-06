@@ -28,7 +28,8 @@ const AutocompleteOptionsList= (props: AutocompleteOptionsListProps) => {
                     'hover:bg-contrast hover:text-[white]',
                     'ease-in cursor-pointer',
                     `${isCurSelected && 'bg-contrast text-[white]'}`].join(' ')
-                } onClick={onOptionClick} key={o}>{o}
+                } onClick={onOptionClick} key={o}
+                data-testid="autocomplete-option">{o}
                 </span>
             );
         });
@@ -36,7 +37,8 @@ const AutocompleteOptionsList= (props: AutocompleteOptionsListProps) => {
 
     return (
         RM.modElement((
-            <div className='absolute bg-[white] rounded-b-[5px] overflow-hidden z-[1]'>
+            <div className='absolute bg-[white] rounded-b-[5px] overflow-hidden z-[1]'
+            data-testid="autocomplete-list">
                 {getOptionsToR()}
             </div>
         ), headMod)
